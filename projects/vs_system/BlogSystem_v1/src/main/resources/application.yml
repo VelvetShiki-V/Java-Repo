@@ -23,13 +23,6 @@ server:
 #  address: localhost   不配置即0.0.0.0，允许任何主机访问
 
 # aliyun OSS配置
-aliyun:
-  oss:
-    endpoint: oss-cn-shanghai.aliyuncs.com
-    accessKeyId: LTAI5tRsRWHGiTAUm9ppDCDc
-    accessKeySecret: ywbq1XsBWLQF3TUZ1YrkWvwxmaSscv
-    bucketName: vsb-image
-    bucketDir: test/
 
 # mybatis
 mybatis:
