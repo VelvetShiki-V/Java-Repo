@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--    namespace命名空间需要与mapper接口的全类名保持一致，会自动到指定目录下查询mapper接口及其方法通过IOC代理实例执行-->
+<mapper namespace="com.vs.mapper.UserMapper">
+<!--    xml根标签-->
+<!--    sql查询-->
+<!--    查询tll_server_db下user全部字段，id为调用的mapper方法名，返回值resultType为单条记录类型(全类名) -->
+<!--    <select id="getUserList" resultType="com.vs.pojo.User">-->
+<!--        select * from tll_server_db.user-->
+<!--    </select>-->
+
+<!--    单条查询-->
+<!--    <select id="getUser" resultType="com.vs.pojo.User">-->
+<!--        select * from tll_server_db.user where username = #{username}-->
+<!--    </select>-->
+
+<!--    动态select-->
+<!--    抽取sql语句-->
+        <sql id="commonSelect">
+            select uid, username, password, tel, prime from user
+        </sql>
+
+<!--        where标签自动匹配条件并拼接sql语句，会自动添加where关键字，以及自动去除and关键字-->
+<!--    sql模块语句引用，等价于select * from tll_server_db.user-->
+        <select id="getUsers" resultType="com.vs.pojo.User">
+            <include refid="commonSelect"></include>
+            <where>
+                <if test="uid != null">
+                    uid = #{uid}
+                </if>
+                <if test="username != null">
+                    and username like concat('%', #{username}, '%')
+                </if>
+                <if test="tel != null">
+                    and tel like concat('%', #{tel}, '%')
+                </if>
+                <if test="prime != null">
+                    and prime = #{prime}
+                </if>
+            </where>
+        </select>
+
+<!--    插入-->
+    <insert id="insertUser">
+        insert into tll_server_db.user (username, password, tel, prime) values (#{username}, #{password}, #{tel}, #{prime})
+    </insert>
+
+<!--    更新-->
+<!--    <update id="updateUser">-->
+<!--        update tll_server_db.user set username = #{username}, password = #{password},-->
+<!--          tel = #{tel}, prime = #{prime} where uid = #{uid}-->
+<!--    </update>-->
+
+<!--    动态更新-->
+    <update id="updateUsers">
+        update tll_server_db.user
+--       set作用：根据条件满足情况自动去除逗号分割，并拼接sql
+        <set>
+            <if test="username != null">username = #{username}, </if>
+            <if test="password != null">password = #{password}, </if>
+            <if test="tel != null">tel = #{tel}, </if>
+            <if test="prime != null">prime = #{prime}</if>
+        </set>
+        where uid = #{uid}
+    </update>
+
+<!--    删除-->
+<!--    <delete id="deleteUser">-->
+<!--        delete from tll_server_db.user where uid = #{uid}-->
+<!--    </delete>-->
+
+<!--      动态批量删除-->
+<!--      错误写法：delete from tll_server_db.user where uid in #{uids}-->
+<!--      collection: 遍历的集合, item: 遍历的元素, separator: 分隔符, open: 遍历前拼接的sql片段, close: 遍历后拼接的sql片段-->
+<!--      注释不要写在sql片段中-->
+    <delete id="deleteUsers">
+        delete from tll_server_db.user where uid in
+        <foreach collection="uids" item="uid" separator="," open="(" close=")">
+            #{uid}
+        </foreach>
+    </delete>
+</mapper>

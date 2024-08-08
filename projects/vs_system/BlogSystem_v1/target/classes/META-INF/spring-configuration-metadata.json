@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "files.avatar",
+      "type": "com.vs.blogsystem_v1.controller.UploadController",
+      "sourceType": "com.vs.blogsystem_v1.controller.UploadController"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

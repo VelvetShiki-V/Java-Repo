@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FileTest</title>
+    <style>
+        input {
+            margin: 10px;
+            outline: none;
+        }
+        button {
+            margin: 10px;
+            width: 200px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <form
+        action="/upload"
+        method="post"
+        enctype="multipart/form-data"
+    >
+        name: <input type="text" name="username"><br>
+        age: <input type="text" name="age"><br>
+        avatar: <input type="file" name="avatar"><br>
+        <button type="submit">submit</button>
+    </form>
+</body>
+</html>

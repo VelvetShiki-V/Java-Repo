@@ -1,0 +1,19 @@
+spring.application.name=BlogSystem_v1
+
+# 数据库连接配置
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://1.94.180.58:3306/blogDB
+spring.datasource.username=root
+spring.datasource.password=zcx984288627
+
+# 数据库对象驼峰命名
+mybatis.configuration.map-underscore-to-camel-case=true
+
+# mybatis sql操作日志
+mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 文件上传配置
+# 单个文件上传限制
+spring.servlet.multipart.max-file-size=10MB
+# 多个文件上传限制
+spring.servlet.multipart.max-request-size=100MB

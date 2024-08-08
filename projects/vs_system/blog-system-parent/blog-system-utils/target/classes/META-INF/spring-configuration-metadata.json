@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "aliyun.oss",
+      "type": "com.vs.utils.AliyunOSSUtil",
+      "sourceType": "com.vs.utils.AliyunOSSUtil"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

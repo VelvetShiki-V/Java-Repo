@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: myemc_gms
+
+  # mysql连接
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://www.velvetshiki.cn:3306/gms_db?rewriteBatchedStatements=true&characterEncoding=UTF-8&useUnicode=true&characterSetResults=UTF-8
+    username: root
+    password: zcx984288627
+
+  # redis连接
+  data:
+    redis:
+      host: www.velvetshiki.cn
+      port: 6379
+      password: 123456
+      database: 1
+      lettuce:
+        # 配置redis连接池，分别为最大用户连接数，最大空闲连接数，最小空闲连接数，最大连接等待时间
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: 100ms
+
+server:
+  # 0端口自动使用未被占用
+  port: 0
+  address: localhost
+
+# mybatis-plus
+mybatis-plus:
+  type-aliases-package: com.vs.pojo
+  mapper-locations: "classpath*:/mapper/**/*.xml"
