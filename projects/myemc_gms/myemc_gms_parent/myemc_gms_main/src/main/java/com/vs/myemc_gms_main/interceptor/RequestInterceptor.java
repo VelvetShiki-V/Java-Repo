@@ -23,7 +23,7 @@ public class RequestInterceptor implements HandlerInterceptor {
             // 登录用户，刷新token保持登录态
             log.info("登录用户 jwt: {}", jwt);
             JwtUtil.jwtParseRefresh(jwt);
-            log.info("token合法");
+            log.info("token解析成功");
         }
         return true;
     }

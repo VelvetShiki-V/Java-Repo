@@ -4,6 +4,7 @@ import com.vs.common.CustomException;
 import com.vs.myemc_gms_main.service.ModelService;
 import com.vs.pojo.Model;
 import com.vs.pojo.Result;
+import com.vs.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,10 +27,6 @@ public class ModelController {
 
     @DeleteMapping("/{Id}")
     public Result removeModel(@PathVariable String Id) {
-        // 悲观锁
-        synchronized (Id.intern()) {
-            if(modelService.removeById(Id)) return Result.success("数据删除成功", null);
-            else throw new CustomException.DataNotFoundException("数据不存在");
-        }
+        return modelService.removeModelNode(Id);
     }
 }

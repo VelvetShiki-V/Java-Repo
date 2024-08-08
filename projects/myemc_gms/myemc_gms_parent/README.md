@@ -1,3 +1,47 @@
+# gms项目
+
+配置文件格式
+- 配置在gms_main主项目中
+```yaml
+spring:
+  application:
+    name: myemc_gms
+
+  # mysql连接
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:
+    username:
+    password:
+
+  # redis连接
+  data:
+    redis:
+      host:
+      port:
+      password:
+      database:
+      lettuce:
+        # 配置redis连接池，分别为最大用户连接数，最大空闲连接数，最小空闲连接数，最大连接等待时间
+        pool:
+          max-active:
+          max-idle:
+          min-idle:
+          max-wait:
+
+server:
+  # 0端口自动使用未被占用
+  port:
+  address:
+
+# mybatis-plus
+mybatis-plus:
+  type-aliases-package:
+  mapper-locations:
+```
+
+示例数据
+```json
 [
     {
         "Name": "Cap-1048-A",
@@ -67,11 +111,11 @@
         ]
     },
     {
-        "Name": "Huajian",
-        "Id": "TPET10JX2779",
-        "Owner": "velvet",
+        "Name": "Company X",
+        "Id": "TPET10JX1005",
+        "Owner": "songf",
         "Ts": "2023-09-11T12:18:33+08:00",
-        "Labels": ["Customer", "Auditor"],
+        "Labels": ["Admin", "Auditor"],
         "Properties": [
             {
                 "K": "Industry",
@@ -119,3 +163,4 @@
         ]
     }
 ]
+```
