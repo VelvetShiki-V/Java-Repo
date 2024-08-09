@@ -1,10 +1,8 @@
 package com.vs.myemc_gms_main.controller;
 
-import com.vs.common.CustomException;
 import com.vs.myemc_gms_main.service.ModelService;
 import com.vs.pojo.Model;
 import com.vs.pojo.Result;
-import com.vs.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

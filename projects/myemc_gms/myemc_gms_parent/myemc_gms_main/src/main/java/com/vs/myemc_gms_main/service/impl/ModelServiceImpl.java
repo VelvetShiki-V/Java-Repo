@@ -20,6 +20,7 @@ import java.util.List;
 @Slf4j
 public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements ModelService {
     // TODO: 参数配置化
+    @SuppressWarnings({"unused"})
     private final long REDIS_DBLOCK_EXPIRE = 30L;
     private final String SYSTEM_REDIS_KEY_PREFIX = "myemc_gms:";
 
