@@ -1,5 +1,4 @@
 package com.vs.utils;
-import cn.hutool.extra.tokenizer.TokenizerException;
 import com.vs.common.CustomException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -47,7 +46,7 @@ public class JwtUtil {
             throw new CustomException.InvalidTokenException("token签名不一致");
         }
         // 与redis缓存token比较
-        String token = RedisUtil.getValue(KEY_PREFIX + payload.get("uid"));
+        String token = RedisUtil.queryWithPassThrough(KEY_PREFIX + payload.get("uid"));
         if(!jwt.equals(token)) throw new CustomException.InvalidTokenException("token缓存过期");
         // 刷新token有效期
         RedisUtil.setValue(KEY_PREFIX + payload.get("uid"), jwt, EXPIRE_DURATION, TimeUnit.MILLISECONDS);
