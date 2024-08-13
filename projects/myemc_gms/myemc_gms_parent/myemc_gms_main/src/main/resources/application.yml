@@ -33,6 +33,7 @@ redisson:
   connectionPoolSize: 10           #  最大连接数
   connectionMinimumIdleSize: 10    # 最小空闲连接数，必须小于或等于 connectionPoolSize
 
+# Tomcat相关配置
 server:
   # 0端口自动使用未被占用
   port: 0
@@ -42,3 +43,10 @@ server:
 mybatis-plus:
   type-aliases-package: com.vs.pojo
   mapper-locations: "classpath*:/mapper/**/*.xml"
+
+# global constants
+global-dynamic-constants:
+  REDIS_CACHE_MAX_TTL_MINUTES: 30
+  REDISSON_LOCK_WAIT_MAX_SECONDS: 5
+  THREAD_POOL_SIZE_MAX: 10
+  JWT_EXPIRE_DURATION_SECONDS: 1800000

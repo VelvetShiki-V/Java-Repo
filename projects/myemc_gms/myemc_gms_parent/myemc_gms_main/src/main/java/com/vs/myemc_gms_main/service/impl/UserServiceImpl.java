@@ -28,6 +28,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public String loginService(User user) {
         log.info("**********用户登录请求**********");
+        // TODO: 缓存穿透
         log.info("接收到登录用户信息: {}", user);
         User loginUser = Db.lambdaQuery(User.class).eq(User::getUsername, user.getUsername()).one();
         if(loginUser == null) throw new CustomException.AccessDeniedException("登录用户不存在");

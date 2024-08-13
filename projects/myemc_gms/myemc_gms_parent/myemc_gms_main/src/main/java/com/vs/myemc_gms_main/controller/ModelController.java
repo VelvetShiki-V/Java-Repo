@@ -14,13 +14,12 @@ public class ModelController {
 
     @GetMapping
     public Result getModelList(String Id) {
-        return Result.success("解析成功", modelService.getModelList(Id));
+        return modelService.getModelList(Id);
     }
 
     @PostMapping
     public Result createModel(@RequestBody Model model) {
-        modelService.createModelNode(model);
-        return Result.success("数据添加成功", null);
+        return modelService.createModelNode(model);
     }
 
     @DeleteMapping("/{Id}")
