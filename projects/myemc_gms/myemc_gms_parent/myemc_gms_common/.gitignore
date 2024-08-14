@@ -1,5 +1,5 @@
 HELP.md
-target/
+../myemc_gms_main/target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

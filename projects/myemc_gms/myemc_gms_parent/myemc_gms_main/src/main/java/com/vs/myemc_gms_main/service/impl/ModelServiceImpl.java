@@ -1,6 +1,5 @@
 package com.vs.myemc_gms_main.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.vs.common.CustomException;
 import com.vs.myemc_gms_main.mapper.ModelMapper;
 import com.vs.myemc_gms_main.service.ModelService;
 import com.vs.pojo.Model;
@@ -8,37 +7,27 @@ import com.vs.pojo.Result;
 import com.vs.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import static com.vs.common.GlobalConstants.*;
-import static com.vs.common.GlobalConstants.KEY_ADD_COUNT;
 
 @Service
 @Slf4j
 public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements ModelService {
-    // 依赖注入
-//    private final RedissonClient redissonClient;
-//    @Autowired
-//    public ModelServiceImpl(RedissonClient redissonClient) {
-//        this.redissonClient = redissonClient;
-//    }
-
     @Override
     public Result getModelList(String Id) {
         log.info("**********数据查询请求**********");
+        return Result.success();
         // 本地解析
 //        return JsonUtil.fileParser(JsonUtil.staticFilePath, Model.class);
 
         // redis - mysql查询
-        if(!StringUtils.hasLength(Id)) return Result.success("所有数据获取成功", list());
-        else {
-            // 指定数据Id查询
-            Model data = RedisUtil.queryWithTTL(QUERY_MODEL_PREFIX + Id, Id, Model.class, this::getById, REDIS_CACHE_MAX_TTL_MINUTES, TimeUnit.MINUTES);
-            if(data != null) return Result.success("数据获取成功", List.of(data));
-            else throw new CustomException.DataNotFoundException("数据不存在, Id: " + Id);
-        }
+//        if(!StringUtils.hasLength(Id)) return Result.success("所有数据获取成功", list());
+//        else {
+//            // 指定数据Id查询
+//            Model data = RedisUtil.queryTTLWithDB(QUERY_MODEL_PREFIX + Id, Id, Model.class, this::getById, REDIS_CACHE_MAX_TTL_MINUTES, TimeUnit.MINUTES);
+//            if(data != null) return Result.success("数据获取成功", List.of(data));
+//            else throw new CustomException.DataNotFoundException("数据不存在, Id: " + Id);
+//        }
     }
 
     @Override

@@ -1,8 +1,6 @@
-package com.vs.myemc_gms_main.config;
+package com.vs.config;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -13,8 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "redisson")
-@AllArgsConstructor
-@NoArgsConstructor
 public class RedissonConfig {
     // 配置文件中读取(***需要构造器，getter, setter***)
     // 多实例场景下，如果多个 RedissonClient 实例使用相同的连接池配置，可能会导致连接池资源的竞争或其他并发问题。
@@ -23,6 +19,7 @@ public class RedissonConfig {
     private int connectionPoolSize;
     private int connectionMinimumIdleSize;
 
+    // 成为容器管理bean对象，给外界提供依赖注入
     @Bean
     public RedissonClient redissonClient() {
         Config config = new Config();

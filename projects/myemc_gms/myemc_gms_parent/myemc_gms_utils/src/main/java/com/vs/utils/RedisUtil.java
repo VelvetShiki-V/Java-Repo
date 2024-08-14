@@ -20,17 +20,17 @@ import static com.vs.common.GlobalConstants.*;
 
 @Slf4j
 public class RedisUtil {
-    // instance
+    // static instance
     private static StringRedisTemplate stringRedisTemplate;
+    private static RedissonClient redissonClient;
 
     // 静态变量依赖注入初始化
-    private static RedissonClient redissonClient;
     @Autowired
-    public RedisUtil(RedissonClient redissonClient) {
-        RedisUtil.redissonClient = redissonClient;
+    public RedisUtil(RedissonClient client) {
+        redissonClient = client;
     }
 
-    // 初始化template
+//     初始化template
     public static void setStringRedisTemplate(StringRedisTemplate template) {
         stringRedisTemplate = template;
     }
@@ -40,6 +40,11 @@ public class RedisUtil {
     public static class RedisData {
         private Object object;
         private LocalDateTime expireTime;
+    }
+
+    // 普通数据存储(对象序列化)
+    public static void set(String key, Object value) {
+        stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value));
     }
 
     // 普通数据存储(对象序列化 + TTL)
@@ -57,9 +62,14 @@ public class RedisUtil {
         stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(redisData));
     }
 
-    // 普通数据获取(数据TTL + 缓存穿透空值处理 + 数据反序列化为指定类型)
+    // 普通数据获取(string类型)
+    public static String query(String key) {
+        return stringRedisTemplate.opsForValue().get(key);
+    }
+
+    // 普通数据获取(数据TTL重置 + 缓存穿透空值处理 + 数据反序列化为指定类型)
     // 注意dbFallBack参数需要的是一个Function<ID, R>类型的函数，而不是函数执行后的结果
-    public static <ID, R> R queryWithTTL(String key, ID Id, Class<R> objType, Function<ID, R> dbFallBack, Long timeout, TimeUnit unit) {
+    public static <R> R queryTTLWithDB(String key, Class<R> objType, Long timeout, TimeUnit unit, Function<Object[], R> dbFallBack, Object...args) {
         // 查询数据(json串)是否存在于缓存中
         String jsonStr = stringRedisTemplate.opsForValue().get(key);
         // isNotBlank为true仅当jsonStr 既不为 null，也不为 ""
@@ -68,14 +78,14 @@ public class RedisUtil {
         else if(Objects.equals(jsonStr, "")) return null;
         // 不存在，到数据库中查找数据
         else {
-            R ret;
-            if(Id != null) ret = dbFallBack.apply(Id);
-            else ret = dbFallBack.apply(null);
+            R ret = dbFallBack.apply(args);
             if(ret == null) {
                 // 数据库数据不存在，缓存穿透空值处理
+                log.error("数据库数据不存在，空值缓存");
                 stringRedisTemplate.opsForValue().set(key, "", CACHE_NULL_TTL, TimeUnit.MINUTES);
             } else {
                 // 数据存在，序列化缓存到redis中, 并将结果返回
+                log.info("数据库已查到, 刷新缓存");
                 setWithTTL(key, ret, timeout, unit);
                 return ret;
             }
@@ -158,9 +168,10 @@ public class RedisUtil {
         return ret;
     }
 
-    // TODO: 查询某个key是否存在
-    // TODO: 删除某个key
-
+    // 删除某个key
+    public static Boolean removeKey(String key) {
+        return stringRedisTemplate.delete(key);
+    }
 
     // 自定义分布式锁
     // uuid唯一key(dbLock:rm:model:Id:xxxx:UUID:xxxx)

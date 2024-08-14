@@ -1,6 +1,5 @@
 package com.vs.myemc_gms_main.controller;
 
-import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.vs.myemc_gms_main.service.UserService;
 import com.vs.pojo.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping
-    public Result getUsers() {
-        return Result.success("查询成功", Db.lambdaQuery(User.class).list());
+    public Result getUsers(Integer uid) {
+        return userService.userQuery(uid);
     }
 }
