@@ -1,5 +1,4 @@
-package com.vs.config;
-
+package com.vs.myemc_gms_main.config;
 import lombok.Data;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;

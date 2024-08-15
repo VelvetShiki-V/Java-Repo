@@ -1,5 +1,4 @@
 package com.vs.utils;
-
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -9,13 +8,12 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-
 import static com.vs.common.GlobalConstants.*;
 
 @Slf4j
@@ -24,15 +22,12 @@ public class RedisUtil {
     private static StringRedisTemplate stringRedisTemplate;
     private static RedissonClient redissonClient;
 
-    // 静态变量依赖注入初始化
-    @Autowired
-    public RedisUtil(RedissonClient client) {
-        redissonClient = client;
-    }
-
 //     初始化template
     public static void setStringRedisTemplate(StringRedisTemplate template) {
         stringRedisTemplate = template;
+    }
+    public static void setRedissonClient(RedissonClient client) {
+        redissonClient = client;
     }
 
     // 内部类存储逻辑对象
@@ -42,14 +37,24 @@ public class RedisUtil {
         private LocalDateTime expireTime;
     }
 
-    // 普通数据存储(对象序列化)
-    public static void set(String key, Object value) {
-        stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value));
+    // 对象数据存储
+    public static void setObject(String key, Object value, Long timeout, TimeUnit unit) {
+        stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value), timeout, unit);
     }
 
-    // 普通数据存储(对象序列化 + TTL)
-    public static void setWithTTL(String key, Object value, Long timeout, TimeUnit unit) {
-        stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value), timeout, unit);
+    // 字符串数据存储
+    public static void setString(String key, String value, Long timeout, TimeUnit unit) {
+        stringRedisTemplate.opsForValue().set(key, value, timeout, unit);
+    }
+
+    // 对象获取
+    public static <R> R queryObject(String key, Class<R> type) {
+        return JSONUtil.toBean(stringRedisTemplate.opsForValue().get(key), type);
+    }
+
+    // string数据获取
+    public static String queryString(String key) {
+        return stringRedisTemplate.opsForValue().get(key);
     }
 
     // 热点数据存储(逻辑过期 + 对象装饰器序列化 -> 缓存击穿)
@@ -62,31 +67,34 @@ public class RedisUtil {
         stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(redisData));
     }
 
-    // 普通数据获取(string类型)
-    public static String query(String key) {
-        return stringRedisTemplate.opsForValue().get(key);
-    }
-
     // 普通数据获取(数据TTL重置 + 缓存穿透空值处理 + 数据反序列化为指定类型)
     // 注意dbFallBack参数需要的是一个Function<ID, R>类型的函数，而不是函数执行后的结果
-    public static <R> R queryTTLWithDB(String key, Class<R> objType, Long timeout, TimeUnit unit, Function<Object[], R> dbFallBack, Object...args) {
-        // 查询数据(json串)是否存在于缓存中
+    public static <R> Object queryTTLWithDB(String key, Class<R> objType, Long timeout,
+                                       TimeUnit unit, Function<Object[], Object> dbFallBack,
+                                       Object...args) {
+        // 查询数据(json串)是否存在于缓存中，isNotBlank为true仅当jsonStr既不为 null也不为""
         String jsonStr = stringRedisTemplate.opsForValue().get(key);
-        // isNotBlank为true仅当jsonStr 既不为 null，也不为 ""
-        if(StrUtil.isNotBlank(jsonStr)) return JSONUtil.toBean(jsonStr, objType);
+        if(StrUtil.isNotBlank(jsonStr)) {
+            log.info("缓存命中");
+            if (List.class.isAssignableFrom(objType)) return JSONUtil.parseArray(jsonStr);  // 判断是否为List类型
+            else return JSONUtil.toBean(jsonStr, objType);
+        }
         // 取出为空值，则该key为空缓存
-        else if(Objects.equals(jsonStr, "")) return null;
+        else if(Objects.equals(jsonStr, CACHE_NULL)) {
+            log.info("缓存穿透策略已生效");
+            return null;
+        }
         // 不存在，到数据库中查找数据
         else {
-            R ret = dbFallBack.apply(args);
+            Object ret = dbFallBack.apply(args);
             if(ret == null) {
                 // 数据库数据不存在，缓存穿透空值处理
                 log.error("数据库数据不存在，空值缓存");
-                stringRedisTemplate.opsForValue().set(key, "", CACHE_NULL_TTL, TimeUnit.MINUTES);
+                stringRedisTemplate.opsForValue().set(key, CACHE_NULL, CACHE_NULL_TTL, TimeUnit.MINUTES);
             } else {
                 // 数据存在，序列化缓存到redis中, 并将结果返回
                 log.info("数据库已查到, 刷新缓存");
-                setWithTTL(key, ret, timeout, unit);
+                setObject(key, ret, timeout, unit);
                 return ret;
             }
         }
@@ -94,7 +102,9 @@ public class RedisUtil {
     }
 
     // 热点数据获取(数据永不过期 + 逻辑过期预防缓存击穿 + 加锁多线程异步数据获取)
-    public static <ID, R> R queryWithLogicExpire(String key, ID Id, Class<R> objType, Function<ID, R> dbFallBack, Long timeout, TimeUnit unit) throws InterruptedException {
+    public static <ID, R> R queryWithLogicExpire(String key, ID Id, Class<R> objType,
+                                                 Function<ID, R> dbFallBack, Long timeout,
+                                                 TimeUnit unit) throws InterruptedException {
         // 缓存查询
         String jsonStr = stringRedisTemplate.opsForValue().get(key);
         // 热点数据不存在，直接返回null
@@ -168,10 +178,13 @@ public class RedisUtil {
         return ret;
     }
 
-    // 删除某个key
+    // 删除key
     public static Boolean removeKey(String key) {
         return stringRedisTemplate.delete(key);
     }
+
+    // 刷新ttl
+    public static void refreshTTL(String key, Long timeout, TimeUnit unit) { stringRedisTemplate.expire(key, timeout, unit); }
 
     // 自定义分布式锁
     // uuid唯一key(dbLock:rm:model:Id:xxxx:UUID:xxxx)

@@ -1,5 +1,4 @@
 package com.vs.myemc_gms_main.controller;
-
 import com.vs.myemc_gms_main.service.UserService;
 import com.vs.pojo.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,7 @@ public class UserController {
 
     @PostMapping("/login")
     public Result userLogin(@RequestBody User user) {
-        return Result.success("登录成功", userService.loginService(user));
+        return userService.loginService(user);
     }
 
     @GetMapping

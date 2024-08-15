@@ -12,7 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Slf4j
 public class AccessInterceptor implements HandlerInterceptor {
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.info("-----------------access权限访问拦截-----------------");
         // 拦截用户，执行token校验
         if(!StringUtils.hasLength(request.getHeader("Authorization"))) {
@@ -24,8 +24,8 @@ public class AccessInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        log.info("\n\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" +
+        log.info("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" +
                 "\n{} - {}业务执行完毕, afterCompletion..." +
-                "\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n\n", request.getMethod(), request.getRequestURL().toString());
+                "\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n", request.getMethod(), request.getRequestURL().toString());
     }
 }
