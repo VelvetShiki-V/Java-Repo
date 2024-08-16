@@ -14,7 +14,8 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        log.info("-----------------request一切访问拦截, 接收到用户请求url: {}, method: {}-----------------", request.getRequestURL().toString(), request.getMethod());
+        log.info("-----------------request请求拦截-----------------");
+        log.info("接收到用户请求url: {}, method: {}", request.getRequestURL().toString(), request.getMethod());
         // 获取token并刷新
         String jwt = request.getHeader("Authorization");
         if(!StringUtils.hasLength(jwt)) {

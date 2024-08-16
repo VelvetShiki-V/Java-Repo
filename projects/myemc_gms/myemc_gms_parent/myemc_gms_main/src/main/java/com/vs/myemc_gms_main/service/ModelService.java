@@ -9,4 +9,6 @@ public interface ModelService extends IService<Model>{
     Result createModelNode(Model model);
 
     Result removeModelNode(String Id);
+
+    Result updateModelNode(Model model);
 }

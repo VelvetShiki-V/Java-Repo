@@ -1,4 +1,5 @@
 package com.vs.utils;
+import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -10,8 +11,8 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import static com.vs.common.GlobalConstants.*;
@@ -37,116 +38,112 @@ public class RedisUtil {
         private LocalDateTime expireTime;
     }
 
-    // 对象数据存储
-    public static void setObject(String key, Object value, Long timeout, TimeUnit unit) {
-        stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value), timeout, unit);
+    // 数据存储(字符串原样存储，对象JSON序列化处理)
+    public static <T> void set(String key, T value, Long timeout, TimeUnit unit) {
+        if(value instanceof String) stringRedisTemplate.opsForValue().set(key, (String) value, timeout, unit);
+        else stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value), timeout, unit);
     }
 
-    // 字符串数据存储
-    public static void setString(String key, String value, Long timeout, TimeUnit unit) {
-        stringRedisTemplate.opsForValue().set(key, value, timeout, unit);
+    // 数据获取
+    public static <R> Object query(String key, TypeReference<R> typeRef) {
+        String str = stringRedisTemplate.opsForValue().get(key);
+        if(StrUtil.isNotBlank(str)) {
+            // 缓存中存在数据
+            log.info("{} 缓存命中", key);
+            if (typeRef.getType() == String.class) return str;
+            else return JSONUtil.toBean(str, typeRef.getType(), true);
+        } else if(CACHE_NULL.equals(str)) return CACHE_NULL;
+        log.warn("{} 缓存不存在", key);
+        return null;
     }
 
-    // 对象获取
-    public static <R> R queryObject(String key, Class<R> type) {
-        return JSONUtil.toBean(stringRedisTemplate.opsForValue().get(key), type);
-    }
-
-    // string数据获取
-    public static String queryString(String key) {
-        return stringRedisTemplate.opsForValue().get(key);
-    }
-
-    // 热点数据存储(逻辑过期 + 对象装饰器序列化 -> 缓存击穿)
-    public static void setWithLogicExpire(String key, Object value, Long timeout, TimeUnit unit) {
-        // 对象转换
-        RedisData redisData = new RedisData();
-        redisData.setObject(value);
-        // 设置逻辑过期时间
-        redisData.setExpireTime(LocalDateTime.now().plusSeconds(unit.toSeconds(timeout)));
-        stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(redisData));
-    }
-
-    // 普通数据获取(数据TTL重置 + 缓存穿透空值处理 + 数据反序列化为指定类型)
+    // 数据获取(缓存TTL重置 + 缓存穿透空值处理)
     // 注意dbFallBack参数需要的是一个Function<ID, R>类型的函数，而不是函数执行后的结果
-    public static <R> Object queryTTLWithDB(String key, Class<R> objType, Long timeout,
+    public static <R> R queryTTLWithDB(String key, TypeReference<R> targetTypeRef, Long timeout,
                                        TimeUnit unit, Function<Object[], Object> dbFallBack,
                                        Object...args) {
-        // 查询数据(json串)是否存在于缓存中，isNotBlank为true仅当jsonStr既不为 null也不为""
-        String jsonStr = stringRedisTemplate.opsForValue().get(key);
-        if(StrUtil.isNotBlank(jsonStr)) {
-            log.info("缓存命中");
-            if (List.class.isAssignableFrom(objType)) return JSONUtil.parseArray(jsonStr);  // 判断是否为List类型
-            else return JSONUtil.toBean(jsonStr, objType);
-        }
-        // 取出为空值，则该key为空缓存
-        else if(Objects.equals(jsonStr, CACHE_NULL)) {
-            log.info("缓存穿透策略已生效");
+        // 查询数据(json串)是否存在于缓存中
+        String str = stringRedisTemplate.opsForValue().get(key);
+        if(StrUtil.isNotBlank(str)) {
+            log.info("{} 缓存命中", key);
+            if (targetTypeRef.getType() == String.class) return (R) str;
+            else return JSONUtil.toBean(str, targetTypeRef.getType(), true);
+        } else if(CACHE_NULL.equals(str)) {
+            log.warn("{} 缓存穿透已生效, 数据层访问已拦截", key);
             return null;
-        }
-        // 不存在，到数据库中查找数据
-        else {
-            Object ret = dbFallBack.apply(args);
+        } else {
+            // 缓存不存在，到数据库中查找数据
+            R ret = (R) dbFallBack.apply(args);
             if(ret == null) {
                 // 数据库数据不存在，缓存穿透空值处理
-                log.error("数据库数据不存在，空值缓存");
-                stringRedisTemplate.opsForValue().set(key, CACHE_NULL, CACHE_NULL_TTL, TimeUnit.MINUTES);
+                log.error("{} 数据库数据不存在，空值缓存", key);
+                stringRedisTemplate.opsForValue().set(key, CACHE_NULL, CACHE_NULL_TTL_MINUTES, TimeUnit.MINUTES);
             } else {
                 // 数据存在，序列化缓存到redis中, 并将结果返回
-                log.info("数据库已查到, 刷新缓存");
-                setObject(key, ret, timeout, unit);
+                log.info("{} 数据库已查到, 刷新缓存", key);
+                set(key, ret, timeout, unit);
                 return ret;
             }
         }
         return null;
     }
 
+    // 热点数据存储(逻辑过期 + 对象装饰器序列化 -> 缓存击穿)
+    public static void setWithLogicExpire(String key, Object value, Long timeout, TimeUnit unit) {
+        // 对象装饰器 + 设置逻辑过期时间
+        RedisData redisData = new RedisData();
+        redisData.setObject(value);
+        redisData.setExpireTime(LocalDateTime.now().plusSeconds(unit.toSeconds(timeout)));
+        set(key, redisData, timeout, unit);
+    }
+
     // 热点数据获取(数据永不过期 + 逻辑过期预防缓存击穿 + 加锁多线程异步数据获取)
-    public static <ID, R> R queryWithLogicExpire(String key, ID Id, Class<R> objType,
-                                                 Function<ID, R> dbFallBack, Long timeout,
-                                                 TimeUnit unit) throws InterruptedException {
-        // 缓存查询
+    public static <R> R queryWithLogicExpire(String key, TypeReference<R> targetTypeRef, Long timeout,
+                                             TimeUnit unit, Function<Object[], Object> dbFallBack,
+                                             Object...args) throws ExecutionException, InterruptedException {
+        // 缓存查询并判断
         String jsonStr = stringRedisTemplate.opsForValue().get(key);
-        // 热点数据不存在，直接返回null
-        if(StrUtil.isBlank(jsonStr)) return null;
-        else {
-            // 命中数据，对比逻辑时间判断是否过期
+        if (StrUtil.isBlank(jsonStr)) {
+            log.warn("{} 热点缓存不存在", key);
+            return null;
+        } else {
+            // 命中数据
+            log.info("{} 热点缓存存在", key);
             RedisData redisData = JSONUtil.toBean(jsonStr, RedisData.class);
-            R obj = JSONUtil.toBean((JSONObject) redisData.getObject(), objType);
+            R obj = null;
+            if (targetTypeRef.getType() == String.class) obj = (R) redisData.getObject();
+            else obj = JSONUtil.toBean((JSONObject) redisData.getObject(), targetTypeRef.getType(), true);
             LocalDateTime recordTime = redisData.getExpireTime();
-            if(LocalDateTime.now().isAfter(recordTime)) {
+            // 判断数据是否逻辑过期
+            if (LocalDateTime.now().isAfter(recordTime)) {
+                log.warn("{} 热点数据已过期, ", key);
                 // 数据已过期, 互斥锁 + 开启线程到数据库中获取最新数据
-                RLock lock = redissonClient.getLock(key + Id);
-                if(lock.tryLock(10, TimeUnit.SECONDS)) {
-                    try {
-                        threadPools.submit(() -> {
-                            // 开启异步线程获取数据库数据
-                            R data = dbFallBack.apply(Id);
-                            if(data != null) {
-                                // 热更新到缓存，并刷新逻辑过期时间
-                                setWithLogicExpire(key, data, timeout, unit);
-                            } else {
-                                // 数据不存在，删除缓存
-                                stringRedisTemplate.delete(key);
-                            }
-                            // 将数据返回，返回前将锁释放
-                            return data;
-                        });
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    } finally {
-                        lock.unlock();
-                    }
+                Future<R> future;
+                try {
+                    // 异步线程逻辑片
+                    future = threadPools.submit(() -> (R) taskLock(dbFallBack, key, args));
+                } catch (Exception e) {
+                    throw new RuntimeException("异步任务执行失败: " + e);
                 }
+                // future会在异步任务完成前阻塞
+                if (future.get() != null) {
+                    // 热更新到缓存，并刷新逻辑过期时间
+                    log.info("{} 数据库热点数据已查到，刷新缓存", key);
+                    setWithLogicExpire(key, future.get(), timeout, unit);
+                } else {
+                    // 数据不存在，删除缓存
+                    log.info("{} 数据库热点数据不存在，缓存将移除", key);
+                    removeKey(key);
+                }
+                return future.get();
             } else {
-                // 未过期，直接返回数据
+                log.info("{} 热点数据未过期", key);
                 return obj;
             }
         }
-        return null;
     }
 
-    // 自增统计量，key结构: 实时时间戳 + redis自增计数器
+        // 自增统计量，key结构: 实时时间戳 + redis自增计数器
     public static Long recordDailyIncrement(String key) {
         // 使用每日Ts(formatted)作为key并使值自增以统计每日新增数量
         String curDay = TimeUtil.getCurrentDay();
@@ -168,19 +165,30 @@ public class RedisUtil {
         R ret = null;
         try {
             isLocked = lock.tryLock(REDISSON_LOCK_WAIT_MAX_SECONDS, TimeUnit.SECONDS);
-            if(isLocked) ret = fallBack.apply(args);
+            if(isLocked) {
+                log.info("redisson lock获取成功，开始任务{}...", fallBack.getClass());
+                ret = fallBack.apply(args);
+            }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("锁获取失败: " + e);
         } finally {
             if(isLocked) lock.unlock();
-            log.info("RLock锁已释放");
+            log.info("redisson RLock已释放");
         }
         return ret;
     }
 
+    // 查询某个键是否存在
+    public static keyStatus keyAlive(String key) {
+        String str = stringRedisTemplate.opsForValue().get(key);
+        if(str == null) return keyStatus.NIL;
+        else if(CACHE_NULL.equals(str)) return keyStatus.EMPTY;
+        else return keyStatus.EXISTS;
+    }
+
     // 删除key
-    public static Boolean removeKey(String key) {
-        return stringRedisTemplate.delete(key);
+    public static void removeKey(String key) {
+        stringRedisTemplate.delete(key);
     }
 
     // 刷新ttl

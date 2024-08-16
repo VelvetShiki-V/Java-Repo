@@ -3,7 +3,11 @@ package com.vs.pojo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -22,6 +26,7 @@ import lombok.experimental.Accessors;
 @TableName("user")
 public class User implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -35,10 +40,17 @@ public class User implements Serializable {
      */
     private String username;
 
+    // 用户角色
+    private String role;
+
     /**
      * 用户密码
      */
     private String password;
 
+    // 创建时间
+    private LocalDateTime createTime;
 
+    // 更新时间
+    private LocalDateTime updateTime;
 }

@@ -30,4 +30,13 @@ public class UserController {
     public Result getUsers(Integer uid) {
         return userService.userQuery(uid);
     }
+
+    @PostMapping("/registry")
+    public Result userCreate(@RequestBody User user) { return userService.userCreate(user); }
+
+    @PutMapping
+    public Result userUpdate(@RequestBody User user) { return userService.userUpdate(user); }
+
+    @DeleteMapping
+    public Result userDelete(@PathVariable Integer uid) { return userService.userDelete(uid); }
 }
