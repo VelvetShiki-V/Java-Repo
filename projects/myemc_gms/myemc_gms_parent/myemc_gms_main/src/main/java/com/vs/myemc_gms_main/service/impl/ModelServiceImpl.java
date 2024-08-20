@@ -37,7 +37,8 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
             if(data != null) return Result.success("获取单条数据成功", List.of(data));
         } else {
             log.info("查询所有数据");
-            List<Model> list = RedisUtil.queryTTLWithDB(QUERY_MODEL_ALL, new TypeReference<>(){},
+            List<Model> list = RedisUtil.queryTTLWithDB(QUERY_MODEL_ALL,
+                    new TypeReference<>(){},
                     REDIS_CACHE_MAX_TTL_MINUTES, TimeUnit.MINUTES,
                     (args) -> list());
             if(list != null) return Result.success("获取所有数据成功", list);

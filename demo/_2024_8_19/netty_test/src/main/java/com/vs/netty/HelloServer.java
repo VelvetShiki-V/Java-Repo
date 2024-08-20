@@ -18,10 +18,10 @@ public class HelloServer {
     }
 
     public void start() {
-        // 1. 定义父子线程监听连接情况
+        // 1. 定义boss线程组管理连接创建，worker线程组管理channel套接字流入的数据流处理
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
-        // 2. 初始化channel管道并添加业务逻辑任务
+        // 2. 初始化channel管道并为workerGroup添加业务逻辑任务
         try {
             // 创建服务器启动类并进行配置
             ServerBootstrap serverBoot = new ServerBootstrap();
@@ -32,9 +32,11 @@ public class HelloServer {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) {
                             System.out.println("连接已建立");
+                            // pipeline确保handler正确执行顺序，每个handler可通过fireChannelRead传递给下一个handler
                             socketChannel.pipeline().addLast(new StringEncoder(StandardCharsets.UTF_8));
                             socketChannel.pipeline().addLast(new StringDecoder(StandardCharsets.UTF_8));
                             socketChannel.pipeline().addLast(new HelloServerHandler());
+                            socketChannel.pipeline().addLast(new outBoundHandler());
                         }
                     });
             // 阻塞监听指定端口，并在连接建立后将任务交由handler异步处理
@@ -56,8 +58,14 @@ public class HelloServer {
     }
 }
 
-// child任务处理器
+// child任务处理器(入站Inbound事件流)
 class HelloServerHandler extends ChannelInboundHandlerAdapter {
+
+    // 连接断开时操作
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) {
+        System.out.println("与客户端连接已断开" + ctx.name());
+    }
 
     // 读取管道数据并打印或写回
     @Override
@@ -79,5 +87,19 @@ class HelloServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
+    }
+}
+
+// 出站事件流
+class outBoundHandler extends ChannelOutboundHandlerAdapter {
+
+    @Override
+    public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+        super.write(ctx, msg, promise);
+    }
+
+    @Override
+    public void flush(ChannelHandlerContext ctx) throws Exception {
+        super.flush(ctx);
     }
 }
