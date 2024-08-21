@@ -31,8 +31,8 @@ public class HelloClient {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) {
-                            socketChannel.pipeline().addLast(new StringEncoder(StandardCharsets.UTF_8));
                             socketChannel.pipeline().addLast(new StringDecoder(StandardCharsets.UTF_8));
+                            socketChannel.pipeline().addLast(new StringEncoder(StandardCharsets.UTF_8));
                             socketChannel.pipeline().addLast(new HelloClientHandler());
                         }
                     });
@@ -64,20 +64,25 @@ class HelloClientHandler extends ChannelInboundHandlerAdapter {
 
     // 业务处理
     // 连接建立执行的动作
+    // 强烈不建议在初始化过程中进行IO操作，会阻塞线程的执行
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         System.out.println("客户端连接已建立");
-        Scanner scanner = new Scanner(System.in);
-        while(true) {
-            String line = scanner.nextLine();
-            if("quit".equals(line)) {
+        // 需要单独开启一个独立线程处理异步IO操作，将主线程释放交由后续handler处理
+        new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            while(true) {
+                System.out.println("请输入: ");
+                String line = scanner.nextLine();
+                if("quit".equals(line)) {
+                    ctx.writeAndFlush(line);
+                    // close异步关闭线程连接
+                    ctx.close();
+                    break;
+                }
                 ctx.writeAndFlush(line);
-                // close异步关闭线程连接
-                ctx.close();
-                break;
             }
-            ctx.writeAndFlush(line);
-        }
+        }).start();
     }
 
     // 连接断开时操作
@@ -89,7 +94,11 @@ class HelloClientHandler extends ChannelInboundHandlerAdapter {
     // 接收服务端返回的数据执行的动作
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        System.out.println("server says: " + msg);
+        // 如果需要在读取服务器数据回写给服务器，就可以手动开辟bytebuf进行处理
+//        ByteBuf pooledBuf = ctx.alloc().buffer();
+        // bytebuf写writeandflush操作...
+        System.out.println(msg);
+//        response.release();   // 最后释放
     }
 
     // 异常处理
