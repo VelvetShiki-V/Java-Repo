@@ -1,5 +1,4 @@
 package com.vs.netty;
-
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
@@ -8,12 +7,10 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
-
 import java.nio.charset.StandardCharsets;
 
 public class HelloServer {
     private final int port;
-
     public HelloServer(int port) {
         this.port = port;
     }
@@ -61,6 +58,8 @@ public class HelloServer {
 }
 
 // child任务处理器(入站Inbound事件流)
+// 线程安全
+@ChannelHandler.Sharable
 class HelloServerHandler extends ChannelInboundHandlerAdapter {
     // 连接断开时操作
     @Override
