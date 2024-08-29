@@ -24,6 +24,6 @@ hs_err_pid*
 replay_pid*
 
 # properties
-application.yaml
-application.yml
-application.properties
+# application.yaml
+# application.yml
+# application.properties

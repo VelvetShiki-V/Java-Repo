@@ -4,11 +4,6 @@
       "name": "global-dynamic-constants",
       "type": "com.vs.config.GlobalConfig",
       "sourceType": "com.vs.config.GlobalConfig"
-    },
-    {
-      "name": "redisson",
-      "type": "com.vs.config.RedissonConfig",
-      "sourceType": "com.vs.config.RedissonConfig"
     }
   ],
   "properties": [
@@ -30,30 +25,7 @@
     {
       "name": "global-dynamic-constants.thread-pool-max-size",
       "type": "java.lang.Integer",
-      "sourceType": "com.vs.config.GlobalConfig",
-      "defaultValue": 0
-    },
-    {
-      "name": "redisson.address",
-      "type": "java.lang.String",
-      "sourceType": "com.vs.config.RedissonConfig"
-    },
-    {
-      "name": "redisson.connection-minimum-idle-size",
-      "type": "java.lang.Integer",
-      "sourceType": "com.vs.config.RedissonConfig",
-      "defaultValue": 0
-    },
-    {
-      "name": "redisson.connection-pool-size",
-      "type": "java.lang.Integer",
-      "sourceType": "com.vs.config.RedissonConfig",
-      "defaultValue": 0
-    },
-    {
-      "name": "redisson.password",
-      "type": "java.lang.String",
-      "sourceType": "com.vs.config.RedissonConfig"
+      "sourceType": "com.vs.config.GlobalConfig"
     }
   ],
   "hints": []
