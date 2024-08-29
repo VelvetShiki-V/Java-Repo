@@ -44,7 +44,7 @@ server:
   # 0端口自动使用未被占用
   port: 6666
 #  port: ${gms.server.port}
-  address: localhost
+  address: 0
 
 # mybatis-plus
 mybatis-plus:

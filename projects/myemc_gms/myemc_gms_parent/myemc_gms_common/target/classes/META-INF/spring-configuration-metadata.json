@@ -25,7 +25,8 @@
     {
       "name": "global-dynamic-constants.thread-pool-max-size",
       "type": "java.lang.Integer",
-      "sourceType": "com.vs.config.GlobalConfig"
+      "sourceType": "com.vs.config.GlobalConfig",
+      "defaultValue": 0
     }
   ],
   "hints": []

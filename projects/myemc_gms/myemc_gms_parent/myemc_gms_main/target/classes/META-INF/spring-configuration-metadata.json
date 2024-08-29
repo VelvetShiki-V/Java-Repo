@@ -15,12 +15,14 @@
     {
       "name": "redisson.connection-minimum-idle-size",
       "type": "java.lang.Integer",
-      "sourceType": "com.vs.myemc_gms_main.config.RedissonConfig"
+      "sourceType": "com.vs.myemc_gms_main.config.RedissonConfig",
+      "defaultValue": 0
     },
     {
       "name": "redisson.connection-pool-size",
       "type": "java.lang.Integer",
-      "sourceType": "com.vs.myemc_gms_main.config.RedissonConfig"
+      "sourceType": "com.vs.myemc_gms_main.config.RedissonConfig",
+      "defaultValue": 0
     },
     {
       "name": "redisson.password",

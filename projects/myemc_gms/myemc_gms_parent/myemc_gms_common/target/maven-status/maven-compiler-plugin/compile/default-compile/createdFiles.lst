@@ -3,6 +3,5 @@ com\vs\common\GlobalConstants.class
 com\vs\common\CustomException.class
 com\vs\config\GlobalConfig.class
 com\vs\common\CustomException$DataNotFoundException.class
-com\vs\config\RedissonConfig.class
 com\vs\common\CustomException$AccessDeniedException.class
 META-INF\spring-configuration-metadata.json
