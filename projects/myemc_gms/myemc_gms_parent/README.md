@@ -4,40 +4,60 @@
 - 配置在gms_main主项目中
 ```yaml
 spring:
+  # 服务名称
   application:
     name: myemc_gms
 
   # mysql连接
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:
-    username:
-    password:
+    url: jdbc:mysql://www.velvetshiki.cn:3306/gms_db?rewriteBatchedStatements=true&characterEncoding=UTF-8&useUnicode=true&characterSetResults=UTF-8
+    username: root
+    password: zcx984288627
 
+  # 多实例场景下，如果多个 RedissonClient 实例使用相同的连接池配置，可能会导致连接池资源的竞争或其他并发问题。
+  # 根据需求需要配置redis最大连接数max connection或调整启动项目的连接池数量，避免资源竞争
   # redis连接
   data:
     redis:
-      host:
-      port:
-      password:
-      database:
+      host: www.velvetshiki.cn
+      port: 6379
+      password: 123456
+      database: 1
       lettuce:
         # 配置redis连接池，分别为最大用户连接数，最大空闲连接数，最小空闲连接数，最大连接等待时间
         pool:
-          max-active:
-          max-idle:
-          min-idle:
-          max-wait:
+          max-active: 10
+          max-idle: 5
+          min-idle: 0
+          max-wait: 100ms
 
+# redisson配置(configurationProperties注入，需要lombok配合使用)
+redisson:
+  address: redis://1.94.180.58:6379
+  password: 123456
+  connectionPoolSize: 10          #  最大连接数
+  connectionMinimumIdleSize: 10
+
+# Tomcat相关配置
 server:
   # 0端口自动使用未被占用
-  port:
-  address:
+  port: 6666
+#  port: ${gms.server.port}
+  address: localhost
 
 # mybatis-plus
 mybatis-plus:
-  type-aliases-package:
-  mapper-locations:
+  type-aliases-package: com.vs.pojo
+  mapper-locations: "classpath*:/mapper/**/*.xml"
+
+# global constants
+global-dynamic-constants:
+  redis_cache_max_ttl_minutes: 30
+  redisson_lock_wait_max_seconds: 5
+  jwt_expire_duration_seconds: 1800000
+  thread_pool_max_size: 10
+
 ```
 
 示例数据
