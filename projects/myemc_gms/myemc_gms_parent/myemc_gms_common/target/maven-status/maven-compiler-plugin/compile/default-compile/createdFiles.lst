@@ -1,7 +1,8 @@
-com\vs\common\CustomException$InvalidTokenException.class
-com\vs\common\GlobalConstants.class
-com\vs\common\CustomException.class
-com\vs\config\GlobalConfig.class
-com\vs\common\CustomException$DataNotFoundException.class
-com\vs\common\CustomException$AccessDeniedException.class
-META-INF\spring-configuration-metadata.json
+META-INF/spring-configuration-metadata.json
+com/vs/common/GlobalConstants$keyStatus.class
+com/vs/common/CustomException$DataNotFoundException.class
+com/vs/common/CustomException$AccessDeniedException.class
+com/vs/common/GlobalConstants.class
+com/vs/config/GlobalConfig.class
+com/vs/common/CustomException.class
+com/vs/common/CustomException$InvalidTokenException.class

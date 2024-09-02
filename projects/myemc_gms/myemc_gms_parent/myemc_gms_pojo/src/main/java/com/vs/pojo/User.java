@@ -26,31 +26,20 @@ import lombok.experimental.Accessors;
 @TableName("user")
 public class User implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+    // @Serial
+    // private static final long serialVersionUID = 1L;
 
     /**
      * 用户uid
      */
-    @TableId(value = "uid", type = IdType.AUTO)
-    private Integer uid;
+    // @TableId(value = "uid", type = IdType.AUTO)
+    // private Integer uid;
 
     /**
      * 用户名
      */
-    private String username;
-
-    // 用户角色
-    private String role;
-
-    /**
-     * 用户密码
-     */
+    @TableId(value = "name")
+    private String name;
     private String password;
-
-    // 创建时间
-    private LocalDateTime createTime;
-
-    // 更新时间
-    private LocalDateTime updateTime;
+    private String role;
 }

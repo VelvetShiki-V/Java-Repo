@@ -12,7 +12,6 @@ import com.vs.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.vs.pojo.User;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         log.info("**********用户登录请求**********");
         log.info("接收到登录用户信息: {}", user);
         // 查缓存，如果存在就返回，否则查数据库
-        String key = JWT_PREFIX + user.getUsername();
+        String key = JWT_PREFIX + user.getName();
         String ret = (String) RedisUtil.query(key, new TypeReference<String>(){});
         if(StrUtil.isNotBlank(ret)) {
             // 刷新登录时间
@@ -48,7 +47,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             // 如果缓存存在则为非法空用户
             if(Objects.equals(ret, CACHE_NULL)) throw new CustomException.AccessDeniedException("非法用户重复登录");
             // 否则查询数据库
-            User loginUser = Db.lambdaQuery(User.class).eq(User::getUsername, user.getUsername()).one();
+            User loginUser = Db.lambdaQuery(User.class).eq(User::getName, user.getName()).one();
             if(loginUser == null) {
                 // 缓存穿透预防
                 RedisUtil.set(key, CACHE_NULL, CACHE_NULL_TTL_MINUTES, TimeUnit.MINUTES);
@@ -60,8 +59,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                     // 用户存在, 生成jwt返回
                     log.info("数据库查询用户存在，开始发放令牌");
                     Map<String, Object> loginUserMap = new HashMap<>();
-                    loginUserMap.put("uid", loginUser.getUid());
-                    loginUserMap.put("username", loginUser.getUsername());
+                    // loginUserMap.put("uid", loginUser.getUid());
+                    loginUserMap.put("name", loginUser.getName());
                     String token = JwtUtil.jwtGen(loginUserMap);
                     log.info("\n生成jwt: {}", token);
                     return Result.success("登录成功", token);
@@ -99,20 +98,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         log.info("**********用户创建请求**********");
         log.info("接收到用户信息: {}", user);
         // 缓存穿透
-        if(RedisUtil.keyAlive(CREATE_USER_PREFIX + user.getUsername()) == keyStatus.EMPTY)
-            throw new CustomException.AccessDeniedException(String.format("用户%s重复提交注册表单，请求拒绝", user.getUsername()));
-        LocalDateTime localDateTime = LocalDateTime.now();
-        user.setCreateTime(localDateTime);
-        user.setUpdateTime(localDateTime);
+        if(RedisUtil.keyAlive(CREATE_USER_PREFIX + user.getName()) == keyStatus.EMPTY)
+            throw new CustomException.AccessDeniedException(String.format("用户%s重复提交注册表单，请求拒绝", user.getName()));
+        // LocalDateTime localDateTime = LocalDateTime.now();
+        // user.setCreateTime(localDateTime);
+        // user.setUpdateTime(localDateTime);
         try {
             save(user);
         } catch (Exception e) {
             // FIXME: 异常捕获SQLIntegrityConstraintViolationException
-            RedisUtil.set(CREATE_USER_PREFIX + user.getUsername(), CACHE_NULL, CACHE_NULL_TTL_MINUTES, TimeUnit.MINUTES);
+            RedisUtil.set(CREATE_USER_PREFIX + user.getName(), CACHE_NULL, CACHE_NULL_TTL_MINUTES, TimeUnit.MINUTES);
             throw new CustomException.AccessDeniedException("用户创建失败: " + e.getCause());
         }
         // 缓存处理防止重复提交
-        RedisUtil.set(CREATE_USER_PREFIX + user.getUsername(), CACHE_NULL, CACHE_NULL_TTL_MINUTES, TimeUnit.MINUTES);
+        RedisUtil.set(CREATE_USER_PREFIX + user.getName(), CACHE_NULL, CACHE_NULL_TTL_MINUTES, TimeUnit.MINUTES);
         return Result.success("用户创建成功", null);
     }
 
@@ -149,7 +148,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 查询数据库
         // TODO: update()
 //        RedisUtil.taskLock(args -> updateById((String) args[0]), UPDATE_USER_PREFIX + user.getUid(), user.getUid());
-        user.setUpdateTime(LocalDateTime.now());
+        // user.setUpdateTime(LocalDateTime.now());
         return null;
     }
 }
