@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="16139e40-9870-4632-8552-f7c84bb39c5e" name="tencent_zhaocx">
+        <fileTransfer rootFolder="/home/zhaocx" accessType="SFTP" host="111.231.32.99" port="22" sshConfigId="6ffa3896-5d99-4274-b657-3b64296e1bbc" sshConfig="zhaocx@111.231.32.99:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
