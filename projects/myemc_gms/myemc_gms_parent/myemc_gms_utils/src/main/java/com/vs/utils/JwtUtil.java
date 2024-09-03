@@ -41,8 +41,9 @@ public class JwtUtil {
                 .signWith(keyFetchRemote())
                 .compact();
         // 存入redis
-        String tokenKey = JWT_PREFIX + payload.get("username");
-        RedisUtil.set(tokenKey, jwt, JWT_EXPIRE_DURATION_MINUTES, TimeUnit.MINUTES);
+        String tokenKey = JWT_PREFIX + payload.get("name");
+        log.info("获取到tokenKey: {}", tokenKey);
+        // RedisUtil.set(tokenKey, jwt, JWT_EXPIRE_DURATION_MINUTES, TimeUnit.MINUTES);
         return jwt;
     }
 
@@ -60,7 +61,7 @@ public class JwtUtil {
             throw new CustomException.InvalidTokenException("token解析失败, 请重新登录: " + e.getMessage());
         }
         // 与redis缓存token比较
-        String username = payload.get("username").toString();
+        String username = payload.get("name").toString();
         String token = (String) RedisUtil.query(JWT_PREFIX + username, new TypeReference<String>() {});
         if(!jwt.equals(token)) throw new CustomException.InvalidTokenException("token缓存过期，请重新登陆");
         // 刷新token有效期

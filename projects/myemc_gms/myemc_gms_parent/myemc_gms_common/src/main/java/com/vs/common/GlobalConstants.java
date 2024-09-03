@@ -21,9 +21,9 @@ public class GlobalConstants {
     // redis相关常量
     // 用户相关
     public static final String QUERY_USER_ALL = SYSTEM_REDIS_KEY_PREFIX + "query:user:all";
-    public static final String QUERY_USER_PREFIX = SYSTEM_REDIS_KEY_PREFIX + "query:user:uid:";
-    public static final String REMOVE_USER_PREFIX = SYSTEM_REDIS_KEY_PREFIX + "rmv:user:uid:";
-    public static final String UPDATE_USER_PREFIX = SYSTEM_REDIS_KEY_PREFIX + "update:user:uid:";
+    public static final String QUERY_USER_PREFIX = SYSTEM_REDIS_KEY_PREFIX + "query:user:name:";
+    public static final String REMOVE_USER_PREFIX = SYSTEM_REDIS_KEY_PREFIX + "rmv:user:name:";
+    public static final String UPDATE_USER_PREFIX = SYSTEM_REDIS_KEY_PREFIX + "update:user:name:";
     public static final String CREATE_USER_PREFIX = SYSTEM_REDIS_KEY_PREFIX + "add:user:name:";
     // 数据相关
     public static final String INCREMENT_HEADER = "icr:";

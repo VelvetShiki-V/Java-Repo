@@ -25,7 +25,7 @@ public class WebConfig implements WebMvcConfigurer {
         // 权限请求拦截器
         registry.addInterceptor(accessInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/health", "/user/login", "/user/registry")
+                .excludePathPatterns("/health", "/auth/verify/login", "/auth/registry")
                 .order(1);
     }
 }

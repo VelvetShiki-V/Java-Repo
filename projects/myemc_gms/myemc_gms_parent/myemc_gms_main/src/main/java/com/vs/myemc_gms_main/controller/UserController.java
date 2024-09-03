@@ -15,24 +15,22 @@ import com.vs.pojo.User;
  * @since 2024-07-30
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth")
 @Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/login")
+    @PostMapping("/verify/login")
     public Result userLogin(@RequestBody User user) {
         return userService.loginService(user);
     }
 
-    @GetMapping
-    public Result getUsers(Integer uid) {
-        return userService.userQuery(uid);
-    }
-
     @PostMapping("/registry")
     public Result userCreate(@RequestBody User user) { return userService.userCreate(user); }
+
+    @GetMapping
+    public Result getUsers(Integer uid) { return userService.userQuery(uid); }
 
     @PutMapping
     public Result userUpdate(@RequestBody User user) { return userService.userUpdate(user); }

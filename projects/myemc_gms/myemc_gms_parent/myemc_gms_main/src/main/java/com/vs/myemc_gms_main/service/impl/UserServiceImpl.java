@@ -50,6 +50,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             User loginUser = Db.lambdaQuery(User.class).eq(User::getName, user.getName()).one();
             if(loginUser == null) {
                 // 缓存穿透预防
+                log.warn("数据库查无此人{}", user.getName());
                 RedisUtil.set(key, CACHE_NULL, CACHE_NULL_TTL_MINUTES, TimeUnit.MINUTES);
                 throw new CustomException.AccessDeniedException("登录用户不存在");
             } else {
@@ -59,10 +60,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                     // 用户存在, 生成jwt返回
                     log.info("数据库查询用户存在，开始发放令牌");
                     Map<String, Object> loginUserMap = new HashMap<>();
-                    // loginUserMap.put("uid", loginUser.getUid());
                     loginUserMap.put("name", loginUser.getName());
                     String token = JwtUtil.jwtGen(loginUserMap);
                     log.info("\n生成jwt: {}", token);
+                    // 登录信息存入缓存
+                    RedisUtil.set(key, token, JWT_EXPIRE_DURATION_MINUTES, TimeUnit.MINUTES);
                     return Result.success("登录成功", token);
                 }
             }

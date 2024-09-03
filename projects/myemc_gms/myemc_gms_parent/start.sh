@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # 检查8080端口是否被占用
 pid=$(sudo lsof -t -i:7777)
 
@@ -17,7 +15,11 @@ else
   fi
 fi
 
-# 执行maven
-mvn clean install 
-mvn compile -DskipTests
+# -pl指定运行模块，-am自动构建依赖模块，通过spring-boot:run插件直接运行项目
 mvn -pl myemc_gms_main spring-boot:run
+
+# 编译打包，不运行测试
+# mvn clean package -DskipTests
+
+# 调试模式运行
+# mvn -pl myemc_gms_main -am spring-boot:run -Dspring-boot.run.fork=false -Dmaven.surefire.debug
