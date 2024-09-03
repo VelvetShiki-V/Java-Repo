@@ -18,5 +18,6 @@ else
 fi
 
 # 执行maven
-mvn clean compile
+mvn clean install 
+mvn compile -DskipTests
 mvn -pl myemc_gms_main spring-boot:run
