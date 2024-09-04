@@ -16,11 +16,10 @@ else
 fi
 
 # -pl指定运行模块，-am自动构建依赖模块，通过spring-boot:run插件直接运行项目
-# 必须在mvn clean install，在本地安装依赖后，方可执行
 mvn -pl myemc_gms_main spring-boot:run
 
 # 编译打包，不运行测试
-# mvn clean package -DskipTests
+# mvn clean install -DskipTests
 
 # 调试模式运行
 # mvn -pl myemc_gms_main -am spring-boot:run -Dspring-boot.run.fork=false -Dmaven.surefire.debug
