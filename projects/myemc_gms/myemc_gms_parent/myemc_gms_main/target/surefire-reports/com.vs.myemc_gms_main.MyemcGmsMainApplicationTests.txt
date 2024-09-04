@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.vs.myemc_gms_main.MyemcGmsMainApplicationTests
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.621 s -- in com.vs.myemc_gms_main.MyemcGmsMainApplicationTests
