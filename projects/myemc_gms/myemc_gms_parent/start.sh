@@ -15,8 +15,13 @@ else
   fi
 fi
 
+# 执行jar包
+mvn clean package
+java -jar myemc_gms_main/target/myemc_gms_main-0.0.1-SNAPSHOT.jar
+
 # -pl指定运行模块，-am自动构建依赖模块，通过spring-boot:run插件直接运行项目
-mvn -pl myemc_gms_main spring-boot:run
+# 必须在mvn clean install，在本地安装依赖后，方可执行
+# mvn -pl myemc_gms_main spring-boot:run
 
 # 编译打包，不运行测试
 # mvn clean package -DskipTests
