@@ -19,15 +19,15 @@ public class RedissonConfig {
     private int connectionMinimumIdleSize;
 
     // 成为容器管理bean对象，给外界提供依赖注入
-    // @Bean
-    // public RedissonClient redissonClient() {
-    //     Config config = new Config();
-    //     config.useSingleServer()
-    //             .setAddress(address)
-    //             .setPassword(password)
-    //             .setConnectionPoolSize(connectionPoolSize)
-    //             .setConnectionMinimumIdleSize(connectionMinimumIdleSize);
-    //     return Redisson.create(config);
-    // }
+    @Bean
+    public RedissonClient redissonClient() {
+        Config config = new Config();
+        config.useSingleServer()
+                .setAddress(address)
+                .setPassword(password)
+                .setConnectionPoolSize(connectionPoolSize)
+                .setConnectionMinimumIdleSize(connectionMinimumIdleSize);
+        return Redisson.create(config);
+    }
 }
 

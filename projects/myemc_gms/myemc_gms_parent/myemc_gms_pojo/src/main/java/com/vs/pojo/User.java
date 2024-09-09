@@ -20,13 +20,13 @@ public class User {
     /**
      * 用户uid
      */
-    // @TableId(value = "uid", type = IdType.AUTO)
-    // private Integer uid;
+    @TableId(value = "uid", type = IdType.AUTO)
+    private Integer uid;
 
     /**
      * 用户名
      */
-    // @TableId(value = "name")
+    @TableId(value = "name")
     private String name;
     private String password;
     private String role;
