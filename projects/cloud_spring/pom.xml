@@ -12,7 +12,6 @@
 
 <!--    子模块-->
     <modules>
-        <module>cloud_common</module>
         <module>cloud_user</module>
     </modules>
 
@@ -25,12 +24,12 @@
 <!--    全局依赖-->
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
-            <scope>provided</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.projectlombok</groupId>-->
+<!--            <artifactId>lombok</artifactId>-->
+<!--            <version>1.18.24</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
 
 
         <!--    yml配置文件自动配置和提示依赖-->
@@ -41,4 +40,15 @@
         </dependency>
 
     </dependencies>
+
+    <!-- 一键打包 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.3.0</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

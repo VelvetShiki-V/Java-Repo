@@ -7,36 +7,36 @@ spring:
   application:
     name: cloud_user
 
-  # mysql连接
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${cloud.mysql.host}:3306/${cloud.mysql.database}?rewriteBatchedStatements=true&characterEncoding=UTF-8&useUnicode=true&characterSetResults=UTF-8
-    username: ${cloud.mysql.username}
-    password: ${cloud.mysql.password}
-
-  # 多实例场景下，如果多个 RedissonClient 实例使用相同的连接池配置，可能会导致连接池资源的竞争或其他并发问题。
-  # 根据需求需要配置redis最大连接数max connection或调整启动项目的连接池数量，避免资源竞争
-  # redis连接
-  data:
-    redis:
-      host: ${cloud.redis.host}
-      port: 6379
-      password: ${cloud.redis.password}
-      database: 1
-      lettuce:
-        # 配置redis连接池，分别为最大用户连接数，最大空闲连接数，最小空闲连接数，最大连接等待时间
-        pool:
-          max-active: 10
-          max-idle: 5
-          min-idle: 0
-          max-wait: 100ms
-
-# redisson配置(configurationProperties注入，需要lombok配合使用)
-redisson:
-  address: redis://${cloud.redisson.address}
-  password: ${cloud.redisson.password}
-  connectionPoolSize: ${cloud.redisson.connectionPoolSize}           #  最大连接数
-  connectionMinimumIdleSize: ${cloud.redisson.connectionMinimumIdleSize}    # 最小空闲连接数，必须小于或等于 connectionPoolSize
+#  # mysql连接
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://${cloud.mysql.host}:3306/${cloud.mysql.database}?rewriteBatchedStatements=true&characterEncoding=UTF-8&useUnicode=true&characterSetResults=UTF-8
+#    username: ${cloud.mysql.username}
+#    password: ${cloud.mysql.password}
+#
+#  # 多实例场景下，如果多个 RedissonClient 实例使用相同的连接池配置，可能会导致连接池资源的竞争或其他并发问题。
+#  # 根据需求需要配置redis最大连接数max connection或调整启动项目的连接池数量，避免资源竞争
+#  # redis连接
+#  data:
+#    redis:
+#      host: ${cloud.redis.host}
+#      port: 6379
+#      password: ${cloud.redis.password}
+#      database: 1
+#      lettuce:
+#        # 配置redis连接池，分别为最大用户连接数，最大空闲连接数，最小空闲连接数，最大连接等待时间
+#        pool:
+#          max-active: 10
+#          max-idle: 5
+#          min-idle: 0
+#          max-wait: 100ms
+#
+## redisson配置(configurationProperties注入，需要lombok配合使用)
+#redisson:
+#  address: redis://${cloud.redisson.address}
+#  password: ${cloud.redisson.password}
+#  connectionPoolSize: ${cloud.redisson.connectionPoolSize}           #  最大连接数
+#  connectionMinimumIdleSize: ${cloud.redisson.connectionMinimumIdleSize}    # 最小空闲连接数，必须小于或等于 connectionPoolSize
 
 # Tomcat相关配置
 server:
@@ -45,9 +45,9 @@ server:
   address: 0.0.0.0
 
 # mybatis-plus
-mybatis-plus:
-  type-aliases-package: com.vs.domain
-  mapper-locations: "classpath*:/mapper/**/*.xml"
+#mybatis-plus:
+#  type-aliases-package: com.vs.domain
+#  mapper-locations: "classpath*:/mapper/**/*.xml"
 
 # global constants
 #global-dynamic-constants:
