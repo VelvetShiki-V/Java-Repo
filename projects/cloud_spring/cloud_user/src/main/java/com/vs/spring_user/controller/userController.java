@@ -11,9 +11,4 @@ public class userController {
     public String login() {
         return "success access!";
     }
-
-    @GetMapping("/login")
-    public String login1() {
-        return "login access!";
-    }
 }
