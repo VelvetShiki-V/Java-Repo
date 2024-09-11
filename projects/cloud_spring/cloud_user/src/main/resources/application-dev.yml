@@ -2,11 +2,11 @@ cloud:
   server:
     port: 7777
 
-#  mysql:
-#    host: localhost
-#    username: root
-#    password: 123456
-#    database: cloud_user
+  mysql:
+    host: localhost
+    username: root
+    password: 123456
+    database: cloud_user
 #
 #
 #  redis:

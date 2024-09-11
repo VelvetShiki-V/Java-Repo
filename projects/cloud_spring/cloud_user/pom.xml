@@ -8,17 +8,11 @@
         <artifactId>cloud_spring</artifactId>
         <version>1.0.0</version>
     </parent>
-<!--    <parent>-->
-<!--        <groupId>org.springframework.boot</groupId>-->
-<!--        <artifactId>spring-boot-starter-parent</artifactId>-->
-<!--        <version>3.3.3</version>-->
-<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-<!--    </parent>-->
 
     <artifactId>cloud_user</artifactId>
 
-    <name>spring_user</name>
-    <description>spring_user</description>
+    <name>cloud_user</name>
+    <description>cloud_user</description>
     <url/>
     <licenses>
         <license/>
@@ -38,11 +32,11 @@
 
     <dependencies>
 <!--        common module-->
-<!--        <dependency>-->
-<!--            <groupId>com.vs</groupId>-->
-<!--            <artifactId>cloud_common</artifactId>-->
-<!--            <version>1.0.0</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.vs</groupId>
+            <artifactId>cloud_common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
         <!--    spring web-->
         <dependency>
@@ -50,19 +44,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>3.3.0</version>
         </dependency>
-
-        <!--        mybatisX-->
-<!--        <dependency>-->
-<!--            <groupId>com.baomidou</groupId>-->
-<!--            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>-->
-<!--            <version>3.5.7</version>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-annotation &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.baomidou</groupId>-->
-<!--            <artifactId>mybatis-plus-annotation</artifactId>-->
-<!--            <version>3.5.7</version>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>

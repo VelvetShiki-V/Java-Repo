@@ -7,11 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="cloud_common" />
         <module name="cloud_user" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="17">
-      <module name="cloud_common" target="17" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="17" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="cloud_common" options="" />
+      <module name="cloud_spring" options="" />
+      <module name="cloud_user" options="" />
+    </option>
   </component>
 </project>
