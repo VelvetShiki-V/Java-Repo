@@ -3,7 +3,7 @@ package com.vs.cloud_user.controller;
 import com.vs.cloud_user.domain.User;
 import com.vs.cloud_user.service.UserService;
 import org.springframework.web.bind.annotation.*;
-import com.vs.cloud_user.domain.Result;
+import com.vs.cloud_common.domain.Result;
 import lombok.RequiredArgsConstructor;
 
 @RestController

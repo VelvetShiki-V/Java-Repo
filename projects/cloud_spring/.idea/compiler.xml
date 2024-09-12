@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cloud_common" />
+        <module name="cloud_model" />
         <module name="cloud_user" />
       </profile>
     </annotationProcessing>
@@ -16,6 +17,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cloud_common" options="" />
+      <module name="cloud_model" options="" />
       <module name="cloud_spring" options="" />
       <module name="cloud_user" options="" />
     </option>

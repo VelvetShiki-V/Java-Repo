@@ -26,6 +26,8 @@ public class GlobalConstants {
     // 数据相关
     public static final String QUERY_MODEL_ALL = SYSTEM_REDIS_KEY_PREFIX + "query:model:all";
     public static final String QUERY_MODEL_PREFIX = SYSTEM_REDIS_KEY_PREFIX + "query:model:mid:";
+    public static final String REMOVE_MODEL_PREFIX = SYSTEM_REDIS_KEY_PREFIX + "rm:model:mid:";
+    public static final String UPDATE_MODEL_PREFIX = SYSTEM_REDIS_KEY_PREFIX + "upd:model:mid:";
     // 分布式锁相关
     public static final int REDISSON_LOCK_WAIT_MAX_SECONDS = 2;
 

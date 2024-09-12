@@ -1,4 +1,4 @@
-package com.vs.cloud_user.exception;
+package com.vs.cloud_model.exception;
 
 import com.vs.cloud_common.domain.CustomException;
 import com.vs.cloud_common.domain.Result;

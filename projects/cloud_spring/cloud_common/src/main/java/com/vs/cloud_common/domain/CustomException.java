@@ -1,4 +1,4 @@
-package com.vs.cloud_user.exception;
+package com.vs.cloud_common.domain;
 
 public class CustomException {
     public static class InvalidTokenException extends RuntimeException {

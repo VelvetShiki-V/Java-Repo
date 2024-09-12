@@ -1,4 +1,4 @@
-package com.vs.cloud_user.domain;
+package com.vs.cloud_common.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

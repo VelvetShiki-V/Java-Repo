@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.vs.cloud_common.utils.JwtUtil;
 import com.vs.cloud_common.utils.RedisUtil;
-import com.vs.cloud_user.domain.Result;
-import com.vs.cloud_user.exception.CustomException;
+import com.vs.cloud_common.domain.Result;
+import com.vs.cloud_common.domain.CustomException;
 import com.vs.cloud_user.domain.User;
 import com.vs.cloud_user.mapper.UserMapper;
 import com.vs.cloud_user.service.UserService;
@@ -118,7 +118,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         log.info("用户存在，开始执行删除操作");
         // 分布式锁控制删除
         boolean isRemoved = RedisUtil.taskLock(client, args -> removeById(String.valueOf(args[0])), REMOVE_USER_PREFIX + uid, uid);
-        if(!isRemoved) throw new CustomException.DataNotFoundException(String.format("用户uid: %d不存在，删除失败", uid));
+        if(!isRemoved) throw new CustomException.DataNotFoundException(String.format("用户uid: %s不存在，删除失败", uid));
         // 缓存同步删除
         String key = QUERY_USER_PREFIX + uid;
         User query = RedisUtil.query(template, key, new TypeReference<User>() {});
