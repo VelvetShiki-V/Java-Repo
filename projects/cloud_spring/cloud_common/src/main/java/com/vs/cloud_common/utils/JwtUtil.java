@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 import static com.vs.cloud_common.constants.GlobalConstants.*;
 
 @Slf4j
-@Component
 public class JwtUtil {
     private static SecretKey secretKeyRefresh(StringRedisTemplate template) {
         // 算法随机生成, 并将生成的二进制秘钥序列化
@@ -31,7 +30,7 @@ public class JwtUtil {
 
     private static Key keyFetchRemote(StringRedisTemplate template) {
         // 远程获取SECRET_KEY, 并将加密的秘钥反序列化
-        String encodedKey = (String) RedisUtil.query(template, SECRET_KEY_PREFIX, new TypeReference<String>() {});
+        String encodedKey = RedisUtil.query(template, SECRET_KEY_PREFIX, new TypeReference<String>() {});
         if(StrUtil.isBlank(encodedKey)) return secretKeyRefresh(template);
         else return new SecretKeySpec(Base64.getDecoder().decode(encodedKey), SignatureAlgorithm.HS256.getJcaName());
     }
@@ -43,7 +42,6 @@ public class JwtUtil {
                 .setClaims(payload)
                 .signWith(keyFetchRemote(template))
                 .compact();
-        // 存入redis
         return jwt;
     }
 
@@ -62,7 +60,7 @@ public class JwtUtil {
         }
         // 与redis缓存token比较
         String name = payload.get("name").toString();
-        String token = (String) RedisUtil.query(template, JWT_PREFIX + name, new TypeReference<String>() {});
+        String token = RedisUtil.query(template, JWT_PREFIX + name, new TypeReference<String>() {});
         if(!jwt.equals(token)) throw new RuntimeException("token缓存过期，请重新登陆");
         // 刷新token有效期
         RedisUtil.set(template, JWT_PREFIX + name, jwt, JWT_EXPIRE_DURATION_MINUTES, TimeUnit.MINUTES);

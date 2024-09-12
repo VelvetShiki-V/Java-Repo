@@ -44,6 +44,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>3.3.0</version>
         </dependency>
+
+        <!--    aop依赖-->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop -->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-aop</artifactId>-->
+        <!--            <version>3.3.0</version>-->
+        <!--        </dependency>-->
     </dependencies>
 
     <build>

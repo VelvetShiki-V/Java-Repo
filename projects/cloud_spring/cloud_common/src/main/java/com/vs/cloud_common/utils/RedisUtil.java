@@ -23,14 +23,14 @@ public class RedisUtil {
     }
 
     // 数据获取
-    public static <R> Object query(StringRedisTemplate template, String key, TypeReference<R> typeRef) {
+    public static <R> R query(StringRedisTemplate template, String key, TypeReference<R> typeRef) {
         String str = template.opsForValue().get(key);
         if(StrUtil.isNotBlank(str)) {
             // 缓存中存在数据
             log.info("{} 缓存命中", key);
-            if (typeRef.getType() == String.class) return str;
+            if (typeRef.getType() == String.class) return (R) str;
             else return JSONUtil.toBean(str, typeRef.getType(), true);
-        } else if(CACHE_NULL.equals(str)) return CACHE_NULL;
+        } else if(CACHE_NULL.equals(str)) return (R) CACHE_NULL;
         log.warn("{} 缓存不存在", key);
         return null;
     }
