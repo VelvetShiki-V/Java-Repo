@@ -6,10 +6,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.vs.cloud_common.domain.Result;
 import com.vs.cloud_common.utils.RedisUtil;
+import com.vs.cloud_model.client.CloudUserClient;
 import com.vs.cloud_model.domain.Model;
 import com.vs.cloud_common.domain.CustomException;
 import com.vs.cloud_model.mapper.ModelMapper;
 import com.vs.cloud_model.service.ModelService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
@@ -26,7 +28,9 @@ import static com.vs.cloud_common.constants.GlobalConstants.*;
 @RequiredArgsConstructor
 public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements ModelService {
     private final StringRedisTemplate template;
-    private final RedissonClient client;
+    private final RedissonClient redissonClient;
+    private final CloudUserClient cloudUserClient;
+    private final HttpServletRequest request;
 
     @Override
     public Result modelCreate(Model model) {
@@ -50,6 +54,14 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
     @Override
     public Result modelQuery(String mid) {
         log.info("**********数据查询请求**********");
+        // 登录用户验证
+        try {
+            // 转发请求头
+            cloudUserClient.verifyUser(request.getHeader("Authorization"));
+        } catch (Exception e) {
+            throw new CustomException.AccessDeniedException(e.getMessage());
+        }
+        // 认证成功，进行数据查询
         if(StrUtil.isBlank(mid)) {
             log.info("查询所有数据");
             List<Model> modelList = RedisUtil.queryTTLWithDB(template, QUERY_MODEL_ALL, new TypeReference<List<Model>>() {},
@@ -71,7 +83,7 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
         Model updateModel = getById(model.getMid());
         if(updateModel == null) throw new CustomException.DataNotFoundException("更新数据不存在");
         log.info("数据存在，开始执行更新操作");
-        boolean isUpdateSuccess = RedisUtil.taskLock(client, args -> Db.lambdaUpdate(Model.class)
+        boolean isUpdateSuccess = RedisUtil.taskLock(redissonClient, args -> Db.lambdaUpdate(Model.class)
                 .set(Model::getName, model.getName())
                 .set(Model::getOwner, model.getOwner())
                 .set(Model::getStock, model.getStock())
@@ -93,7 +105,7 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
         if(deleteModel == null) throw new CustomException.DataNotFoundException("删除数据不存在");
         log.info("数据存在，开始执行删除操作");
         // 分布式锁控制删除
-        boolean isRemoved = RedisUtil.taskLock(client, args -> removeById(String.valueOf(args[0])), REMOVE_MODEL_PREFIX + mid, mid);
+        boolean isRemoved = RedisUtil.taskLock(redissonClient, args -> removeById(String.valueOf(args[0])), REMOVE_MODEL_PREFIX + mid, mid);
         if(!isRemoved) throw new CustomException.DataNotFoundException(String.format("数据mid: %s不存在，删除失败", mid));
         // 缓存同步删除
         String key = QUERY_MODEL_PREFIX + mid;
