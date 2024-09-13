@@ -20,6 +20,9 @@ public class UserController {
     @PostMapping("/registry")
     public Result userCreate(@RequestBody User user) { return userService.userCreate(user); }
 
+    @GetMapping("/verify")
+    public Result userVerify() { return userService.loginVerify(); }
+
     @GetMapping
     public Result getUsers(@RequestParam("uid") String uid) { return userService.userQuery(uid); }
 

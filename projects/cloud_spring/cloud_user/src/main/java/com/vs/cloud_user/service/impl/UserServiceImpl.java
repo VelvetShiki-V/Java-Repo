@@ -11,6 +11,7 @@ import com.vs.cloud_common.domain.CustomException;
 import com.vs.cloud_user.domain.User;
 import com.vs.cloud_user.mapper.UserMapper;
 import com.vs.cloud_user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
@@ -21,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import static com.vs.cloud_common.constants.GlobalConstants.*;
 
 @Service
@@ -30,6 +30,7 @@ import static com.vs.cloud_common.constants.GlobalConstants.*;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     private final StringRedisTemplate template;
     private final RedissonClient client;
+    private final HttpServletRequest request;
 
     // 用户登录
     @Override
@@ -68,6 +69,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 登录信息 + token存入缓存
         RedisUtil.set(template, key, token, JWT_EXPIRE_DURATION_MINUTES, TimeUnit.MINUTES);
         return Result.success("登录成功", token);
+    }
+
+    // 验证登录
+    @Override
+    public Result loginVerify() {
+        String token = request.getHeader("Authorization");
+        if(StrUtil.isBlank(token)) throw new CustomException.AccessDeniedException("未携带有效token, 登录状态验证失败");
+        try {
+            JwtUtil.jwtParseRefresh(template, token);
+        } catch (Exception e) {
+            throw new CustomException.AccessDeniedException(e.getMessage());
+        }
+        return Result.success("token有效, 用户已登录", null);
     }
 
     // 用户查询

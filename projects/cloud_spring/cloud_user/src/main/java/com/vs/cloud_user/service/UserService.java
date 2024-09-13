@@ -7,6 +7,8 @@ import com.vs.cloud_user.domain.User;
 public interface UserService extends IService<User> {
         Result loginService(User user);
 
+        Result loginVerify();
+
         Result userQuery(String uid);
 
         Result userCreate(User user);
