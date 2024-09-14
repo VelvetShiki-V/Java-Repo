@@ -1,4 +1,4 @@
-package com.vs.cloud_model.client;
+package com.vs.cloud_api.client;
 
 import com.vs.cloud_common.domain.Result;
 import org.springframework.cloud.openfeign.FeignClient;

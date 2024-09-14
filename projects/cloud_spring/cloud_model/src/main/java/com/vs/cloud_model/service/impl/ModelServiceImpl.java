@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.vs.cloud_common.domain.Result;
 import com.vs.cloud_common.utils.RedisUtil;
-import com.vs.cloud_model.client.CloudUserClient;
+import com.vs.cloud_api.client.CloudUserClient;
 import com.vs.cloud_model.domain.Model;
 import com.vs.cloud_common.domain.CustomException;
 import com.vs.cloud_model.mapper.ModelMapper;
@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;

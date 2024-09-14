@@ -33,10 +33,17 @@
     </properties>
 
     <dependencies>
-        <!--        common module-->
+<!--        common module-->
         <dependency>
             <groupId>com.vs</groupId>
             <artifactId>cloud_common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+<!--        api module-->
+        <dependency>
+            <groupId>com.vs</groupId>
+            <artifactId>cloud_api</artifactId>
             <version>1.0.0</version>
         </dependency>
 
@@ -47,23 +54,26 @@
             <version>3.3.0</version>
         </dependency>
 
-        <!--        nacos服务注册发现-->
-        <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-alibaba-nacos-discovery -->
+
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.30</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
+        <!--        mybatisX-->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>3.5.7</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-loadbalancer -->
+        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-annotation -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+            <version>3.5.7</version>
         </dependency>
     </dependencies>
 
@@ -84,13 +94,4 @@
             </plugin>
         </plugins>
     </build>
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
-
 </project>

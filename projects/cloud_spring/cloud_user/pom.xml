@@ -38,6 +38,13 @@
             <version>1.0.0</version>
         </dependency>
 
+        <!--        api module-->
+        <dependency>
+            <groupId>com.vs</groupId>
+            <artifactId>cloud_api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!--    spring web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,12 +52,27 @@
             <version>3.3.0</version>
         </dependency>
 
-<!--        nacos服务注册发现-->
-        <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-alibaba-nacos-discovery -->
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.30</version>
         </dependency>
+
+        <!--        mybatisX-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>3.5.7</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-annotation -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+            <version>3.5.7</version>
+        </dependency>
+
+
 
         <!--    aop依赖-->
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop -->

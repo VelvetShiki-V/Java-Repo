@@ -7,9 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="cloud_user" />
         <module name="cloud_common" />
         <module name="cloud_model" />
-        <module name="cloud_user" />
+        <module name="cloud_api" />
+        <module name="cloud_gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />

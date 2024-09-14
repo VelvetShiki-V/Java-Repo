@@ -1,0 +1,31 @@
+spring:
+  # 配置文件切换
+  profiles:
+    active: dev
+
+  # 服务名称
+  application:
+    name: cloud-gateway
+
+  # nacos
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    nacos:
+      server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: cloud-user
+          uri: lb://cloud-user
+          predicates:
+            - Path=/user/**
+        - id: cloud-model
+          uri: lb://cloud-model
+          predicates:
+            - Path=/model/**
+      default-filters:
+        - AddRequestHeader=Authorization
+
+server:
+  port: ${cloud.server.port}
+  address: 0.0.0.0
