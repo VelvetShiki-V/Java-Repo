@@ -7,8 +7,8 @@ import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.vs.cloud_common.utils.JwtUtil;
 import com.vs.cloud_common.utils.RedisUtil;
 import com.vs.cloud_common.domain.Result;
-import com.vs.cloud_common.domain.CustomException;
 import com.vs.cloud_user.domain.User;
+import com.vs.cloud_user.exception.CustomException;
 import com.vs.cloud_user.mapper.UserMapper;
 import com.vs.cloud_user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -38,7 +39,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         log.info("**********用户登录请求**********");
         log.info("接收到登录用户信息: {}", user);
         // 登录信息判断
-        if(StrUtil.isBlank(user.getName()) || StrUtil.isBlank(user.getPassword())) throw new CustomException.BadRequestException("用户名或密码为空");
+        if(StrUtil.isBlank(user.getName()) || StrUtil.isBlank(user.getPassword()))
+            throw new CustomException(HttpStatus.UNAUTHORIZED, "用户名或密码为空");
         // 缓存查询
         String key = JWT_PREFIX + user.getName();
         String token = RedisUtil.query(template, key, new TypeReference<String>() {});
@@ -46,19 +48,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(token != null && !CACHE_NULL.equals(token)) {
             RedisUtil.refreshTTL(template, key, REDIS_CACHE_MAX_TTL_MINUTES, TimeUnit.MINUTES);
             return Result.success("用户已登录", token);
-        } else if (CACHE_NULL.equals(token)) throw new CustomException.AccessDeniedException("非法用户重复登录");
+        } else if (CACHE_NULL.equals(token))
+            throw new CustomException(HttpStatus.FORBIDDEN, "非法用户重复登录");
         // 数据库查询
         User loginUser = Db.lambdaQuery(User.class).eq(User::getName, user.getName()).one();
         log.info("数据库检索用户: {}", loginUser);
         if(loginUser == null) {
             RedisUtil.set(template, key, CACHE_NULL, CACHE_NULL_TTL_MINUTES, TimeUnit.MINUTES);
-            throw new CustomException.AccessDeniedException("登录用户不存在");
+            throw new CustomException(HttpStatus.FORBIDDEN, "登录用户不存在");
         }
         if(!loginUser.getRole().equals("admin")) {
             RedisUtil.set(template, key, CACHE_NULL, CACHE_NULL_TTL_MINUTES, TimeUnit.MINUTES);
-            throw new CustomException.AccessDeniedException("非管理员用户禁止登录");
+            throw new CustomException(HttpStatus.FORBIDDEN, "非管理员用户禁止登录");
         }
-        if(!loginUser.getPassword().equals(user.getPassword())) throw new CustomException.AccessDeniedException("密码错误");
+        if(!loginUser.getPassword().equals(user.getPassword()))
+            throw new CustomException(HttpStatus.UNAUTHORIZED, "密码错误");
         // 用户存在, 生成jwt返回
         log.info("管理员认证成功, 开始发放令牌");
         Map<String, Object> loginUserMap = new HashMap<>();
@@ -75,11 +79,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Result loginVerify() {
         String token = request.getHeader("Authorization");
-        if(StrUtil.isBlank(token)) throw new CustomException.AccessDeniedException("未携带有效token, 登录状态验证失败");
+        if(StrUtil.isBlank(token))
+            throw new CustomException(HttpStatus.UNAUTHORIZED, "未携带有效token, 登录状态验证失败");
         try {
             JwtUtil.jwtParseRefresh(template, token);
         } catch (Exception e) {
-            throw new CustomException.AccessDeniedException(e.getMessage());
+            throw new CustomException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
         return Result.success("token有效, 用户已登录", null);
     }
@@ -99,7 +104,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                     REDIS_CACHE_MAX_TTL_MINUTES, TimeUnit.MINUTES, args -> getById(String.valueOf(args[0])), uid);
             if(user != null) return Result.success("获取到用户信息", user);
         }
-        throw new CustomException.DataNotFoundException("用户不存在");
+        throw new CustomException(HttpStatus.NOT_FOUND, "用户不存在");
     }
 
     // 用户创建
@@ -108,7 +113,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         log.info("**********用户创建请求**********");
         log.info("接收到用户信息: {}", user);
         if(StrUtil.isBlank(user.getName()) || StrUtil.isBlank(user.getPassword())) {
-            throw new CustomException.BadRequestException("用户名或密码为空");
+            throw new CustomException(HttpStatus.BAD_REQUEST, "用户名或密码为空");
         }
         // mybatisX雪花算法生成uid
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -117,7 +122,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         try {
             save(user);
         } catch (Exception e) {
-            throw new CustomException.BadRequestException("用户创建失败");
+            throw new RuntimeException("用户创建失败");
         }
         return Result.success("用户创建成功", null);
     }
@@ -128,11 +133,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         log.info("**********用户删除请求**********");
         // 查询缓存
         User deleteUser = getById(uid);
-        if(deleteUser == null) throw new CustomException.DataNotFoundException("删除用户不存在");
+        if(deleteUser == null) throw new CustomException(HttpStatus.NOT_FOUND, "删除用户不存在");
         log.info("用户存在，开始执行删除操作");
         // 分布式锁控制删除
-        boolean isRemoved = RedisUtil.taskLock(client, args -> removeById(String.valueOf(args[0])), REMOVE_USER_PREFIX + uid, uid);
-        if(!isRemoved) throw new CustomException.DataNotFoundException(String.format("用户uid: %s不存在，删除失败", uid));
+        boolean isRemoved = RedisUtil.taskLock(client,
+                args -> removeById(String.valueOf(args[0])), REMOVE_USER_PREFIX + uid, uid);
+        if(!isRemoved)
+            throw new RuntimeException(String.format("用户uid: %s删除失败", uid));
         // 缓存同步删除
         String key = QUERY_USER_PREFIX + uid;
         User query = RedisUtil.query(template, key, new TypeReference<User>() {});
@@ -149,7 +156,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         log.info("**********用户信息更新请求**********");
         // 查询数据库
         User updateUser = getById(user.getUid());
-        if(updateUser == null) throw new CustomException.DataNotFoundException("更新用户不存在");
+        if(updateUser == null) throw new CustomException(HttpStatus.NOT_FOUND, "更新用户不存在");
         log.info("用户存在，开始执行更新操作");
         boolean isUpdateSuccess = RedisUtil.taskLock(client, args -> Db.lambdaUpdate(User.class)
                 .set(User::getName, user.getName())
@@ -158,7 +165,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .set(User::getUpdateTime, LocalDateTime.now())
                 .eq(User::getUid, user.getUid())
                 .update(), UPDATE_USER_PREFIX + user.getUid(), user.getUid());
-        if(!isUpdateSuccess) throw new CustomException.BadRequestException("用户更新失败");
+        if(!isUpdateSuccess) throw new RuntimeException("用户更新失败");
         else return Result.success("更新成功", null);
     }
 }

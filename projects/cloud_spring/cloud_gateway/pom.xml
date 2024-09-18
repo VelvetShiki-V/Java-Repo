@@ -20,6 +20,12 @@
     <dependencies>
         <dependency>
             <groupId>com.vs</groupId>
+            <artifactId>cloud_common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vs</groupId>
             <artifactId>cloud_api</artifactId>
             <version>1.0.0</version>
         </dependency>
