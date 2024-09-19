@@ -18,6 +18,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 @Slf4j
 @Component
@@ -29,32 +31,45 @@ public class CloudAuthFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        log.info("-----------------token filter拦截-----------------");
+        log.info("\n-----------------token filter拦截-----------------");
         // 登录拦截
         ServerHttpRequest request = exchange.getRequest();
         // 判断是否需要路径拦截
-        if(isExcluded(request.getPath().toString())) {
+        if(isExcluded(request.getURI().getRawPath())) {
             // 直接放行
             return chain.filter(exchange);
         }
         // 权限路径拦截校验
         HttpHeaders headers = request.getHeaders();
         List<String> list = headers.get("Authorization");
-        if(list == null || list.size() == 0) return null;
+        if(list == null || list.size() == 0) {
+            log.error("不存在合法token，认证失败");
+            // TODO: 优化响应内容
+            ServerHttpResponse response = exchange.getResponse();
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            return response.setComplete();
+        }
         // 获取到token，开始解析
         String token = list.get(0);
+        Map<String, Object> userMap = null;
         try {
-            JwtUtil.jwtParseRefresh(template, token);
+            userMap = JwtUtil.jwtParseRefresh(template, token);
         } catch (Exception e) {
             // token解析失败，身份校验失败
-            log.error("token解析失败");
-            throw new RuntimeException("token解析失败，请重新登陆");
-//            ServerHttpResponse response = exchange.getResponse();
-//            response.setStatusCode(HttpStatus.UNAUTHORIZED);
-//            return response.setComplete();
+            log.error("非法token, 解析失败");
+            // TODO: 优化响应内容
+//            throw new RuntimeException("token解析失败，请重新登陆");
+            ServerHttpResponse response = exchange.getResponse();
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            return response.setComplete();
         }
-        // 用户身份校验成功，放行
-        log.info("token解析成功，放行权限路径");
+        // 用户身份校验成功，添加请求头信息
+        log.info("成功解析出用户授权信息: {}, 放行权限路径", userMap);
+        Map<String, Object> finalUserMap = userMap;
+        exchange.mutate().request(builder -> builder
+                .header("uid", finalUserMap.get("uid").toString())
+                .header("name", finalUserMap.get("name").toString())
+                .build());
         return chain.filter(exchange);
     }
 

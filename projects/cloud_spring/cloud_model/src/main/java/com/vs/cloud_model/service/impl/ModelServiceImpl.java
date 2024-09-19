@@ -8,13 +8,13 @@ import com.vs.cloud_common.domain.Result;
 import com.vs.cloud_common.utils.RedisUtil;
 import com.vs.cloud_api.client.CloudUserClient;
 import com.vs.cloud_model.domain.Model;
-import com.vs.cloud_model.exception.CustomException;
+import com.vs.cloud_common.exception.CustomException;
 import com.vs.cloud_model.mapper.ModelMapper;
 import com.vs.cloud_model.service.ModelService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,8 +29,7 @@ import static com.vs.cloud_common.constants.GlobalConstants.*;
 public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements ModelService {
     private final StringRedisTemplate template;
     private final RedissonClient redissonClient;
-    private final CloudUserClient cloudUserClient;
-    private final HttpServletRequest request;
+//    private final CloudUserClient cloudUserClient;
 
     @Override
     public Result modelCreate(Model model) {
@@ -46,22 +45,24 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
         try {
             save(model);
         } catch (Exception e) {
-            throw new RuntimeException("数据创建失败");
+            e.printStackTrace();
+            throw new RuntimeException("数据创建失败" + e.getMessage());
         }
+        // 缓存同步删除
+        cacheRemoveSync(QUERY_MODEL_ALL, new TypeReference<List<Model>>() {});
         return Result.success("数据创建成功", null);
     }
 
     @Override
     public Result modelQuery(String mid) {
         log.info("**********数据查询请求**********");
-        // 登录用户验证
-        try {
-            // 转发请求头
-            cloudUserClient.verifyUser(request.getHeader("Authorization"));
-        } catch (Exception e) {
-            throw new CustomException(HttpStatus.FORBIDDEN, e.getMessage());
-        }
-        // 认证成功，进行数据查询
+        // openFeignClient登录用户验证
+//        try {
+//            // 转发请求头
+//            cloudUserClient.verifyUser(request.getHeader("Authorization"));
+//        } catch (Exception e) {
+//            throw new CustomException(HttpStatus.FORBIDDEN, e.getMessage());
+//        }
         if(StrUtil.isBlank(mid)) {
             log.info("查询所有数据");
             List<Model> modelList = RedisUtil.queryTTLWithDB(template, QUERY_MODEL_ALL, new TypeReference<List<Model>>() {},
@@ -94,7 +95,10 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
                 .eq(Model::getMid, model.getMid())
                 .update(), UPDATE_MODEL_PREFIX + model.getMid(), model.getMid());
         if(!isUpdateSuccess) throw new RuntimeException("数据更新失败");
-        else return Result.success("更新成功", null);
+        // 缓存同步删除
+        cacheRemoveSync(QUERY_MODEL_PREFIX + model.getMid(), new TypeReference<Model>() {});
+        cacheRemoveSync(QUERY_MODEL_ALL, new TypeReference<List<Model>>() {});
+        return Result.success("更新成功", null);
     }
 
     @Override
@@ -108,12 +112,17 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
         boolean isRemoved = RedisUtil.taskLock(redissonClient, args -> removeById(String.valueOf(args[0])), REMOVE_MODEL_PREFIX + mid, mid);
         if(!isRemoved) throw new RuntimeException(String.format("数据mid: %s删除失败", mid));
         // 缓存同步删除
-        String key = QUERY_MODEL_PREFIX + mid;
-        Model query = RedisUtil.query(template, key, new TypeReference<Model>() {});
-        if(query != null) {
+        cacheRemoveSync(QUERY_MODEL_PREFIX + mid, new TypeReference<Model>() {});
+        cacheRemoveSync(QUERY_MODEL_ALL, new TypeReference<List<Model>>() {});
+        return Result.success(String.format("数据mid:%s删除成功", mid), null);
+    }
+
+    // 缓存同步策略
+    private <R> void cacheRemoveSync(String key, TypeReference<R> typeRef) {
+        R ret = RedisUtil.query(template, key, typeRef);
+        if(ret != null) {
             RedisUtil.removeKey(template, key);
             log.warn("缓存{}已同步删除", key);
         }
-        return Result.success(String.format("数据mid:%s删除成功", mid), null);
     }
 }

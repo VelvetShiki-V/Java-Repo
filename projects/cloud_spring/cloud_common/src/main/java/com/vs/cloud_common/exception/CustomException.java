@@ -1,5 +1,4 @@
-package com.vs.cloud_model.exception;
-
+package com.vs.cloud_common.exception;
 
 import org.springframework.http.HttpStatus;
 

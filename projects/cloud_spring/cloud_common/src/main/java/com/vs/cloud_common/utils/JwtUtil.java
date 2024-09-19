@@ -13,6 +13,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import static com.vs.cloud_common.constants.GlobalConstants.*;
@@ -46,7 +47,7 @@ public class JwtUtil {
     }
 
     // 解析JWT(双重验证token)
-    public static void jwtParseRefresh(StringRedisTemplate template, String jwt) {
+    public static Map<String, Object> jwtParseRefresh(StringRedisTemplate template, String jwt) {
         Claims payload;
         try {
             payload = Jwts.parserBuilder()
@@ -64,5 +65,7 @@ public class JwtUtil {
         if(!jwt.equals(token)) throw new RuntimeException("token缓存过期，请重新登陆");
         // 刷新token有效期
         RedisUtil.set(template, JWT_PREFIX + name, jwt, JWT_EXPIRE_DURATION_MINUTES, TimeUnit.MINUTES);
+        // 将解析出的用户信息返回
+        return payload;
     }
 }

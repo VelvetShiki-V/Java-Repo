@@ -45,7 +45,6 @@ auth:
   excludePaths:
     - /health
     - /user/login
-    - /user/verify
     - /user/registry
 
 server:

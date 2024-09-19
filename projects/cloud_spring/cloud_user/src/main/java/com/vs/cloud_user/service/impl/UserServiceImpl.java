@@ -7,8 +7,9 @@ import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.vs.cloud_common.utils.JwtUtil;
 import com.vs.cloud_common.utils.RedisUtil;
 import com.vs.cloud_common.domain.Result;
+import com.vs.cloud_common.utils.UserThreadLocalUtil;
 import com.vs.cloud_user.domain.User;
-import com.vs.cloud_user.exception.CustomException;
+import com.vs.cloud_common.exception.CustomException;
 import com.vs.cloud_user.mapper.UserMapper;
 import com.vs.cloud_user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +32,6 @@ import static com.vs.cloud_common.constants.GlobalConstants.*;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     private final StringRedisTemplate template;
     private final RedissonClient client;
-    private final HttpServletRequest request;
 
     // 用户登录
     @Override
@@ -78,14 +78,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     // 验证登录
     @Override
     public Result loginVerify() {
-        String token = request.getHeader("Authorization");
-        if(StrUtil.isBlank(token))
-            throw new CustomException(HttpStatus.UNAUTHORIZED, "未携带有效token, 登录状态验证失败");
-        try {
-            JwtUtil.jwtParseRefresh(template, token);
-        } catch (Exception e) {
-            throw new CustomException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        }
+        log.info("threadLocal获取到用户uid: {}", UserThreadLocalUtil.getUserUid());
         return Result.success("token有效, 用户已登录", null);
     }
 
@@ -122,8 +115,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         try {
             save(user);
         } catch (Exception e) {
-            throw new RuntimeException("用户创建失败");
+            e.printStackTrace();
+            throw new RuntimeException("用户创建失败" + e.getMessage());
         }
+        // 缓存同步删除
+        cacheRemoveSync(QUERY_USER_ALL, new TypeReference<List<User>>() {});
         return Result.success("用户创建成功", null);
     }
 
@@ -141,12 +137,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(!isRemoved)
             throw new RuntimeException(String.format("用户uid: %s删除失败", uid));
         // 缓存同步删除
-        String key = QUERY_USER_PREFIX + uid;
-        User query = RedisUtil.query(template, key, new TypeReference<User>() {});
-        if(query != null) {
-            RedisUtil.removeKey(template, key);
-            log.warn("缓存{}已同步删除", key);
-        }
+        cacheRemoveSync(QUERY_USER_PREFIX + uid, new TypeReference<User>() {});
+        cacheRemoveSync(QUERY_USER_ALL, new TypeReference<List<User>>() {});
         return Result.success(String.format("user:uid:%s删除成功", uid), null);
     }
 
@@ -166,6 +158,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .eq(User::getUid, user.getUid())
                 .update(), UPDATE_USER_PREFIX + user.getUid(), user.getUid());
         if(!isUpdateSuccess) throw new RuntimeException("用户更新失败");
-        else return Result.success("更新成功", null);
+        // 缓存同步删除
+        cacheRemoveSync(QUERY_USER_PREFIX + user.getUid(), new TypeReference<User>() {});
+        cacheRemoveSync(QUERY_USER_ALL, new TypeReference<List<User>>() {});
+        return Result.success("更新成功", null);
+    }
+
+    // 缓存同步策略
+    private <R> void cacheRemoveSync(String key, TypeReference<R> typeRef) {
+        R ret = RedisUtil.query(template, key, typeRef);
+        if(ret != null) {
+            RedisUtil.removeKey(template, key);
+            log.warn("缓存{}已同步删除", key);
+        }
     }
 }

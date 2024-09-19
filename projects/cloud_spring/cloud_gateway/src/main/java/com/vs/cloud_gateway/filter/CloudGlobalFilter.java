@@ -19,7 +19,6 @@ public class CloudGlobalFilter implements org.springframework.cloud.gateway.filt
         return chain.filter(exchange);
     }
 
-
     @Override
     public int getOrder() {
         // int类型，值越小优先级越高
