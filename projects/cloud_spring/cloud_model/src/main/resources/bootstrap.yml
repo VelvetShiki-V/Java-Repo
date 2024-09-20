@@ -1,0 +1,21 @@
+spring:
+  # 配置文件切换
+  profiles:
+    active: dev
+
+  # 服务名称
+  application:
+    name: cloud-model
+
+  # nacos
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - data-id: shared-jdbc.yml
+          - data-id: shared-redis.yml

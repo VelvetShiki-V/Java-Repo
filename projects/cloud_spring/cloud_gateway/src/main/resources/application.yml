@@ -1,56 +1,12 @@
-spring:
-  # 配置文件切换
-  profiles:
-    active: dev
-
-  # 若同时存在gateway和mvc web starter依赖，需要配置此处
-  main:
-    web-application-type: reactive
-
-  # 服务名称
-  application:
-    name: cloud-gateway
-
-  # nacos
-  cloud:
-    compatibility-verifier:
-      enabled: false
-    nacos:
-      server-addr: localhost:8848
-    gateway:
-      routes:
-        - id: cloud-user
-          uri: lb://cloud-user
-          predicates:
-            - Path=/user/**, /health
-        - id: cloud-model
-          uri: lb://cloud-model
-          predicates:
-            - Path=/model/**, /health
-#      default-filters:
-#        - AddRequestHeader=Authorization
-
-  # redis连接
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      password: 123456
-      database: 1
-      lettuce:
-        # 配置redis连接池，分别为最大用户连接数，最大空闲连接数，最小空闲连接数，最大连接等待时间
-        pool:
-          max-active: 10
-          max-idle: 5
-          min-idle: 0
-          max-wait: 100ms
-
-auth:
-  excludePaths:
-    - /health
-    - /user/login
-    - /user/registry
-
+# Tomcat配置
 server:
-  port: ${cloud.server.port}
+  port: ${profile.server.port}
   address: 0.0.0.0
+
+# 共享配置设置
+cloud:
+  redis:
+    host: ${profile.redis.host}
+    port: ${profile.redis.port}
+    password: ${profile.redis.password}
+    database: ${profile.redis.database}

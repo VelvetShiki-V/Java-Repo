@@ -1,0 +1,40 @@
+spring:
+  # 配置文件切换
+  profiles:
+    active: dev
+
+  # 若同时存在gateway和mvc web starter依赖，需要配置此处
+  main:
+    web-application-type: reactive
+
+  # 服务名称
+  application:
+    name: cloud-gateway
+
+  # nacos
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - data-id: shared-redis.yml
+    gateway:
+      routes:
+        - id: cloud-user
+          uri: lb://cloud-user
+          predicates:
+            - Path=/user/**, /health
+        - id: cloud-model
+          uri: lb://cloud-model
+          predicates:
+            - Path=/model/**, /health
+
+auth:
+  excludePaths:
+    - /health
+    - /user/login
+    - /user/registry

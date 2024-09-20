@@ -2,23 +2,23 @@ package com.vs.cloud_common.utils;
 
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.StrUtil;
+import com.vs.cloud_common.config.GlobalConstantsProperties;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
-
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import static com.vs.cloud_common.constants.GlobalConstants.*;
 
 @Slf4j
+@RequiredArgsConstructor
 public class JwtUtil {
     private static SecretKey secretKeyRefresh(StringRedisTemplate template) {
         // 算法随机生成, 并将生成的二进制秘钥序列化

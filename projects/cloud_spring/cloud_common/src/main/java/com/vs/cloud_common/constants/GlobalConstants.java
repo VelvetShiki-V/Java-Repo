@@ -1,10 +1,12 @@
 package com.vs.cloud_common.constants;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class GlobalConstants {
     // 项目常量
     public static final String SYSTEM_REDIS_KEY_PREFIX = "cloud:";
+
     // 秘钥常量
     public static final String SECRET_KEY_PREFIX = SYSTEM_REDIS_KEY_PREFIX + "secretKey";
     public static final Long SECRET_KEY_EXPIRE_MILLISECONDS = 259200000L;

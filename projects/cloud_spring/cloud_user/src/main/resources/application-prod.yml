@@ -1,19 +1,20 @@
-gms:
+profile:
   server:
-    port: 8888
+    port: 7777
 
   mysql:
-    host: www.velvetshiki.cn
-    username: root
-    password: zcx984288627
-
+    host: localhost
+    name: root
+    password: 123456
+    database: cloud_user
 
   redis:
-    host: www.velvetshiki.cn
+    host: localhost
+    port: 6379
     password: 123456
+    database: 1
 
   redisson:
-    address: 1.94.180.58:6379
+    address: 127.0.0.1
+    port: 6379
     password: 123456
-    connectionPoolSize: 10           #  最大连接数
-    connectionMinimumIdleSize: 10    # 最小空闲连接数，必须小于或等于 connectionPoolSize

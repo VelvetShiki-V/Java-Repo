@@ -7,7 +7,6 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import static com.vs.cloud_common.constants.GlobalConstants.*;
@@ -86,12 +85,12 @@ public class RedisUtil {
     }
 
     // 查询某个键是否存在
-    public static keyStatus keyAlive(StringRedisTemplate template, String key) {
-        String str = template.opsForValue().get(key);
-        if(str == null) return keyStatus.NIL;
-        else if(CACHE_NULL.equals(str)) return keyStatus.EMPTY;
-        else return keyStatus.EXISTS;
-    }
+//    public static keyStatus keyAlive(StringRedisTemplate template, String key) {
+//        String str = template.opsForValue().get(key);
+//        if(str == null) return keyStatus.NIL;
+//        else if(CACHE_NULL.equals(str)) return keyStatus.EMPTY;
+//        else return keyStatus.EXISTS;
+//    }
 
     // 删除key
     public static void removeKey(StringRedisTemplate template, String key) {
