@@ -12,7 +12,6 @@ import com.vs.cloud_user.domain.User;
 import com.vs.cloud_common.exception.CustomException;
 import com.vs.cloud_user.mapper.UserMapper;
 import com.vs.cloud_user.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
@@ -78,7 +77,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     // 验证登录
     @Override
     public Result loginVerify() {
-        log.info("threadLocal获取到用户uid: {}", UserThreadLocalUtil.getUserUid());
+        log.info("threadLocal获取到用户信息: {}", UserThreadLocalUtil.getUserInfo());
         return Result.success("token有效, 用户已登录", null);
     }
 

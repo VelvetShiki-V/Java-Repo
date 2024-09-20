@@ -1,11 +1,13 @@
 package com.vs.cloud_common.utils;
 
+import com.vs.cloud_common.domain.UserInfo;
+
 public class UserThreadLocalUtil {
-    private static final ThreadLocal<Long> threadLocalStorage = new ThreadLocal<>();
+    private static final ThreadLocal<UserInfo> threadLocalStorage = new ThreadLocal<>();
 
-    public static void setUserUid(Long uid) { threadLocalStorage.set(uid); }
+    public static void setUserInfo(UserInfo info) { threadLocalStorage.set(info); }
 
-    public static String getUserUid() { return threadLocalStorage.get().toString(); }
+    public static UserInfo getUserInfo() { return threadLocalStorage.get(); }
 
-    public static void removeUser() { threadLocalStorage.remove(); }
+    public static void removeUserInfo() { threadLocalStorage.remove(); }
 }

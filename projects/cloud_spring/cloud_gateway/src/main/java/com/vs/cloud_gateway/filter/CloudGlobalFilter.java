@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 public class CloudGlobalFilter implements org.springframework.cloud.gateway.filter.GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        log.info("-----------------global filter拦截-----------------");
+        log.info("\n\n-----------------global filter拦截-----------------");
         ServerHttpRequest request = exchange.getRequest();
         log.info("接收到用户请求url: {}, method: {}", request.getURI(), request.getMethod());
         return chain.filter(exchange);

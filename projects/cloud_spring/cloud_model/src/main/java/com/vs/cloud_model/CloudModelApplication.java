@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 // 定义feignClient扫描包并配置日志输出
 //@EnableFeignClients(basePackages = "com.vs.cloud_api.client", defaultConfiguration = FeignConfig.class)
 @EnableFeignClients(basePackages = "com.vs.cloud_api.client")
-@ComponentScan(basePackages = {"com.vs.cloud_common.config"})
+@ComponentScan(basePackages = {"com.vs.cloud_common", "com.vs.cloud_model"})
 @SpringBootApplication
 public class CloudModelApplication {
     public static void main(String[] args) {
