@@ -1,14 +1,17 @@
 package com.vs.cloud_api.config;
 
 import cn.hutool.core.util.StrUtil;
+import com.vs.cloud_api.fallback.CloudUserClientFallbackFactory;
 import com.vs.cloud_common.utils.UserThreadLocalUtil;
 import feign.Logger;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 public class FeignConfig {
     @Bean
     public Logger.Level feignLoggerLevel() {
@@ -36,5 +39,11 @@ public class FeignConfig {
                 }
             }
         };
+    }
+
+    // 使服务降级回调工厂注册为bean生效
+    @Bean
+    public CloudUserClientFallbackFactory cloudUserClientFallbackFactory() {
+        return new CloudUserClientFallbackFactory();
     }
 }

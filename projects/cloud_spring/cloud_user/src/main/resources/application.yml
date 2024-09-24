@@ -2,6 +2,14 @@
 server:
   port: ${profile.server.port}
   address: 0.0.0.0
+  tomcat:
+    threads:
+      # 并发线程数
+      max: 50
+    # 允许排队线程数
+    accept-count: 50
+    # 允许最大连接数
+    max-connections: 100
 
 # 共享配置设置
 cloud:

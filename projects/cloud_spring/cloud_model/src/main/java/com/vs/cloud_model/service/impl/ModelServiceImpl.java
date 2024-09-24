@@ -14,7 +14,6 @@ import com.vs.cloud_model.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ import static com.vs.cloud_common.constants.GlobalConstants.*;
 public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements ModelService {
     private final StringRedisTemplate template;
     private final RedissonClient redissonClient;
-//    private final CloudUserClient cloudUserClient;
+    private final CloudUserClient cloudUserClient;
 
     @Override
     public Result modelCreate(Model model) {
@@ -57,20 +56,22 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
     public Result modelQuery(String mid) {
         log.info("**********数据查询请求**********");
         // openFeignClient登录用户验证
-//        try {
-//            // 转发请求头
-//            cloudUserClient.verifyUser(request.getHeader("Authorization"));
-//        } catch (Exception e) {
-//            throw new CustomException(HttpStatus.FORBIDDEN, e.getMessage());
-//        }
+        try {
+            // 转发请求头
+            Result ret = cloudUserClient.verifyUser();
+            if(ret == null) return Result.success("服务器繁忙，请稍后再试", null);
+        } catch (Exception e) {
+            log.error("feign请求获取verifyUser失败, {}", e.getMessage());
+            throw new CustomException(HttpStatus.FORBIDDEN, e.getMessage());
+        }
         if(StrUtil.isBlank(mid)) {
             log.info("查询所有数据");
-            List<Model> modelList = RedisUtil.queryTTLWithDB(template, QUERY_MODEL_ALL, new TypeReference<List<Model>>() {},
+            List<Model> modelList = RedisUtil.queryTTLWithDB(template, QUERY_MODEL_ALL, new TypeReference<>() {},
                     REDIS_CACHE_MAX_TTL_MINUTES, TimeUnit.MINUTES, args -> list());
             if(modelList != null) return Result.success("获取到所有数据信息", modelList);
         } else {
             log.info("查询单个数据");
-            Model model = RedisUtil.queryTTLWithDB(template, QUERY_MODEL_PREFIX + mid, new TypeReference<Model>() {},
+            Model model = RedisUtil.queryTTLWithDB(template, QUERY_MODEL_PREFIX + mid, new TypeReference<>() {},
                     REDIS_CACHE_MAX_TTL_MINUTES, TimeUnit.MINUTES, args -> getById(String.valueOf(args[0])), mid);
             if(model != null) return Result.success("获取到数据信息", model);
         }

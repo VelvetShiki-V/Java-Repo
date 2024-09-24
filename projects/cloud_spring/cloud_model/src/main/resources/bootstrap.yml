@@ -7,10 +7,11 @@ spring:
   application:
     name: cloud-model
 
-  # nacos
   cloud:
     compatibility-verifier:
       enabled: false
+
+    # nacos注册中心与服务配置共享
     nacos:
       server-addr: 127.0.0.1:8848
       config:
@@ -19,3 +20,22 @@ spring:
         shared-configs:
           - data-id: shared-jdbc.yml
           - data-id: shared-redis.yml
+
+    # sentine流量管控
+    sentinel:
+      transport:
+        # 指定sentinel server端口（默认8719）
+        port: 8719
+        # 执行sertinel client端口（客户端口）
+        dashboard: localhost:8858
+      # 开启请求方式前缀
+      http-method-specify: true
+
+    # feign(负载均衡与流量监控开启)
+    openfeign:
+      okhttp:
+        enabled: true
+
+feign:
+  sentinel:
+    enabled: true

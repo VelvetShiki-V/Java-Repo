@@ -7,10 +7,11 @@ spring:
   application:
     name: cloud-user
 
-  # nacos
+
   cloud:
     compatibility-verifier:
       enabled: false
+
     nacos:
       server-addr: 127.0.0.1:8848
       config:
@@ -20,3 +21,12 @@ spring:
           - data-id: shared-jdbc.yml
           - data-id: shared-redis.yml
           - data-id: shared-global-constants.yml
+
+    sentinel:
+      transport:
+        # 指定sentinel server端口（默认8719）
+        port: 8719
+        # 执行sertinel client端口（客户端口）
+        dashboard: localhost:8858
+      # 开启请求方式前缀
+      http-method-specify: true
