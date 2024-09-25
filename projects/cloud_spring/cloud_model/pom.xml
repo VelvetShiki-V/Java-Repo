@@ -65,6 +65,12 @@
             <artifactId>mybatis-plus-annotation</artifactId>
             <version>3.5.7</version>
         </dependency>
+
+        <!--        seata-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

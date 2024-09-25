@@ -56,6 +56,7 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
     public Result modelQuery(String mid) {
         log.info("**********数据查询请求**********");
         // openFeignClient登录用户验证
+        // 请求用try catch块包围，请求失败则抛异常，默认500错误
         try {
             // 转发请求头
             Result ret = cloudUserClient.verifyUser();
