@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f73100f2-5edf-45a7-a25e-79cc275d0817" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/mq_demo/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mq_demo/customer/src/main/java/com/vs/customer/config/FanoutConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mq_demo/customer/src/main/java/com/vs/customer/config/MessageConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mq_demo/publisher/src/main/java/com/vs/publisher/config/MessageConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mq_demo/customer/src/main/java/com/vs/customer/CustomerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/mq_demo/customer/src/main/java/com/vs/customer/CustomerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mq_demo/customer/src/main/java/com/vs/customer/mq/DemoListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/mq_demo/customer/src/main/java/com/vs/customer/mq/DemoListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mq_demo/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mq_demo/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mq_demo/publisher/src/test/java/com/vs/publisher/PublisherApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/mq_demo/publisher/src/test/java/com/vs/publisher/PublisherApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,29 +44,34 @@
     </option>
   </component>
   <component name="ProjectId" id="2mb8RlaZ73CVqWAArNp4RHRLsbH" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "dev",
-    "jdk.selected.JAVA_MODULE": "17",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;fe95a303b50c1089884ba5a4e5580fab&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Space Code Reviews" />
@@ -65,22 +79,22 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" />
       <window_info id="Learn" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24557292" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.19973958" />
       <window_info id="Commit" order="1" weight="0.25" />
       <window_info id="Structure" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="TypeScript" />
       <window_info anchor="bottom" id="Profiler" />
       <window_info anchor="bottom" id="File Transfer" />
-      <window_info anchor="bottom" id="Run" weight="0.8716085" />
+      <window_info anchor="bottom" id="Run" weight="0.564438" />
       <window_info anchor="bottom" id="Find" weight="0.32994187" />
       <window_info anchor="bottom" id="Dependency Checker" />
       <window_info anchor="bottom" id="Version Control" order="0" />
-      <window_info anchor="bottom" id="Problems View" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="3" />
-      <window_info anchor="bottom" id="Build" order="4" weight="0.32994187" />
-      <window_info anchor="bottom" id="Services" order="4" weight="0.8328488" />
-      <window_info anchor="right" id="Maven" />
+      <window_info anchor="bottom" id="Problems View" order="1" weight="0.5595931" />
+      <window_info anchor="bottom" id="Terminal" order="2" weight="0.5595931" />
+      <window_info anchor="bottom" id="Build" order="3" weight="0.5595931" />
+      <window_info anchor="bottom" id="Services" order="4" weight="0.5595931" />
+      <window_info anchor="right" id="Maven" weight="0.32994792" />
       <window_info anchor="right" id="Endpoints" />
       <window_info anchor="right" id="Beans" weight="0.32994792" />
       <window_info anchor="right" id="Meet New UI" show_stripe_button="false" side_tool="true" />
@@ -89,7 +103,12 @@
       <window_info anchor="right" id="Gradle" order="2" weight="0.25" />
     </layout>
   </component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.vs.customer.config" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.CustomerApplicationTests.receive">
     <configuration name="CustomerApplicationTests.receive" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="customer" />
       <extension name="coverage">
@@ -154,8 +173,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.PublisherApplicationTests.publishMessage" />
-        <item itemvalue="JUnit.CustomerApplicationTests.receive" />
         <item itemvalue="JUnit.PublisherApplicationTests" />
+        <item itemvalue="JUnit.CustomerApplicationTests.receive" />
       </list>
     </recent_temporary>
   </component>
@@ -169,6 +188,9 @@
       <updated>1727333911194</updated>
       <workItem from="1727333913425" duration="56000" />
       <workItem from="1727333979912" duration="2536000" />
+      <workItem from="1727582048295" duration="2370000" />
+      <workItem from="1727598796589" duration="36000" />
+      <workItem from="1727598892542" duration="951000" />
     </task>
     <servers />
   </component>
