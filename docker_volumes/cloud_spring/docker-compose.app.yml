@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  nacos:
+    image: nacos/nacos-server:latest
+    container_name: nacos-standalone
+    # 连接数据库与授权信息
+    env_file:
+      - ./nacos/env/nacos-standlone-mysql.env
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    volumes:
+      - ./nacos/logs:/home/nacos/logs
+    networks:
+      - vsnet
+
+  sentinel:
+    image: bladex/sentinel-dashboard:latest
+    container_name: sentinel-dashboard
+    ports:
+      - "8858:8858"
+    volumes:
+      # container mount path must be absolute
+      - ./sentinel/logs:/home/root/logs/csp
+    networks:
+      - vsnet
+
+  rabbitmq:
+    image: rabbitmq:3.13.7-management
+    container_name: mq
+    env_file:
+      - ./mq/env/mq.env
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - vsnet
+
+networks:
+  vsnet:
+    driver: bridge
+    

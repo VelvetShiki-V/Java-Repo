@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  seata:
+    image: seataio/seata-server:latest
+    container_name: seata-server
+    ports:
+      # 8091为server端口, 8091为控制台端口
+      - 8091:8091
+      - 7091:7091
+    environment:
+      - SEATA_PORT=8091
+      - SEATA_IP=172.18.181.2
+    privileged: true
+    volumes:
+      - ./seata/resources:/seata-server/resources
+      - ./seata/logs:/logs/seata
+    networks:
+      - vsnet
+
+networks:
+  vsnet:
+    driver: bridge
+    

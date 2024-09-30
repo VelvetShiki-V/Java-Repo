@@ -1,0 +1,272 @@
+2024-09-24 10:02:52,909 INFO [SelectorManager] Load SelectorContextBuilder(class com.alibaba.nacos.naming.selector.context.CmdbSelectorContextBuilder) contextType(CMDB) successfully.
+
+2024-09-24 10:02:52,910 INFO [SelectorManager] Load SelectorContextBuilder(class com.alibaba.nacos.naming.selector.context.NoneSelectorContextBuilder) contextType(NONE) successfully.
+
+2024-09-24 10:02:52,910 INFO [SelectorManager] Load Selector(class com.alibaba.nacos.naming.selector.LabelSelector) type(label) contextType(CMDB) successfully.
+
+2024-09-24 10:02:52,910 INFO [SelectorManager] Load Selector(class com.alibaba.nacos.naming.selector.NoneSelector) type(none) contextType(NONE) successfully.
+
+2024-09-24 10:02:53,487 INFO Load instance extension handler []
+
+2024-09-24 11:05:22,808 INFO [SelectorManager] Load SelectorContextBuilder(class com.alibaba.nacos.naming.selector.context.CmdbSelectorContextBuilder) contextType(CMDB) successfully.
+
+2024-09-24 11:05:22,808 INFO [SelectorManager] Load SelectorContextBuilder(class com.alibaba.nacos.naming.selector.context.NoneSelectorContextBuilder) contextType(NONE) successfully.
+
+2024-09-24 11:05:22,809 INFO [SelectorManager] Load Selector(class com.alibaba.nacos.naming.selector.LabelSelector) type(label) contextType(CMDB) successfully.
+
+2024-09-24 11:05:22,809 INFO [SelectorManager] Load Selector(class com.alibaba.nacos.naming.selector.NoneSelector) type(none) contextType(NONE) successfully.
+
+2024-09-24 11:05:23,556 INFO Load instance extension handler []
+
+2024-09-24 11:05:33,229 INFO Client connection 1727147133210_172.19.0.1_54092 connect
+
+2024-09-24 11:05:33,281 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=0}, 1727147133210_172.19.0.1_54092
+
+2024-09-24 11:06:05,217 INFO Client connection 1727147165209_172.19.0.1_45098 connect
+
+2024-09-24 11:06:05,229 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=0}, 1727147165209_172.19.0.1_45098
+
+2024-09-24 11:08:32,773 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=1}, 1727147133210_172.19.0.1_54092
+
+2024-09-24 11:08:32,783 INFO Client connection 1727147133210_172.19.0.1_54092 disconnect, remove instances and subscribers
+
+2024-09-24 11:08:33,130 INFO Client connection 1727147127533_172.19.0.1_54082 disconnect, remove instances and subscribers
+
+2024-09-24 11:08:46,303 INFO Client connection 1727147326294_172.19.0.1_49512 connect
+
+2024-09-24 11:08:46,315 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=2}, 1727147326294_172.19.0.1_49512
+
+2024-09-24 11:10:21,871 INFO Client connection 1727147421864_172.19.0.1_53856 connect
+
+2024-09-24 11:10:21,881 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-gateway', ephemeral=true, revision=0}, 1727147421864_172.19.0.1_53856
+
+2024-09-24 11:19:39,285 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=1}, 1727147165209_172.19.0.1_45098
+
+2024-09-24 11:19:39,291 INFO Client connection 1727147165209_172.19.0.1_45098 disconnect, remove instances and subscribers
+
+2024-09-24 11:19:39,651 INFO Client connection 1727147158435_172.19.0.1_34892 disconnect, remove instances and subscribers
+
+2024-09-24 11:19:51,067 INFO Client connection 1727147991061_172.19.0.1_56314 connect
+
+2024-09-24 11:19:51,076 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=2}, 1727147991061_172.19.0.1_56314
+
+2024-09-24 11:19:54,974 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=3}, 1727147326294_172.19.0.1_49512
+
+2024-09-24 11:19:54,981 INFO Client connection 1727147326294_172.19.0.1_49512 disconnect, remove instances and subscribers
+
+2024-09-24 11:19:55,363 INFO Client connection 1727147319578_172.19.0.1_33516 disconnect, remove instances and subscribers
+
+2024-09-24 11:20:06,058 INFO Client connection 1727148006052_172.19.0.1_57884 connect
+
+2024-09-24 11:20:06,067 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=4}, 1727148006052_172.19.0.1_57884
+
+2024-09-24 11:22:09,539 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=3}, 1727147991061_172.19.0.1_56314
+
+2024-09-24 11:22:09,545 INFO Client connection 1727147991061_172.19.0.1_56314 disconnect, remove instances and subscribers
+
+2024-09-24 11:22:09,905 INFO Client connection 1727147985129_172.19.0.1_56312 disconnect, remove instances and subscribers
+
+2024-09-24 11:22:20,302 INFO Client connection 1727148140297_172.19.0.1_43394 connect
+
+2024-09-24 11:22:20,311 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=4}, 1727148140297_172.19.0.1_43394
+
+2024-09-24 11:25:25,134 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=5}, 1727148140297_172.19.0.1_43394
+
+2024-09-24 11:25:25,141 INFO Client connection 1727148140297_172.19.0.1_43394 disconnect, remove instances and subscribers
+
+2024-09-24 11:25:25,498 INFO Client connection 1727148134399_172.19.0.1_46652 disconnect, remove instances and subscribers
+
+2024-09-24 11:25:34,247 INFO Client connection 1727148334240_172.19.0.1_54154 connect
+
+2024-09-24 11:25:34,257 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=6}, 1727148334240_172.19.0.1_54154
+
+2024-09-24 11:25:41,850 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=5}, 1727148006052_172.19.0.1_57884
+
+2024-09-24 11:25:41,855 INFO Client connection 1727148006052_172.19.0.1_57884 disconnect, remove instances and subscribers
+
+2024-09-24 11:25:42,225 INFO Client connection 1727147999917_172.19.0.1_37726 disconnect, remove instances and subscribers
+
+2024-09-24 11:25:55,701 INFO Client connection 1727148355694_172.19.0.1_43522 connect
+
+2024-09-24 11:25:55,712 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=6}, 1727148355694_172.19.0.1_43522
+
+2024-09-24 11:29:14,601 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=7}, 1727148334240_172.19.0.1_54154
+
+2024-09-24 11:29:14,609 INFO Client connection 1727148334240_172.19.0.1_54154 disconnect, remove instances and subscribers
+
+2024-09-24 11:29:14,977 INFO Client connection 1727148329476_172.19.0.1_54146 disconnect, remove instances and subscribers
+
+2024-09-24 11:29:28,556 INFO Client connection 1727148568549_172.19.0.1_39430 connect
+
+2024-09-24 11:29:28,566 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=8}, 1727148568549_172.19.0.1_39430
+
+2024-09-24 11:30:37,273 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=7}, 1727148355694_172.19.0.1_43522
+
+2024-09-24 11:30:37,279 INFO Client connection 1727148355694_172.19.0.1_43522 disconnect, remove instances and subscribers
+
+2024-09-24 11:30:37,638 INFO Client connection 1727148348128_172.19.0.1_51028 disconnect, remove instances and subscribers
+
+2024-09-24 11:30:50,075 INFO Client connection 1727148650067_172.19.0.1_38724 connect
+
+2024-09-24 11:30:50,086 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=8}, 1727148650067_172.19.0.1_38724
+
+2024-09-24 11:38:03,585 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=9}, 1727148568549_172.19.0.1_39430
+
+2024-09-24 11:38:03,591 INFO Client connection 1727148568549_172.19.0.1_39430 disconnect, remove instances and subscribers
+
+2024-09-24 11:38:03,958 INFO Client connection 1727148561652_172.19.0.1_41214 disconnect, remove instances and subscribers
+
+2024-09-24 11:38:15,512 INFO Client connection 1727149095505_172.19.0.1_60682 connect
+
+2024-09-24 11:38:15,521 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=10}, 1727149095505_172.19.0.1_60682
+
+2024-09-24 11:40:28,760 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=11}, 1727149095505_172.19.0.1_60682
+
+2024-09-24 11:40:28,760 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=9}, 1727148650067_172.19.0.1_38724
+
+2024-09-24 11:40:28,767 INFO Client connection 1727148650067_172.19.0.1_38724 disconnect, remove instances and subscribers
+
+2024-09-24 11:40:28,768 INFO Client connection 1727149095505_172.19.0.1_60682 disconnect, remove instances and subscribers
+
+2024-09-24 11:40:29,123 INFO Client connection 1727149089038_172.19.0.1_58062 disconnect, remove instances and subscribers
+
+2024-09-24 11:40:29,128 INFO Client connection 1727148643904_172.19.0.1_36870 disconnect, remove instances and subscribers
+
+2024-09-24 11:40:30,757 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-gateway', ephemeral=true, revision=1}, 1727147421864_172.19.0.1_53856
+
+2024-09-24 11:40:30,762 INFO Client connection 1727147421864_172.19.0.1_53856 disconnect, remove instances and subscribers
+
+2024-09-24 11:40:31,100 INFO Client connection 1727147412940_172.19.0.1_55908 disconnect, remove instances and subscribers
+
+2024-09-24 11:41:52,989 WARN namespace : public, [DEFAULT_GROUP@@cloud-gateway] services are automatically cleaned
+
+2024-09-24 11:41:52,989 WARN namespace : public, [DEFAULT_GROUP@@cloud-model] services are automatically cleaned
+
+2024-09-24 11:41:52,990 WARN namespace : public, [DEFAULT_GROUP@@cloud-user] services are automatically cleaned
+
+2024-09-24 11:48:43,796 INFO Client connection 1727149723790_172.19.0.1_37898 connect
+
+2024-09-24 11:48:43,805 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=0}, 1727149723790_172.19.0.1_37898
+
+2024-09-24 11:48:50,128 INFO Client connection 1727149730117_172.19.0.1_37360 connect
+
+2024-09-24 11:48:50,148 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=0}, 1727149730117_172.19.0.1_37360
+
+2024-09-24 11:48:59,046 INFO Client connection 1727149739041_172.19.0.1_49160 connect
+
+2024-09-24 11:48:59,056 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-gateway', ephemeral=true, revision=0}, 1727149739041_172.19.0.1_49160
+
+2024-09-24 13:13:01,685 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=1}, 1727149723790_172.19.0.1_37898
+
+2024-09-24 13:13:01,687 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=1}, 1727149730117_172.19.0.1_37360
+
+2024-09-24 13:13:01,694 INFO Client connection 1727149723790_172.19.0.1_37898 disconnect, remove instances and subscribers
+
+2024-09-24 13:13:01,695 INFO Client connection 1727149730117_172.19.0.1_37360 disconnect, remove instances and subscribers
+
+2024-09-24 13:13:02,062 INFO Client connection 1727149719738_172.19.0.1_37888 disconnect, remove instances and subscribers
+
+2024-09-24 13:13:02,069 INFO Client connection 1727149724733_172.19.0.1_37902 disconnect, remove instances and subscribers
+
+2024-09-24 13:13:03,715 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-gateway', ephemeral=true, revision=1}, 1727149739041_172.19.0.1_49160
+
+2024-09-24 13:13:03,721 INFO Client connection 1727149739041_172.19.0.1_49160 disconnect, remove instances and subscribers
+
+2024-09-24 13:13:04,059 INFO Client connection 1727149730154_172.19.0.1_37376 disconnect, remove instances and subscribers
+
+2024-09-24 13:14:29,224 INFO Client connection 1727154869208_172.19.0.1_42394 connect
+
+2024-09-24 13:14:29,252 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=2}, 1727154869208_172.19.0.1_42394
+
+2024-09-24 13:14:36,465 INFO Client connection 1727154876458_172.19.0.1_51222 connect
+
+2024-09-24 13:14:36,474 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=2}, 1727154876458_172.19.0.1_51222
+
+2024-09-24 13:14:41,757 INFO Client connection 1727154881750_172.19.0.1_51226 connect
+
+2024-09-24 13:14:41,768 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-gateway', ephemeral=true, revision=2}, 1727154881750_172.19.0.1_51226
+
+2024-09-24 13:23:16,412 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=3}, 1727154876458_172.19.0.1_51222
+
+2024-09-24 13:23:16,420 INFO Client connection 1727154876458_172.19.0.1_51222 disconnect, remove instances and subscribers
+
+2024-09-24 13:23:16,767 INFO Client connection 1727154870025_172.19.0.1_42396 disconnect, remove instances and subscribers
+
+2024-09-24 13:23:28,724 INFO Client connection 1727155408718_172.19.0.1_47052 connect
+
+2024-09-24 13:23:28,734 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=4}, 1727155408718_172.19.0.1_47052
+
+2024-09-24 13:36:30,055 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=5}, 1727155408718_172.19.0.1_47052
+
+2024-09-24 13:36:30,062 INFO Client connection 1727155408718_172.19.0.1_47052 disconnect, remove instances and subscribers
+
+2024-09-24 13:36:30,438 INFO Client connection 1727155400563_172.19.0.1_48220 disconnect, remove instances and subscribers
+
+2024-09-24 13:36:44,019 INFO Client connection 1727156204013_172.19.0.1_56882 connect
+
+2024-09-24 13:36:44,030 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=6}, 1727156204013_172.19.0.1_56882
+
+2024-09-24 13:42:12,091 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=7}, 1727156204013_172.19.0.1_56882
+
+2024-09-24 13:42:12,098 INFO Client connection 1727156204013_172.19.0.1_56882 disconnect, remove instances and subscribers
+
+2024-09-24 13:42:12,449 INFO Client connection 1727156196640_172.19.0.1_56872 disconnect, remove instances and subscribers
+
+2024-09-24 13:42:25,734 INFO Client connection 1727156545726_172.19.0.1_45956 connect
+
+2024-09-24 13:42:25,744 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=8}, 1727156545726_172.19.0.1_45956
+
+2024-09-24 14:05:42,595 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=3}, 1727154869208_172.19.0.1_42394
+
+2024-09-24 14:05:42,614 INFO Client connection 1727154869208_172.19.0.1_42394 disconnect, remove instances and subscribers
+
+2024-09-24 14:05:43,115 INFO Client connection 1727154862287_172.19.0.1_43702 disconnect, remove instances and subscribers
+
+2024-09-24 14:06:00,086 INFO Client connection 1727157960078_172.19.0.1_42202 connect
+
+2024-09-24 14:06:00,101 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=4}, 1727157960078_172.19.0.1_42202
+
+2024-09-24 14:09:56,575 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=5}, 1727157960078_172.19.0.1_42202
+
+2024-09-24 14:09:56,588 INFO Client connection 1727157960078_172.19.0.1_42202 disconnect, remove instances and subscribers
+
+2024-09-24 14:09:56,968 INFO Client connection 1727157952171_172.19.0.1_55876 disconnect, remove instances and subscribers
+
+2024-09-24 14:10:10,989 INFO Client connection 1727158210983_172.19.0.1_44704 connect
+
+2024-09-24 14:10:10,999 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=6}, 1727158210983_172.19.0.1_44704
+
+2024-09-24 14:18:38,687 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=7}, 1727158210983_172.19.0.1_44704
+
+2024-09-24 14:18:38,694 INFO Client connection 1727158210983_172.19.0.1_44704 disconnect, remove instances and subscribers
+
+2024-09-24 14:18:39,064 INFO Client connection 1727158203494_172.19.0.1_41662 disconnect, remove instances and subscribers
+
+2024-09-24 14:18:50,316 INFO Client connection 1727158730309_172.19.0.1_57894 connect
+
+2024-09-24 14:18:50,329 INFO Client change for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=8}, 1727158730309_172.19.0.1_57894
+
+2024-09-24 14:31:26,582 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=9}, 1727158730309_172.19.0.1_57894
+
+2024-09-24 14:31:26,589 INFO Client connection 1727158730309_172.19.0.1_57894 disconnect, remove instances and subscribers
+
+2024-09-24 14:31:26,595 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=9}, 1727156545726_172.19.0.1_45956
+
+2024-09-24 14:31:26,603 INFO Client connection 1727156545726_172.19.0.1_45956 disconnect, remove instances and subscribers
+
+2024-09-24 14:31:26,972 INFO Client connection 1727158725558_172.19.0.1_57882 disconnect, remove instances and subscribers
+
+2024-09-24 14:31:27,009 INFO Client connection 1727156538671_172.19.0.1_32784 disconnect, remove instances and subscribers
+
+2024-09-24 14:31:28,804 INFO Client remove for service Service{namespace='public', group='DEFAULT_GROUP', name='cloud-gateway', ephemeral=true, revision=3}, 1727154881750_172.19.0.1_51226
+
+2024-09-24 14:31:28,831 INFO Client connection 1727154881750_172.19.0.1_51226 disconnect, remove instances and subscribers
+
+2024-09-24 14:31:29,248 INFO Client connection 1727154874076_172.19.0.1_42402 disconnect, remove instances and subscribers
+
+2024-09-24 14:32:53,026 WARN namespace : public, [DEFAULT_GROUP@@cloud-gateway] services are automatically cleaned
+
+2024-09-24 14:32:53,026 WARN namespace : public, [DEFAULT_GROUP@@cloud-model] services are automatically cleaned
+
+2024-09-24 14:32:53,026 WARN namespace : public, [DEFAULT_GROUP@@cloud-user] services are automatically cleaned
+

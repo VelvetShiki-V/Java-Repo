@@ -1,0 +1,162 @@
+2024-09-23 11:04:35,753 INFO Initializes the Raft protocol, raft-config info : {"data":{},"members":["c61e0bc129d8:7848"],"strictMode":false,"selfMember":"c61e0bc129d8:7848"}
+
+2024-09-23 11:04:36,201 INFO ========= The raft protocol is starting... =========
+
+2024-09-23 11:04:36,244 INFO ========= The raft protocol start finished... =========
+
+2024-09-23 11:04:36,251 INFO create raft group : naming_persistent_service
+
+2024-09-23 11:04:36,703 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service', leader='c61e0bc129d8:7848', term=1, raftClusterInfo=[c61e0bc129d8:7848]}
+
+2024-09-23 11:04:36,778 INFO create raft group : naming_persistent_service_v2
+
+2024-09-23 11:04:36,855 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service_v2', leader='c61e0bc129d8:7848', term=1, raftClusterInfo=[c61e0bc129d8:7848]}
+
+2024-09-23 11:04:36,940 INFO create raft group : naming_instance_metadata
+
+2024-09-23 11:04:37,039 INFO This Raft event changes : RaftEvent{groupId='naming_instance_metadata', leader='c61e0bc129d8:7848', term=1, raftClusterInfo=[c61e0bc129d8:7848]}
+
+2024-09-23 11:04:37,046 INFO create raft group : naming_service_metadata
+
+2024-09-23 11:04:37,162 INFO This Raft event changes : RaftEvent{groupId='naming_service_metadata', leader='c61e0bc129d8:7848', term=1, raftClusterInfo=[c61e0bc129d8:7848]}
+
+2024-09-23 12:11:32,943 INFO shutdown jraft server
+
+2024-09-23 12:11:32,943 INFO ========= The raft protocol is starting to close =========
+
+2024-09-23 12:11:33,007 INFO ========= The raft protocol has been closed =========
+
+2024-09-23 12:44:13,979 INFO Initializes the Raft protocol, raft-config info : {"data":{},"members":["a6dfc11f3bad:7848"],"strictMode":false,"selfMember":"a6dfc11f3bad:7848"}
+
+2024-09-23 12:44:14,298 INFO ========= The raft protocol is starting... =========
+
+2024-09-23 12:44:14,339 INFO ========= The raft protocol start finished... =========
+
+2024-09-23 12:44:14,346 INFO create raft group : naming_persistent_service
+
+2024-09-23 12:44:14,757 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service', leader='a6dfc11f3bad:7848', term=1, raftClusterInfo=[a6dfc11f3bad:7848]}
+
+2024-09-23 12:44:14,810 INFO create raft group : naming_persistent_service_v2
+
+2024-09-23 12:44:14,891 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service_v2', leader='a6dfc11f3bad:7848', term=1, raftClusterInfo=[a6dfc11f3bad:7848]}
+
+2024-09-23 12:44:14,899 INFO create raft group : naming_instance_metadata
+
+2024-09-23 12:44:15,065 INFO This Raft event changes : RaftEvent{groupId='naming_instance_metadata', leader='a6dfc11f3bad:7848', term=1, raftClusterInfo=[a6dfc11f3bad:7848]}
+
+2024-09-23 12:44:15,068 INFO create raft group : naming_service_metadata
+
+2024-09-23 12:44:15,149 INFO This Raft event changes : RaftEvent{groupId='naming_service_metadata', leader='a6dfc11f3bad:7848', term=1, raftClusterInfo=[a6dfc11f3bad:7848]}
+
+2024-09-23 12:44:23,257 INFO shutdown jraft server
+
+2024-09-23 12:44:23,257 INFO ========= The raft protocol is starting to close =========
+
+2024-09-23 12:44:23,296 INFO ========= The raft protocol has been closed =========
+
+2024-09-23 12:45:27,739 INFO Initializes the Raft protocol, raft-config info : {"data":{},"members":["00dfadde5e7b:7848"],"strictMode":false,"selfMember":"00dfadde5e7b:7848"}
+
+2024-09-23 12:45:28,045 INFO ========= The raft protocol is starting... =========
+
+2024-09-23 12:45:28,078 INFO ========= The raft protocol start finished... =========
+
+2024-09-23 12:45:28,083 INFO create raft group : naming_persistent_service
+
+2024-09-23 12:45:28,447 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service', leader='00dfadde5e7b:7848', term=1, raftClusterInfo=[00dfadde5e7b:7848]}
+
+2024-09-23 12:45:28,495 INFO create raft group : naming_persistent_service_v2
+
+2024-09-23 12:45:28,557 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service_v2', leader='00dfadde5e7b:7848', term=1, raftClusterInfo=[00dfadde5e7b:7848]}
+
+2024-09-23 12:45:28,561 INFO create raft group : naming_instance_metadata
+
+2024-09-23 12:45:28,633 INFO create raft group : naming_service_metadata
+
+2024-09-23 12:45:28,635 INFO This Raft event changes : RaftEvent{groupId='naming_instance_metadata', leader='00dfadde5e7b:7848', term=1, raftClusterInfo=[00dfadde5e7b:7848]}
+
+2024-09-23 12:45:28,699 INFO This Raft event changes : RaftEvent{groupId='naming_service_metadata', leader='00dfadde5e7b:7848', term=1, raftClusterInfo=[00dfadde5e7b:7848]}
+
+2024-09-23 13:46:21,521 INFO shutdown jraft server
+
+2024-09-23 13:46:21,523 INFO ========= The raft protocol is starting to close =========
+
+2024-09-23 13:46:21,584 INFO ========= The raft protocol has been closed =========
+
+2024-09-23 13:47:09,869 INFO Initializes the Raft protocol, raft-config info : {"data":{},"members":["eda74430764e:7848"],"strictMode":false,"selfMember":"eda74430764e:7848"}
+
+2024-09-23 13:47:10,253 INFO ========= The raft protocol is starting... =========
+
+2024-09-23 13:47:10,287 INFO ========= The raft protocol start finished... =========
+
+2024-09-23 13:47:10,291 INFO create raft group : naming_persistent_service
+
+2024-09-23 13:47:10,698 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service', leader='eda74430764e:7848', term=1, raftClusterInfo=[eda74430764e:7848]}
+
+2024-09-23 13:47:10,757 INFO create raft group : naming_persistent_service_v2
+
+2024-09-23 13:47:10,817 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service_v2', leader='eda74430764e:7848', term=1, raftClusterInfo=[eda74430764e:7848]}
+
+2024-09-23 13:47:10,825 INFO create raft group : naming_instance_metadata
+
+2024-09-23 13:47:10,977 INFO This Raft event changes : RaftEvent{groupId='naming_instance_metadata', leader='eda74430764e:7848', term=1, raftClusterInfo=[eda74430764e:7848]}
+
+2024-09-23 13:47:10,979 INFO create raft group : naming_service_metadata
+
+2024-09-23 13:47:11,051 INFO This Raft event changes : RaftEvent{groupId='naming_service_metadata', leader='eda74430764e:7848', term=1, raftClusterInfo=[eda74430764e:7848]}
+
+2024-09-23 14:55:32,934 INFO shutdown jraft server
+
+2024-09-23 14:55:32,935 INFO ========= The raft protocol is starting to close =========
+
+2024-09-23 14:55:33,009 INFO ========= The raft protocol has been closed =========
+
+2024-09-23 15:14:58,795 INFO Initializes the Raft protocol, raft-config info : {"data":{},"members":["e02d5fab855d:7848"],"strictMode":false,"selfMember":"e02d5fab855d:7848"}
+
+2024-09-23 15:14:59,227 INFO ========= The raft protocol is starting... =========
+
+2024-09-23 15:14:59,264 INFO ========= The raft protocol start finished... =========
+
+2024-09-23 15:14:59,269 INFO create raft group : naming_persistent_service
+
+2024-09-23 15:14:59,756 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service', leader='e02d5fab855d:7848', term=1, raftClusterInfo=[e02d5fab855d:7848]}
+
+2024-09-23 15:14:59,825 INFO create raft group : naming_persistent_service_v2
+
+2024-09-23 15:14:59,895 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service_v2', leader='e02d5fab855d:7848', term=1, raftClusterInfo=[e02d5fab855d:7848]}
+
+2024-09-23 15:14:59,974 INFO create raft group : naming_instance_metadata
+
+2024-09-23 15:15:00,065 INFO This Raft event changes : RaftEvent{groupId='naming_instance_metadata', leader='e02d5fab855d:7848', term=1, raftClusterInfo=[e02d5fab855d:7848]}
+
+2024-09-23 15:15:00,068 INFO create raft group : naming_service_metadata
+
+2024-09-23 15:15:00,156 INFO This Raft event changes : RaftEvent{groupId='naming_service_metadata', leader='e02d5fab855d:7848', term=1, raftClusterInfo=[e02d5fab855d:7848]}
+
+2024-09-23 15:16:15,513 INFO shutdown jraft server
+
+2024-09-23 15:16:15,514 INFO ========= The raft protocol is starting to close =========
+
+2024-09-23 15:16:15,561 INFO ========= The raft protocol has been closed =========
+
+2024-09-23 15:16:38,049 INFO Initializes the Raft protocol, raft-config info : {"data":{},"members":["f078bc27a859:7848"],"strictMode":false,"selfMember":"f078bc27a859:7848"}
+
+2024-09-23 15:16:38,476 INFO ========= The raft protocol is starting... =========
+
+2024-09-23 15:16:38,526 INFO ========= The raft protocol start finished... =========
+
+2024-09-23 15:16:38,532 INFO create raft group : naming_persistent_service
+
+2024-09-23 15:16:39,010 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service', leader='f078bc27a859:7848', term=1, raftClusterInfo=[f078bc27a859:7848]}
+
+2024-09-23 15:16:39,088 INFO create raft group : naming_persistent_service_v2
+
+2024-09-23 15:16:39,164 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service_v2', leader='f078bc27a859:7848', term=1, raftClusterInfo=[f078bc27a859:7848]}
+
+2024-09-23 15:16:39,178 INFO create raft group : naming_instance_metadata
+
+2024-09-23 15:16:39,271 INFO This Raft event changes : RaftEvent{groupId='naming_instance_metadata', leader='f078bc27a859:7848', term=1, raftClusterInfo=[f078bc27a859:7848]}
+
+2024-09-23 15:16:39,272 INFO create raft group : naming_service_metadata
+
+2024-09-23 15:16:39,376 INFO This Raft event changes : RaftEvent{groupId='naming_service_metadata', leader='f078bc27a859:7848', term=1, raftClusterInfo=[f078bc27a859:7848]}
+

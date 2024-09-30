@@ -1,0 +1,122 @@
+2024-09-24 11:06:48,164 INFO [PUSH-SUCC] 20ms, all delay time 532ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=1}, originalSize=1, DataSize=1
+
+2024-09-24 11:08:33,306 INFO [PUSH-SUCC] 7ms, all delay time 532ms, SLA 532ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=2}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:08:46,827 INFO [PUSH-SUCC] 6ms, all delay time 512ms, SLA 512ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=3}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 11:10:53,909 INFO [PUSH-SUCC] 6ms, all delay time 577ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-09-24 11:14:17,321 INFO [PUSH-SUCC] 14ms, all delay time 607ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=1}, originalSize=1, DataSize=1
+
+2024-09-24 11:19:39,834 INFO [PUSH-SUCC] 7ms, all delay time 549ms, SLA 549ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=2}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:19:51,660 INFO [PUSH-SUCC] 12ms, all delay time 583ms, SLA 583ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=3}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 11:19:55,565 INFO [PUSH-SUCC] 12ms, all delay time 591ms, SLA 591ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=4}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:20:06,578 INFO [PUSH-SUCC] 10ms, all delay time 511ms, SLA 511ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=5}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 11:20:20,993 INFO [PUSH-SUCC] 8ms, all delay time 553ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=5}, originalSize=1, DataSize=1
+
+2024-09-24 11:22:10,135 INFO [PUSH-SUCC] 5ms, all delay time 596ms, SLA 596ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=4}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:22:20,855 INFO [PUSH-SUCC] 9ms, all delay time 544ms, SLA 544ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=5}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 11:22:26,303 INFO [PUSH-SUCC] 50ms, all delay time 634ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=5}, originalSize=1, DataSize=1
+
+2024-09-24 11:25:25,696 INFO [PUSH-SUCC] 5ms, all delay time 561ms, SLA 561ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=6}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:25:34,809 INFO [PUSH-SUCC] 5ms, all delay time 552ms, SLA 552ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=7}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 11:25:42,424 INFO [PUSH-SUCC] 6ms, all delay time 574ms, SLA 574ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=6}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:25:56,255 INFO [PUSH-SUCC] 11ms, all delay time 542ms, SLA 542ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=7}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 11:26:03,368 INFO [PUSH-SUCC] 13ms, all delay time 562ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=7}, originalSize=1, DataSize=1
+
+2024-09-24 11:29:15,117 INFO [PUSH-SUCC] 6ms, all delay time 515ms, SLA 515ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=8}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:29:29,142 INFO [PUSH-SUCC] 10ms, all delay time 575ms, SLA 575ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=9}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 11:29:53,390 INFO [PUSH-SUCC] 24ms, all delay time 568ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=7}, originalSize=1, DataSize=1
+
+2024-09-24 11:30:37,828 INFO [PUSH-SUCC] 4ms, all delay time 555ms, SLA 555ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=8}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:30:37,829 INFO [PUSH-SUCC] 4ms, all delay time 556ms, SLA 556ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=8}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:30:50,649 INFO [PUSH-SUCC] 6ms, all delay time 563ms, SLA 563ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=9}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 11:30:50,649 INFO [PUSH-SUCC] 6ms, all delay time 563ms, SLA 563ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=9}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 11:38:04,134 INFO [PUSH-SUCC] 3ms, all delay time 549ms, SLA 549ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=10}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:38:16,051 INFO [PUSH-SUCC] 4ms, all delay time 529ms, SLA 529ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=11}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 11:38:27,469 INFO [PUSH-SUCC] 6ms, all delay time 579ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=9}, originalSize=1, DataSize=1
+
+2024-09-24 11:40:29,339 INFO [PUSH-SUCC] 4ms, all delay time 579ms, SLA 579ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=12}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:40:29,340 INFO [PUSH-SUCC] 5ms, all delay time 580ms, SLA 580ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=10}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 11:49:34,303 INFO [PUSH-SUCC] 12ms, all delay time 544ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=1}, originalSize=1, DataSize=1
+
+2024-09-24 11:49:34,599 INFO [PUSH-SUCC] 8ms, all delay time 570ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=1}, originalSize=1, DataSize=1
+
+2024-09-24 13:02:39,232 INFO [PUSH-SUCC] 6ms, all delay time 555ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=1}, originalSize=1, DataSize=1
+
+2024-09-24 13:13:02,282 INFO [PUSH-SUCC] 7ms, all delay time 595ms, SLA 595ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=2}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 13:13:02,285 INFO [PUSH-SUCC] 10ms, all delay time 600ms, SLA 600ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=2}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 13:14:42,444 INFO [PUSH-SUCC] 9ms, all delay time 588ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-09-24 13:14:42,748 INFO [PUSH-SUCC] 13ms, all delay time 581ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-09-24 13:14:46,345 INFO [PUSH-SUCC] 5ms, all delay time 544ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-09-24 13:23:16,947 INFO [PUSH-SUCC] 4ms, all delay time 534ms, SLA 535ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=4}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 13:23:29,271 INFO [PUSH-SUCC] 5ms, all delay time 537ms, SLA 537ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=5}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 13:23:37,307 INFO [PUSH-SUCC] 22ms, all delay time 591ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-09-24 13:36:30,597 INFO [PUSH-SUCC] 4ms, all delay time 541ms, SLA 541ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=6}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 13:36:44,637 INFO [PUSH-SUCC] 9ms, all delay time 606ms, SLA 606ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=7}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 13:37:09,167 INFO [PUSH-SUCC] 6ms, all delay time 605ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-09-24 13:42:12,666 INFO [PUSH-SUCC] 3ms, all delay time 574ms, SLA 575ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=8}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 13:42:26,288 INFO [PUSH-SUCC] 5ms, all delay time 544ms, SLA 544ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=9}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 13:43:05,354 INFO [PUSH-SUCC] 18ms, all delay time 546ms for subscriber 172.18.181.2, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-09-24 14:05:43,168 INFO [PUSH-SUCC] 7ms, all delay time 572ms, SLA 573ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=4}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 14:05:43,168 INFO [PUSH-SUCC] 6ms, all delay time 572ms, SLA 573ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=4}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 14:06:00,697 INFO [PUSH-SUCC] 7ms, all delay time 594ms, SLA 594ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=5}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 14:06:00,697 INFO [PUSH-SUCC] 9ms, all delay time 595ms, SLA 595ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=5}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 14:09:57,115 INFO [PUSH-SUCC] 3ms, all delay time 539ms, SLA 540ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=6}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 14:09:57,117 INFO [PUSH-SUCC] 5ms, all delay time 541ms, SLA 542ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=6}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 14:10:11,542 INFO [PUSH-SUCC] 5ms, all delay time 543ms, SLA 543ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=7}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 14:10:11,544 INFO [PUSH-SUCC] 6ms, all delay time 545ms, SLA 545ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=7}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 14:18:39,194 INFO [PUSH-SUCC] 5ms, all delay time 506ms, SLA 506ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=8}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 14:18:39,197 INFO [PUSH-SUCC] 8ms, all delay time 509ms, SLA 509ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=8}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 14:18:50,915 INFO [PUSH-SUCC] 6ms, all delay time 586ms, SLA 586ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=9}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 14:18:50,917 INFO [PUSH-SUCC] 7ms, all delay time 588ms, SLA 588ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=9}, originalSize=1, DataSize=1, target=172.18.181.2
+
+2024-09-24 14:31:27,130 INFO [PUSH-SUCC] 10ms, all delay time 548ms, SLA 548ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-user', ephemeral=true, revision=10}, originalSize=0, DataSize=0, target=172.18.181.2
+
+2024-09-24 14:31:27,147 INFO [PUSH-SUCC] 27ms, all delay time 552ms, SLA 552ms, Service{namespace='public', group='DEFAULT_GROUP', name='cloud-model', ephemeral=true, revision=10}, originalSize=0, DataSize=0, target=172.18.181.2
+

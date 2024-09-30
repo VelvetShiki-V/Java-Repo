@@ -1,0 +1,80 @@
+2024-09-24 10:02:41,457 INFO notifyConnectTimeout:100
+
+2024-09-24 10:02:41,468 INFO notifySocketTimeout:200
+
+2024-09-24 10:02:41,469 INFO isHealthCheck:true
+
+2024-09-24 10:02:41,469 INFO maxHealthCheckFailCount:12
+
+2024-09-24 10:02:41,469 INFO maxContent:10485760
+
+2024-09-24 10:02:49,695 WARN DumpService start
+
+2024-09-24 10:02:49,695 INFO start clear all config-info.
+
+2024-09-24 10:02:49,696 INFO clear all config-info success.
+
+2024-09-24 10:02:49,697 INFO clear all config-info-tenant success.
+
+2024-09-24 10:02:49,721 INFO All dump page size is set to 50 according to mem limit 8796093022207 MB
+
+2024-09-24 10:02:49,722 INFO start dump all config-info...
+
+2024-09-24 10:02:49,768 INFO [all-dump] submit all task for 4 / 4, dbTime=42,diskTime=4
+
+2024-09-24 10:02:49,768 INFO [all-dump] wait 3 dump tasks to be finished
+
+2024-09-24 10:02:50,768 INFO success to  dump all config-info。
+
+2024-09-24 10:02:50,770 INFO start clear all config-info-beta.
+
+2024-09-24 10:02:50,770 INFO clear all config-info-beta success.
+
+2024-09-24 10:02:50,770 INFO clear all config-info-beta-tenant success.
+
+2024-09-24 10:02:50,780 INFO start clear all config-info-tag.
+
+2024-09-24 10:02:50,780 INFO clear all config-info-tag success.
+
+2024-09-24 10:02:50,781 INFO clear all config-info-tag-tenant success.
+
+2024-09-24 11:05:10,168 INFO notifyConnectTimeout:100
+
+2024-09-24 11:05:10,189 INFO notifySocketTimeout:200
+
+2024-09-24 11:05:10,191 INFO isHealthCheck:true
+
+2024-09-24 11:05:10,192 INFO maxHealthCheckFailCount:12
+
+2024-09-24 11:05:10,192 INFO maxContent:10485760
+
+2024-09-24 11:05:19,702 WARN DumpService start
+
+2024-09-24 11:05:19,702 INFO start clear all config-info.
+
+2024-09-24 11:05:19,704 INFO clear all config-info success.
+
+2024-09-24 11:05:19,705 INFO clear all config-info-tenant success.
+
+2024-09-24 11:05:19,732 INFO All dump page size is set to 50 according to mem limit 8796093022207 MB
+
+2024-09-24 11:05:19,733 INFO start dump all config-info...
+
+2024-09-24 11:05:19,776 INFO [all-dump] submit all task for 4 / 4, dbTime=40,diskTime=3
+
+2024-09-24 11:05:19,776 INFO [all-dump] wait 3 dump tasks to be finished
+
+2024-09-24 11:05:20,777 INFO success to  dump all config-info。
+
+2024-09-24 11:05:20,778 INFO start clear all config-info-beta.
+
+2024-09-24 11:05:20,778 INFO clear all config-info-beta success.
+
+2024-09-24 11:05:20,778 INFO clear all config-info-beta-tenant success.
+
+2024-09-24 11:05:20,789 INFO start clear all config-info-tag.
+
+2024-09-24 11:05:20,789 INFO clear all config-info-tag success.
+
+2024-09-24 11:05:20,789 INFO clear all config-info-tag-tenant success.
+

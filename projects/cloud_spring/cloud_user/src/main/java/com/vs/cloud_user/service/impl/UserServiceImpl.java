@@ -17,6 +17,7 @@ import com.vs.cloud_user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
@@ -135,6 +136,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // addon业务：mq通知数据同步创建
         try {
             log.info("mq准备发送异步通信数据给modelService");
+            // 发送者确认回调callback(每次发送数据都要指定，可使用AOP优化，但不建议开启)
+            // 发送数据(默认持久化消息)
             rabbitTemplate.convertAndSend("cloud.topic",
                     "k1", new UserInfo(user.getUid(), user.getName()));
         } catch(Exception e) {
