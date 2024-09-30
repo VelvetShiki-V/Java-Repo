@@ -20,6 +20,7 @@ public class GlobalExceptionHandler {
     // 内部错误
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Result> globalHandler(Exception e) {
+        e.printStackTrace();
         log.error("全局异常捕获: 服务器内部异常: {}", e.getMessage());
         return new ResponseEntity<>(Result.error("500 Server Error: " +
                 e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

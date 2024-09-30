@@ -30,7 +30,7 @@ public class GlobalConstantsProperties {
 
     @PostConstruct
     public void init() {
-        System.out.println("初始化观察: " + SYSTEM_REDIS_KEY_PREFIX);
-        System.out.println("初始化观察: " + SECRET_KEY_PREFIX);
+//        System.out.println("初始化观察: " + SYSTEM_REDIS_KEY_PREFIX);
+//        System.out.println("初始化观察: " + SECRET_KEY_PREFIX);
     }
 }

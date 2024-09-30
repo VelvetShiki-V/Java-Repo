@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.vs.cloud_common.domain.Result;
 import com.vs.cloud_common.utils.RedisUtil;
 import com.vs.cloud_api.client.CloudUserClient;
+import com.vs.cloud_common.utils.SnowFlakeIdUtil;
 import com.vs.cloud_model.domain.Model;
 import com.vs.cloud_common.exception.CustomException;
 import com.vs.cloud_model.mapper.ModelMapper;
@@ -38,6 +39,10 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
             throw new CustomException(HttpStatus.BAD_REQUEST, "数据名或创建者为空");
         }
         // mybatisX雪花算法生成mid
+        if(StrUtil.isBlank(model.getMid())) {
+            String SFId = SnowFlakeIdUtil.generateUid();
+            model.setMid(SFId);
+        }
         LocalDateTime localDateTime = LocalDateTime.now();
         model.setCreateTime(localDateTime);
         model.setUpdateTime(localDateTime);
@@ -57,14 +62,16 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
         log.info("**********数据查询请求**********");
         // openFeignClient登录用户验证
         // 请求用try catch块包围，请求失败则抛异常，默认500错误
-        try {
-            // 转发请求头
-            Result ret = cloudUserClient.verifyUser();
-            if(ret == null) return Result.success("服务器繁忙，请稍后再试", null);
-        } catch (Exception e) {
-            log.error("feign请求获取verifyUser失败, {}", e.getMessage());
-            throw new CustomException(HttpStatus.FORBIDDEN, e.getMessage());
-        }
+//        try {
+//            // 转发请求头
+//            log.info("openFeign生成用户信息验证请求...");
+//            Result ret = cloudUserClient.verifyUser();
+//            if(ret == null) return Result.success("服务器繁忙，请稍后再试", null);
+//        } catch (Exception e) {
+//            log.error("feign请求获取verifyUser失败, {}", e.getMessage());
+//            throw new CustomException(HttpStatus.FORBIDDEN, e.getMessage());
+//        }
+//        log.info("openFeign请求用户信息验证成功，继续数据查询流程");
         if(StrUtil.isBlank(mid)) {
             log.info("查询所有数据");
             List<Model> modelList = RedisUtil.queryTTLWithDB(template, QUERY_MODEL_ALL, new TypeReference<>() {},

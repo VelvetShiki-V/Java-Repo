@@ -21,7 +21,9 @@ spring:
           - data-id: shared-jdbc.yml
           - data-id: shared-redis.yml
           - data-id: shared-sentinel.yml
-          - data-id: shared-seata.yml
+            # FIXME: seata与redis同时使用存在bug
+#          - data-id: shared-seata.yml
+          - data-id: shared-amqp.yml
 
     # feign(负载均衡与流量监控开启)
     openfeign:

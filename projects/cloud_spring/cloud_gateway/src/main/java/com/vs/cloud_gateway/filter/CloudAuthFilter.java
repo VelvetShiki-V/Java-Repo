@@ -64,6 +64,7 @@ public class CloudAuthFilter implements GlobalFilter, Ordered {
         try {
             userMap = JwtUtil.jwtParseRefresh(template, token);
         } catch (Exception e) {
+            e.printStackTrace();
             // token解析失败，身份校验失败
             log.error("gateway拦截: 非法token解析失败");
             String json = JSONUtil.toJsonStr(Result.error("gateway拦截: 非法token解析失败"));

@@ -2,7 +2,6 @@ package com.vs.cloud_user.service.impl;
 
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.vs.cloud_common.domain.UserInfo;
@@ -15,17 +14,13 @@ import com.vs.cloud_user.domain.User;
 import com.vs.cloud_common.exception.CustomException;
 import com.vs.cloud_user.mapper.UserMapper;
 import com.vs.cloud_user.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jodd.util.ThreadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestHeader;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +34,7 @@ import static com.vs.cloud_common.constants.GlobalConstants.*;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     private final StringRedisTemplate template;
     private final RedissonClient client;
+    private final RabbitTemplate rabbitTemplate;
 
     // 用户登录
     @Override
@@ -121,8 +117,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new CustomException(HttpStatus.BAD_REQUEST, "用户名或密码为空");
         }
         // mybatisX雪花算法生成uid
-        String SFId = SnowFlakeIdUtil.generateUid();
-        user.setUid(SFId);
+        if(StrUtil.isBlank(user.getUid())) {
+            String SFId = SnowFlakeIdUtil.generateUid();
+            user.setUid(SFId);
+        }
         LocalDateTime localDateTime = LocalDateTime.now();
         user.setCreateTime(localDateTime);
         user.setUpdateTime(localDateTime);
@@ -134,6 +132,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         // 缓存同步删除
         cacheRemoveSync(QUERY_USER_ALL, new TypeReference<List<User>>() {});
+        // addon业务：mq通知数据同步创建
+        try {
+            log.info("mq准备发送异步通信数据给modelService");
+            rabbitTemplate.convertAndSend("cloud.topic",
+                    "k1", new UserInfo(user.getUid(), user.getName()));
+        } catch(Exception e) {
+            throw new RuntimeException("异步数据创建失败");
+        }
         return Result.success("用户创建成功", null);
     }
 

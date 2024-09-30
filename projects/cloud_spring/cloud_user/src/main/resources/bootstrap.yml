@@ -19,6 +19,5 @@ spring:
         shared-configs:
           - data-id: shared-jdbc.yml
           - data-id: shared-redis.yml
-          - data-id: shared-global-constants.yml
-          - data-id: shared-seata.yml
           - data-id: shared-sentinel.yml
+          - data-id: shared-amqp.yml
