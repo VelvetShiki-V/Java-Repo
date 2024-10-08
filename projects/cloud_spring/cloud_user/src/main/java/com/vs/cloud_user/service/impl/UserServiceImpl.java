@@ -17,7 +17,9 @@ import com.vs.cloud_user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
@@ -138,8 +140,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             log.info("mq准备发送异步通信数据给modelService");
             // 发送者确认回调callback(每次发送数据都要指定，可使用AOP优化，但不建议开启)
             // 发送数据(默认持久化消息)
-            rabbitTemplate.convertAndSend("cloud.topic",
-                    "k1", new UserInfo(user.getUid(), user.getName()));
+            // 设置过期时间
+//            rabbitTemplate.convertAndSend("delay.direct",
+//                    "dead", new UserInfo(user.getUid(), user.getName()),
+//                    message ->  {
+//                            // 超过10000ms后过期，进入死信交换机和队列
+//                             message.getMessageProperties().setExpiration("10000");
+//                            return message;
+//                        }
+//                    );
+
+            // 通过延时插件设置过期时间
+            rabbitTemplate.convertAndSend("delay.plugin.direct",
+                    "delay", "hello this is a delay plugin publisher test!",
+                    message ->  {
+                        // 通过延时插件添加消息头控制延时时间
+                        message.getMessageProperties().setDelayLong(10000L);
+                        return message;
+                    }
+            );
         } catch(Exception e) {
             throw new RuntimeException("异步数据创建失败");
         }

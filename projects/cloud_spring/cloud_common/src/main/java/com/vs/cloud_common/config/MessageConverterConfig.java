@@ -5,10 +5,15 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+// 配置java对象与队列消息转换器，并配置唯一ID保证业务幂等性
 @Configuration
+@ConditinalOnClass(RabbitTemplate.class)
 public class MessageConverterConfig {
     @Bean
     public MessageConverter messageConverter() {
-        return new Jackson2JsonMessageConverter();
+        Jackson2JsonMessageConverter jmc = new Jackson2JsonMessageConverter();
+        // 消息唯一ID
+        jmc.setCreateMessageIds(true);
+        return jmc;
     }
 }

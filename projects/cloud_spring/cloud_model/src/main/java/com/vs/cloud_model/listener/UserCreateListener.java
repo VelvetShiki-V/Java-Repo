@@ -6,6 +6,7 @@ import com.vs.cloud_model.service.impl.ModelServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
@@ -45,7 +46,29 @@ public class UserCreateListener {
             exchange = @Exchange(name = "cloud.topic", type = ExchangeTypes.TOPIC),
             key = {"k1"}
     ))
-    public void listenTest(UserInfo user) {
-        log.info("model.test.queue接收到用户信息: {}", user);
+    public void listenTest(Message message) {
+        // 获取消息唯一ID
+        log.info("获取消息ID: {}", message.getMessageProperties().getMessageId());
+        log.info("model.test.queue接收到用户信息: {}", message.getBody());
+    }
+
+    // 定义死信队列和死信交换机
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "dlx.queue"),
+            exchange = @Exchange(name = "dlx.direct", type = ExchangeTypes.DIRECT),
+            key = {"dead"}
+    ))
+    public void listenDlxQueue(Message message) {
+        log.info("消费者延迟接收到死信消息: {}", message.getBody());
+    }
+
+    // 通过插件接收延时消息
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "delay.plugin.queue"),
+            exchange = @Exchange(name = "delay.plugin.direct", delayed = "true"),
+            key = {"delay"}
+    ))
+    public void listenDelayMessage(String message) {
+        log.info("通过延时插件接收到延时消息: {}", message);
     }
 }
