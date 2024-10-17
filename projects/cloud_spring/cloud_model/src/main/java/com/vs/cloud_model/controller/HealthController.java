@@ -43,14 +43,14 @@ public class HealthController {
 //                HttpHost.create("http://127.0.0.1:9200")
 //        ));
         // 索引库操作
-//        testCreateIndex();
+        testCreateIndex();
 //        testGetIndex();
 //        testDeleteIndex();
         // 文档操作
 //        testCreateDoc();
 //        testUpdateDoc();
-//        testBulkDoc();
-        testGetDoc();
+        testBulkDoc();
+//        testGetDoc();
 //        if(client != null) client.close();
         return Result.success("cloud_module服务正常", null);
     }
