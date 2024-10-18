@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: _2024_10_18
+
+# Knife4j开启
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+
+# 日志打印
+logging:
+  level:
+    org.springframework.security: DEBUG
