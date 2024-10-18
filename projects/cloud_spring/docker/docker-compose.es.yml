@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  es:
+    image: elasticsearch:7.17.0
+    container_name: es
+    ports:
+      # 8091为server端口, 8091为控制台端口
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - discovery.type=single-node
+    volumes:
+      # 挂载数据目录, ik配置目录和插件目录
+      - ./es/data:/var/lib/elasticsearch/data
+      - ./es/plugins:/usr/share/elasticsearch/plugins
+    networks:
+      - vsnet
+
+  kibana:
+    image: kibana:7.17.0
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es:9200
+    networks:
+      - vsnet
+
+networks:
+  vsnet:
+    driver: bridge
+    

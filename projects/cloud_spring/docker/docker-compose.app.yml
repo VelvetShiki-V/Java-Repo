@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  nacos:
+    image: nacos/nacos-server:latest
+    container_name: nacos-standalone
+    # 连接数据库与授权信息
+    env_file:
+      - ./nacos/env/nacos-standlone-mysql.env
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    volumes:
+      - ./nacos/logs:/home/nacos/logs
+    networks:
+      - vsnet
+
+  sentinel:
+    image: bladex/sentinel-dashboard:latest
+    container_name: sentinel-dashboard
+    ports:
+      - "8858:8858"
+    volumes:
+      # container mount path must be absolute
+      - ./sentinel/logs:/home/root/logs/csp
+    networks:
+      - vsnet
+
+  rabbitmq:
+    image: rabbitmq:3.13.7-management
+    container_name: mq
+    env_file:
+      - ./mq/env/mq.env
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      # 延迟消息插件目录（不能挂载整个目录否则将会覆盖整个plugins文件夹，导致mq核心文件无法加载，且插件名字不能更换）
+      - ./mq/plugins/rabbitmq_delayed_message_exchange-3.13.0.ez:/opt/rabbitmq/plugins/rabbitmq_delayed_message_exchange-3.13.0.ez
+      # 挂载 enabled_plugins 文件，自动启用插件
+      - ./mq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+    networks:
+      - vsnet
+
+networks:
+  vsnet:
+    driver: bridge
+    
