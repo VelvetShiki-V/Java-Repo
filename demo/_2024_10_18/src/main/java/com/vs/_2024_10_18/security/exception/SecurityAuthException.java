@@ -1,6 +1,7 @@
-package com.vs._2024_10_18.exception;
+package com.vs._2024_10_18.security.exception;
 
 import cn.hutool.json.JSONUtil;
+import com.vs._2024_10_18.exception.CustomException;
 import com.vs._2024_10_18.model.Result;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,7 +16,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 

@@ -1,6 +1,11 @@
 spring:
   application:
     name: _2024_10_18
+  # spring security默认基于内存的用户配置
+#  security:
+#    user:
+#      name: shiki
+#      password: 123
 
 # Knife4j开启
 knife4j:

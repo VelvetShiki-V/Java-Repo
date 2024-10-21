@@ -13,22 +13,23 @@ public class APIController {
 
     @GetMapping
     @Operation(description = "auth get test")
-    public Result authGet() {
+    public Result source1() {
         return Result.builder().build();
     }
 
     @PostMapping
-    public Result authPost() {
+    public Result source2() {
         return Result.builder().build();
     }
 
     @PutMapping
-    public Result authPut() {
+    public Result source3() {
         return Result.builder().build();
     }
 
     @DeleteMapping
-    public Result authDel() {
+    public Result source4() {
         return Result.builder().build();
     }
+
 }

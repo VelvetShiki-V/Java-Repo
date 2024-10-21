@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
 // entity用于数据库数据映射
@@ -19,6 +18,7 @@ public class User {
     private String password;
     private String email;
     private String phone;
+    private boolean status;
     private LocalDateTime create_time;
     private LocalDateTime update_time;
 }
