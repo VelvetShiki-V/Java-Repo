@@ -1,13 +1,14 @@
 package com.vs._2024_10_18.security.handler;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.json.JSONUtil;
 import com.vs._2024_10_18.model.Result;
+import com.vs._2024_10_18.security.jwt.JwtUtil;
 import com.vs._2024_10_18.security.jwt.LoginUserPayload;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.RedirectStrategy;
@@ -23,11 +24,8 @@ import java.util.Map;
 @Component
 public class LoginSuccessHandler extends AbstractAuthenticationTargetUrlRequestHandler implements AuthenticationSuccessHandler {
 
-    @Autowired
-    private ApplicationEventPublisher publisher;
-
 //    @Autowired
-//    private Jwt
+//    private ApplicationEventPublisher publisher;
 
     public LoginSuccessHandler() {
         this.setRedirectStrategy(new RedirectStrategy() {
@@ -52,9 +50,10 @@ public class LoginSuccessHandler extends AbstractAuthenticationTargetUrlRequestH
 
         // 生成token
         Map<String, Object> responseData = new HashMap<>();
-        // jwt处理...
-        // ...
-        responseData.put("token", payload);
+        Map<String, Object> payloadMap = new HashMap<>();
+        BeanUtil.beanToMap(payload, payloadMap, CopyOptions.create().setIgnoreNullValue(true));
+        String token = JwtUtil.generateJWT(payloadMap);
+        responseData.put("token", token);
 
         // 响应
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);

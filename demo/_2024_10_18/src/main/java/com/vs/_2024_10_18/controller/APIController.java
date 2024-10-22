@@ -4,6 +4,7 @@ import com.vs._2024_10_18.model.Result;
 import com.vs._2024_10_18.model.ResultBuilder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,7 +15,9 @@ public class APIController {
     @GetMapping
     @Operation(description = "auth get test")
     public Result source1() {
-        return Result.builder().build();
+        return new Result("200",
+                "get access success",
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
     @PostMapping

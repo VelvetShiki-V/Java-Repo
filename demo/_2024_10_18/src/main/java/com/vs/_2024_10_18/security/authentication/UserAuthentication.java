@@ -1,6 +1,7 @@
 package com.vs._2024_10_18.security.authentication;
 
 import com.vs._2024_10_18.security.jwt.LoginUserPayload;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
 public class UserAuthentication extends AbstractAuthenticationToken {
@@ -15,9 +16,7 @@ public class UserAuthentication extends AbstractAuthenticationToken {
 
     // 获取登录用户密码
     @Override
-    public Object getCredentials() {
-        return isAuthenticated() ? null : password;
-    }
+    public Object getCredentials() { return isAuthenticated() ? null : password; }
 
     // 获取登录用户名
     @Override

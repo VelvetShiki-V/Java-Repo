@@ -1,6 +1,7 @@
 package com.vs._2024_10_18.security.config;
 
-import com.vs._2024_10_18.security.authentication.UserAuthenticationProvider;
+import com.vs._2024_10_18.security.filter.JWTAuthFilter;
+import com.vs._2024_10_18.security.provider.UserAuthenticationProvider;
 import com.vs._2024_10_18.security.exception.SecurityAuthException;
 import com.vs._2024_10_18.security.filter.UserAuthFilter;
 import com.vs._2024_10_18.security.handler.LoginFailHandler;
@@ -21,6 +22,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.security.web.savedrequest.NullRequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import java.util.List;
@@ -59,37 +61,27 @@ public class SecurityConfig {
                 // 权限不足异常
                 .accessDeniedHandler(accessException)
         );
+        // 未知异常（包括自定义异常CustomException可以在此处理）
+        http.addFilterBefore(globalSecurityException, SecurityContextHolderFilter.class);
     }
 
     // 配置认证拦截链
     @Bean
     public SecurityFilterChain loginFilterChain(HttpSecurity http) throws Exception {
-
+        // filter通用配置
         commonFilterSetting(http);
-
         // 依赖注入获取失败成功处理器
         LoginSuccessHandler loginSuccessHandler = applicationContext.getBean(LoginSuccessHandler.class);
         LoginFailHandler loginFailHandler = applicationContext.getBean(LoginFailHandler.class);
-
         // 指定需要进行登录校验的路径
-        http.securityMatcher("/login/").authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
-
-        // security基础过滤器(所有请求默认都需要鉴权)
-        http.authorizeHttpRequests(authorize -> authorize
-//                .requestMatchers("/free/**", "/doc.html")   // 指定路径url无需鉴权
-//                .permitAll()
-                .anyRequest()
-                .authenticated());
-
-        // 自定义过滤器(鉴权过滤器需要放在内置身份认证过滤器之前)
-        // 新增自定义用户名密码校验过滤器(设置登录路径，校验处理器和成功失败处理器)
+        http.securityMatcher("/login").authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
+        // 新增自定义用户名密码校验过滤器(设置登录路径，校验处理器和成功失败处理器, 需要放在内置身份认证过滤器之前)
         UserAuthFilter userAuthFilter = new UserAuthFilter(
                 // 必须用post请求
                 new AntPathRequestMatcher("/login", HttpMethod.POST.name()),
                 new ProviderManager(List.of(applicationContext.getBean(UserAuthenticationProvider.class))),
                 loginSuccessHandler, loginFailHandler);
         http.addFilterBefore(userAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
         // 返回新的定制过滤器链
         return http.build();
     }
@@ -98,9 +90,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain authAPIFilterChain(HttpSecurity http) throws Exception {
         commonFilterSetting(http);
-        http.securityMatcher("/auth/*").authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
-        // jwt parse
-//        http.addFilterBefore();
+        http.securityMatcher("/auth/**").authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
+        // 校验jwt过滤器逻辑
+        JWTAuthFilter jwtAuthFilter = new JWTAuthFilter();
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -108,7 +101,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain freeAPIFilterChain(HttpSecurity http) throws Exception {
         commonFilterSetting(http);
-        http.securityMatcher("/free/*").authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+        http.securityMatcher("/free/**").authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
         return http.build();
     }
 }

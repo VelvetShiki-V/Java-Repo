@@ -1,10 +1,12 @@
-package com.vs._2024_10_18.security.authentication;
+package com.vs._2024_10_18.security.provider;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.vs._2024_10_18.entity.User;
+import com.vs._2024_10_18.security.authentication.UserAuthentication;
 import com.vs._2024_10_18.service.UserService;
 import com.vs._2024_10_18.security.jwt.LoginUserPayload;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class UserAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -30,22 +33,25 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         // 数据库查询逻辑
         // ...
         User user = userService.getUserFromDB();
-        if(user == null) throw new BadCredentialsException("用户不存在");
+        if(user == null) {
+            log.error("数据库用户不存在");
+            throw new BadCredentialsException("用户不存在");
+        }
         // 密码会自动加密与数据库中加密的密码进行匹配
         if(passwordEncoder.matches(password, user.getPassword())) {
-            System.out.println("用户存在");
+            log.debug("用户存在");
             // 提取用户信息用于token payload装载
-            UserAuthentication token = new UserAuthentication();
+            UserAuthentication tokenAuthentication = new UserAuthentication();
             // 提取user信息给payload载入jwt中
             LoginUserPayload payload = new LoginUserPayload();
             BeanUtil.copyProperties(user, payload, CopyOptions.create().setIgnoreNullValue(true));
-            token.setPayload(payload);
-            token.setAuthenticated(true);
+            tokenAuthentication.setPayload(payload);
+            tokenAuthentication.setAuthenticated(true);
             // 移交至success handler处理返回给前端
-            return token;
+            return tokenAuthentication;
         } else {
             // 鉴权失败，密码错误
-            System.out.println("密码错误");
+            log.error("密码错误");
             throw new BadCredentialsException("密码错误");
         }
     }

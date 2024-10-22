@@ -15,7 +15,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -28,7 +27,7 @@ public class SecurityAuthException {
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             PrintWriter writer = response.getWriter();
-            writer.print(JSONUtil.toJsonStr(new Result(Result.ERROR_CODE, "认证失败", null)));
+            writer.print(JSONUtil.toJsonStr(new Result(Result.ERROR_CODE, "用户未登录，身份认证失败", null)));
             writer.flush();
             writer.close();
         }
@@ -42,7 +41,7 @@ public class SecurityAuthException {
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             PrintWriter writer = response.getWriter();
-            writer.print(JSONUtil.toJsonStr(new Result(Result.ERROR_CODE, "access denied", null)));
+            writer.print(JSONUtil.toJsonStr(new Result(Result.ERROR_CODE, "用户权限不足，访问被拒", null)));
             writer.flush();
             writer.close();
         }

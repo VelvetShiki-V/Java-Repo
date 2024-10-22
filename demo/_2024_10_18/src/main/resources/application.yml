@@ -15,5 +15,24 @@ knife4j:
 
 # 日志打印
 logging:
+  # 每个包的日志输出级别
   level:
+    root: info
+    com.vs: DEBUG
     org.springframework.security: DEBUG
+
+  # 文件输出
+#  file:
+    # windows 绝对路径
+#    path: D:\Code\Github\Java-Repo\demo\_2024_10_18
+    # windows 相对路径
+#    path: log/
+
+    # linux路径
+    # path: /var/log/myapp
+#    name: log/demo.log
+  #    name: D:\Code\Github\Java-Repo\demo\_2024_10_18\demo.log
+
+  # 指定日志输出格式
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
