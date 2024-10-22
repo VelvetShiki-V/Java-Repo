@@ -4,6 +4,8 @@ import cn.hutool.json.JSONUtil;
 import com.vs.cloud_common.domain.Result;
 import com.vs.cloud_model.domain.ModelDoc;
 import com.vs.cloud_model.service.ModelService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -30,17 +32,20 @@ import java.util.Map;
 @RestController
 @RequestMapping("/DSLTest")
 @RequiredArgsConstructor
+@Tag(name = "DLS API", description = "DLS相关")
 public class DLSController {
     private final RestHighLevelClient client;
     private final ModelService modelService;
 
     @GetMapping("/query")
+    @Operation(summary = "dls查询", description = "返回dls查询结果")    // knife4j接口描述
     public Result queryModel() throws IOException {
 //        return Result.success("simpleQuery服务正常", simpleQuery());
         return Result.success("filterQuery服务正常", filterQuery());
     }
 
     @GetMapping("/aggr")
+    @Operation(summary = "dls聚合查询", description = "返回dls查询结果")
     public Result queryAggr() throws IOException {
         return Result.success("aggrQuery服务正常", aggrQuery());
     }
