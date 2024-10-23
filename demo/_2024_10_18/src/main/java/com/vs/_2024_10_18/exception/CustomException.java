@@ -1,6 +1,5 @@
 package com.vs._2024_10_18.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 

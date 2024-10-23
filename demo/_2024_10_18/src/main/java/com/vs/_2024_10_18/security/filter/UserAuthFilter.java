@@ -2,7 +2,6 @@ package com.vs._2024_10_18.security.filter;
 
 import cn.hutool.json.JSONUtil;
 import com.vs._2024_10_18.security.authentication.UserAuthentication;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -24,6 +23,7 @@ public class UserAuthFilter extends AbstractAuthenticationProcessingFilter {
     // logback，不依赖于lombok注解
     private static final Logger logger = LoggerFactory.getLogger(UserAuthFilter.class);
 
+    // 构造器由config传入：匹配的登录路径/login, 验证管理器，登录成功和失败处理器（统一Result格式返回）
     public UserAuthFilter(
             AntPathRequestMatcher matcher,
             AuthenticationManager manager,
@@ -39,11 +39,11 @@ public class UserAuthFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response)
-            throws AuthenticationException, IOException, ServletException
-    {
+            throws AuthenticationException, IOException {
         // 提取post body请求数据
         String requestJson = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         Map<String, Object> requestMap = JSONUtil.toBean(requestJson, Map.class);
+        // 规定请求体格式为json风格的用户名和密码，可根据需求更改为邮箱或手机验证码
         String username = requestMap.get("username").toString();
         String password = requestMap.get("password").toString();
 

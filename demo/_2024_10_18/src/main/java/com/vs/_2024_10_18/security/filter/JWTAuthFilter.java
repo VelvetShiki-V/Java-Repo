@@ -4,16 +4,18 @@ import com.vs._2024_10_18.exception.CustomException;
 import com.vs._2024_10_18.security.authentication.JwtAuthentication;
 import com.vs._2024_10_18.security.jwt.JwtUtil;
 import com.vs._2024_10_18.security.jwt.LoginUserPayload;
+import com.vs._2024_10_18.security.jwt.RsaUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
+import java.security.PublicKey;
 
 // 该filter不会拦截请求，验证成功后会放行
 public class JWTAuthFilter extends OncePerRequestFilter {
@@ -32,7 +34,11 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         } else token = token.substring(7);
         try {
             // 验证token合法性
-            LoginUserPayload payload = JwtUtil.parseNverifyJWT(token, LoginUserPayload.class);
+            String publicKeyPath = ResourceUtils.getFile(ResourceUtils
+                    .CLASSPATH_URL_PREFIX + "static/rsa.pub").getPath();
+            PublicKey publicKey = RsaUtil.loadPublicKey(publicKeyPath);
+            LoginUserPayload payload = JwtUtil.verifyJWT(token, publicKey, LoginUserPayload.class);
+            logger.info("获取到payload: " + payload);
             // 存入authentication
             JwtAuthentication authentication = new JwtAuthentication();
             authentication.setJwt(token);
