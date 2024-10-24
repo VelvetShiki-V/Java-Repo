@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: _2024_10_24
+
+# 自定义配置
+minio:
+  endpoint: http://localhost:9000
+  accessKey: shiki
+  secretKey: zcx123456
+  bucket: bucket1
