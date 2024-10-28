@@ -1,0 +1,24 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: vsblog-article
+
+  profiles:
+    active: dev
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://profile.mysql.host:3306/$profile.mysql.database?rewriteBatchedStatements=true&characterEncoding=UTF-8&useUnicode=true&characterSetResults=UTF-8
+    username: profile.mysql.name
+    password: profile.mysql.password
+
+mybatis-plus:
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+  global-config:
+    db-config:
+      update-strategy: not_null
+      id-type: auto
+

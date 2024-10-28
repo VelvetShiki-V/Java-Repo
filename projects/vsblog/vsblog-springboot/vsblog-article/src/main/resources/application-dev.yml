@@ -1,0 +1,20 @@
+profile:
+  server:
+    port: 8001
+
+  mysql:
+    host: 172.18.181.2
+    name: root
+    password: 123456
+    database: vsblog
+
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 1
+
+#  redisson:
+#    address: 127.0.0.1
+#    port: 6379
+#    password: 123456
