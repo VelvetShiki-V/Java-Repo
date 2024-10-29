@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vs.article.mapper.ArticleMapper">
+
+    <resultMap type="com.vs.article.model.dto.ArticleCardDTO" id="ArticleCardDTOResultMap">
+        <id property="id" column="id" />
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="articleCover" column="article_cover" jdbcType="VARCHAR"/>
+        <result property="articleTitle" column="article_title" jdbcType="VARCHAR"/>
+        <result property="articleContent" column="article_content" jdbcType="VARCHAR"/>
+        <result property="isTop" column="is_top" jdbcType="INTEGER"/>
+        <result property="isFeatured" column="is_featured" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="categoryName" column="category_name"/>
+        <association property="author" javaType="com.vs.article.entity.UserInfo">
+            <result property="nickname" column="author_nickname"/>
+            <result property="website" column="author_website"/>
+            <result property="avatar" column="author_avatar"/>
+        </association>
+        <collection property="tags" ofType="com.vs.article.entity.Tag">
+            <result property="tagName" column="tag_name"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="ArticleDTOResultMap" type="com.vs.article.model.dto.ArticleDTO">
+        <id property="id" column="id"/>
+        <result property="articleCover" column="article_cover"/>
+        <result property="articleTitle" column="article_title"/>
+        <result property="articleContent" column="article_content"/>
+        <result property="isTop" column="is_top"/>
+        <result property="isFeatured" column="is_featured"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="type" column="type"/>
+        <result property="originalUrl" column="original_url"/>
+        <association property="author" javaType="com.vs.article.entity.UserInfo">
+            <result property="nickname" column="author_nickname"/>
+            <result property="website" column="author_website"/>
+            <result property="avatar" column="author_avatar"/>
+        </association>
+        <collection property="tags" ofType="com.vs.article.entity.Tag">
+            <result property="tagName" column="tag_name"/>
+        </collection>
+    </resultMap>
+
+<!--    查询所有文章卡片-->
+    <select id="listArticles" resultMap="ArticleCardDTOResultMap">
+        SELECT a.id                            AS id,
+               article_cover,
+               article_title,
+               if(article_abstract is null or article_abstract = '', SUBSTR(article_content, 1, 500), article_abstract) AS article_content,
+               is_top,
+               is_featured,
+               status,
+               a.create_time                   AS create_time,
+               a.update_time                   AS update_time,
+               u.nickname                      AS author_nickname,
+               u.website                       AS author_website,
+               u.avatar                        AS author_avatar,
+               c.category_name                 AS category_name,
+               tag_name
+        FROM (SELECT id,
+                     user_id,
+                     category_id,
+                     article_cover,
+                     article_abstract,
+                     article_title,
+                     article_content,
+                     is_top,
+                     is_featured,
+                     is_delete,
+                     status,
+                     create_time,
+                     update_time
+              FROM t_article
+              where is_delete = 0
+                and status in (1, 2)
+              order by id desc
+              LIMIT #{current} , #{size}) a
+                 LEFT JOIN t_article_tag at
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
+    </select>
+
+<!--    置顶推荐文章-->
+    <select id="listTopFeaturedArticles" resultMap="ArticleCardDTOResultMap">
+        SELECT a.id                            AS id,
+               category_id,
+               article_cover,
+               article_title,
+               if(article_abstract is null or article_abstract = '', SUBSTR(article_content, 1, 500), article_abstract) AS article_content,
+               is_top,
+               is_featured,
+               status,
+               a.create_time                   AS create_time,
+               a.update_time                   AS update_time,
+               u.nickname                      AS author_nickname,
+               u.website                       AS author_website,
+               u.avatar                        AS author_avatar,
+               c.category_name                 AS category_name,
+               tag_name
+        FROM (SELECT id,
+                     user_id,
+                     category_id,
+                     article_cover,
+                     article_title,
+                     article_abstract,
+                     article_content,
+                     is_top,
+                     is_featured,
+                     is_delete,
+                     status,
+                     create_time,
+                     update_time
+              FROM t_article) a
+                 LEFT JOIN t_article_tag at
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
+        where a.is_delete = 0
+          and a.status in (1, 2)
+        order by is_top desc, is_featured desc
+    </select>
+</mapper>
+

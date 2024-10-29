@@ -10,15 +10,23 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://profile.mysql.host:3306/$profile.mysql.database?rewriteBatchedStatements=true&characterEncoding=UTF-8&useUnicode=true&characterSetResults=UTF-8
-    username: profile.mysql.name
-    password: profile.mysql.password
+    url: jdbc:mysql://${profile.mysql.host}:3306/${profile.mysql.database}?rewriteBatchedStatements=true&characterEncoding=UTF-8&useUnicode=true&characterSetResults=UTF-8
+    username: ${profile.mysql.name}
+    password: ${profile.mysql.password}
 
 mybatis-plus:
   configuration:
     default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+    map-underscore-to-camel-case: true
+    cache-enabled: true
   global-config:
     db-config:
       update-strategy: not_null
       id-type: auto
+  type-aliases-package: com.vs.article.entity.article
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
 
