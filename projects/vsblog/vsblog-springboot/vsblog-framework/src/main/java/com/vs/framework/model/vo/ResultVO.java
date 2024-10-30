@@ -1,10 +1,7 @@
 package com.vs.framework.model.vo;
 
 import com.vs.framework.enums.StatusCodeEnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import static com.vs.framework.enums.StatusCodeEnum.*;
 
 // 统一响应格式

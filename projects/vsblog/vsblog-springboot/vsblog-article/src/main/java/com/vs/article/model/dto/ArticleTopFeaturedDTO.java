@@ -1,9 +1,6 @@
 package com.vs.article.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,7 +9,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TopFeaturedArticlesDTO {
+public class ArticleTopFeaturedDTO {
     private ArticleCardDTO topArticle;
     private List<ArticleCardDTO> featuredArticles;
 }

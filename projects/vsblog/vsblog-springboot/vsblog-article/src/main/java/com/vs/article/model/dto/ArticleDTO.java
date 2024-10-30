@@ -2,10 +2,7 @@ package com.vs.article.model.dto;
 
 import com.vs.article.entity.Tag;
 import com.vs.article.entity.UserInfo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;

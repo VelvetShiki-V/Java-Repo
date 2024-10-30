@@ -2,18 +2,14 @@ package com.vs.article.model.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "文章VO视图展示层对象")
+@Schema(description = "普通用户浏览页面文章VO")
 public class ArticleVO {
 
     @Schema(name = "id", description = "文章id", type = "Integer")
