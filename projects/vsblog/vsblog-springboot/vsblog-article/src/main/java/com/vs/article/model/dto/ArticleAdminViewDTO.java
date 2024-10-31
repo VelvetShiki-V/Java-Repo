@@ -1,37 +1,39 @@
 package com.vs.article.model.dto;
 
 import lombok.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
-// 后台管理文章列表视图
+// 后台管理文章详情视图
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleAdminDTO {
+public class ArticleAdminViewDTO {
 
     private Integer id;
 
-    private String articleCover;
-
     private String articleTitle;
 
-    private LocalDateTime createTime;
+    private String articleAbstract;
 
-    private Integer viewsCount;
+    private String articleContent;
+
+    private String articleCover;
 
     private String categoryName;
 
-    private List<TagDTO> tagDTOs;         // 标签管理
+    private List<String> tagNames;      // 借助tagService查询
 
     private Integer isTop;
 
     private Integer isFeatured;
 
-    private Integer isDelete;
-
     private Integer status;
 
     private Integer type;
+
+    private String originalUrl;
+
+    private String password;
+
 }

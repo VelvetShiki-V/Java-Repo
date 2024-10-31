@@ -1,12 +1,16 @@
 package com.vs.article.controller;
 
 import com.vs.article.model.dto.ArticleAdminDTO;
+import com.vs.article.model.dto.ArticleAdminViewDTO;
 import com.vs.article.model.vo.*;
+import com.vs.article.service.AdminArticleService;
 import com.vs.framework.model.dto.PageResultDTO;
 import com.vs.framework.model.vo.ResultVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
@@ -14,20 +18,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 @Tag(name = "文章后台管理API")
+@RequiredArgsConstructor
 public class AdminArticleController {
+
+    private final AdminArticleService adminArticleService;
+
 
     @Operation(summary = "获取后台所有文章，接收条件筛选可选请求参数")
     @GetMapping("/articles")
     public ResultVO<PageResultDTO<ArticleAdminDTO>> listAdminArticles(ArticleFilterVO articleFilterVO) {
-        // TODO
-        return ResultVO.ok();
+        // FIXME
+        return ResultVO.ok(adminArticleService.listAdminArticles(articleFilterVO));
     }
 
     @Operation(summary = "根据id获取文章")
     @GetMapping("/articles/{articleId}")
-    public ResultVO<ArticleAdminViewVO> getAdminArticle(@PathVariable("articleId") Integer articleId) {
-        // TODO
-        return  ResultVO.ok();
+    public ResultVO<ArticleAdminViewDTO> getAdminArticle(@PathVariable("articleId") Integer articleId) {
+        return ResultVO.ok(adminArticleService.getAdminArticle(articleId));
     }
 
     @Operation(summary = "修改编辑文章")

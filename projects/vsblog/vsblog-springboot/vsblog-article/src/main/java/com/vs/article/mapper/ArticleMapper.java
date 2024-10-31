@@ -33,4 +33,10 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     // 获取第一篇文章卡片
     ArticleCardDTO getFirstArticleCard();
+
+    // 根据标签id获取文章列表
+    List<ArticleCardDTO> listTagArticles(@Param("current") Long current, @Param("size") Long size, @Param("tagId") Integer tagId);
+
+    // 获取所有文章归档
+    List<ArticleCardDTO> listArchives(@Param("current") Long pageOffset, @Param("size") Long pageSize);
 }

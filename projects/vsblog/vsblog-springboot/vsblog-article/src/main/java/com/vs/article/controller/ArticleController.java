@@ -1,9 +1,6 @@
 package com.vs.article.controller;
 
-import com.vs.article.model.dto.ArticleCardDTO;
-import com.vs.article.model.dto.ArticleDTO;
-import com.vs.article.model.dto.ArticleSearchDTO;
-import com.vs.article.model.dto.ArticleTopFeaturedDTO;
+import com.vs.article.model.dto.*;
 import com.vs.article.model.vo.ArticleFilterVO;
 import com.vs.article.model.vo.ArticlePasswordVO;
 import com.vs.article.service.ArticleService;
@@ -51,29 +48,26 @@ public class ArticleController {
     @Operation(summary = "获取标签Id文章")
     @GetMapping("/tag")
     public ResultVO<PageResultDTO<ArticleCardDTO>> listTagArticles(@RequestParam("id") Integer tagId) {
-        // TODO
-        return ResultVO.ok();
+        return ResultVO.ok(articleService.listTagArticles(tagId));
     }
 
     @Operation(summary = "权限文章校验密码")
     @PostMapping("/access")
-    public ResultVO accessArticle(@Valid @RequestBody ArticlePasswordVO articlePasswordVO) {
-        // TODO
+    public ResultVO<?> accessPrivateArticle(@Valid @RequestBody ArticlePasswordVO articlePasswordVO) {
+        articleService.accessPrivateArticle(articlePasswordVO);
         return ResultVO.ok();
     }
 
     @Operation(summary = "获取所有文章归档")
     @GetMapping("/archives")
-    public ResultVO listArchives() {
-        // TODO
-        return ResultVO.ok();
+    public ResultVO<PageResultDTO<ArchiveDTO>> listArchives() {
+        return ResultVO.ok(articleService.listArchives());
     }
 
     @Operation(summary = "搜索文章")
     @PostMapping("/search")
     public ResultVO<List<ArticleSearchDTO>> listSearchedArticles(ArticleFilterVO articleFilterVO) {
-        // TODO
-        return ResultVO.ok();
+        return ResultVO.ok(articleService.listSearchedArticles(articleFilterVO));
     }
 
 }

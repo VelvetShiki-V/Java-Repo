@@ -25,8 +25,14 @@ mybatis-plus:
       id-type: auto
   type-aliases-package: com.vs.article.entity.article
 
+# api
 knife4j:
   enable: true
   setting:
     language: zh_cn
 
+# 日志
+logging:
+  level:
+    root: INFO
+    com.vs: DEBUG

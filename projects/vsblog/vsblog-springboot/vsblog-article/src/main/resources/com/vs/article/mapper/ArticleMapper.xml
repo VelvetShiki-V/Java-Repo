@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vs.article.mapper.ArticleMapper">
 
+<!--    实体类映射-->
     <resultMap type="com.vs.article.model.dto.ArticleCardDTO" id="ArticleCardDTOResultMap">
         <id property="id" column="id" />
         <result property="id" column="id" jdbcType="INTEGER"/>
@@ -24,7 +25,7 @@
         </collection>
     </resultMap>
 
-    <resultMap id="ArticleDTOResultMap" type="com.vs.article.model.dto.ArticleDTO">
+    <resultMap type="com.vs.article.model.dto.ArticleDTO" id="ArticleDTOResultMap">
         <id property="id" column="id"/>
         <result property="articleCover" column="article_cover"/>
         <result property="articleTitle" column="article_title"/>
@@ -46,6 +47,7 @@
         </collection>
     </resultMap>
 
+<!--    多表联查-->
 <!--    查询所有文章卡片-->
     <select id="listArticleCards" resultMap="ArticleCardDTOResultMap">
         SELECT a.id                            AS id,
@@ -255,7 +257,6 @@
                  LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
 
-
     <select id="getNextArticleCard" resultMap="ArticleCardDTOResultMap">
         SELECT a.id                            AS id,
                article_cover,
@@ -338,7 +339,6 @@
                  LEFT JOIN t_user_info u ON a.user_id = u.id
     </select>
 
-
     <select id="getLastArticleCard" resultMap="ArticleCardDTOResultMap">
         SELECT a.id                            AS id,
                article_cover,
@@ -377,6 +377,50 @@
                  LEFT JOIN t_tag t ON t.id = at.tag_id
                  LEFT JOIN t_category c ON a.category_id = c.id
                  LEFT JOIN t_user_info u ON a.user_id = u.id
+    </select>
+
+<!--    查询标签文章-->
+    <select id="listTagArticles" resultMap="ArticleCardDTOResultMap">
+        SELECT a.id                            AS id,
+               category_id,
+               article_cover,
+               article_title,
+               if(article_abstract is null or article_abstract = '', SUBSTR(article_content, 1, 500), article_abstract) AS article_content,
+               is_top,
+               is_featured,
+               status,
+               a.create_time                   AS create_time,
+               a.update_time                   AS update_time,
+               u.nickname                      AS author_nickname,
+               u.website                       AS author_website,
+               u.avatar                        AS author_avatar,
+               c.category_name                 AS category_name,
+               tag_name
+        FROM t_article a
+                 LEFT JOIN t_article_tag at
+                           ON a.id = at.article_id
+                 LEFT JOIN t_tag t ON t.id = at.tag_id
+                 LEFT JOIN t_category c ON a.category_id = c.id
+                 LEFT JOIN t_user_info u ON a.user_id = u.id
+        WHERE at.tag_id = #{tagId}
+          and a.is_delete = 0
+          and status in (1, 2)
+        LIMIT #{current} , #{size}
+    </select>
+
+<!--    获取所有文章归档-->
+    <select id="listArchives" resultType="com.vs.article.model.dto.ArticleCardDTO">
+        SELECT id,
+               article_title,
+               if(article_abstract is null or article_abstract = '', SUBSTR(article_content, 1, 500),
+                  article_abstract) AS article_content,
+               status,
+               create_time
+        FROM t_article
+        WHERE is_delete = 0
+          and (status = 1 or status = 2)
+        ORDER BY create_time DESC
+        LIMIT #{current}, #{size}
     </select>
 </mapper>
 

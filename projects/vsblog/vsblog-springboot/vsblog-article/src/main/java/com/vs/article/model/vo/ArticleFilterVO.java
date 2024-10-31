@@ -12,19 +12,22 @@ import java.time.LocalDateTime;
 public class ArticleFilterVO {
 
     @Schema(description = "页码")
-    private Long pageIndex;
+    private Long current;
 
     @Schema(description = "条数")
-    private Long pageSize;
+    private Long size;
 
     @Schema(description = "文章关键字")
-    private String title;
+    private String keywords;
 
     @Schema(description = "分类id")
     private Integer categoryId;
 
     @Schema(description = "标签id")
     private Integer tagId;
+
+    @Schema(description = "相册id")
+    private Integer albumId;
 
     @Schema(description = "登录类型")
     private Integer loginType;
@@ -36,16 +39,16 @@ public class ArticleFilterVO {
     private Integer status;
 
     @Schema(description = "文章发布时间")
-    private LocalDateTime publishTime;
+    private LocalDateTime startTime;
 
     @Schema(description = "截止时间")
     private LocalDateTime endTime;
 
     @Schema(description = "是否删除")
-    private Integer isDeleted;
+    private Integer isDelete;
 
     @Schema(description = "是否审核")
-    private Integer isCensored;
+    private Integer isReview;
 
     @Schema(description = "是否置顶")
     private Integer isTop;

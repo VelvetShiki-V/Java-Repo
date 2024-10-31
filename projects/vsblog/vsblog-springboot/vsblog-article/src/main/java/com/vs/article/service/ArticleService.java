@@ -2,11 +2,11 @@ package com.vs.article.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.vs.article.entity.Article;
-import com.vs.article.model.dto.ArticleCardDTO;
-import com.vs.article.model.dto.ArticleDTO;
-import com.vs.article.model.dto.ArticleTopFeaturedDTO;
-import com.vs.article.model.vo.ArticleVO;
+import com.vs.article.model.dto.*;
+import com.vs.article.model.vo.ArticleFilterVO;
+import com.vs.article.model.vo.ArticlePasswordVO;
 import com.vs.framework.model.dto.PageResultDTO;
+import java.util.List;
 
 public interface ArticleService extends IService<Article> {
 
@@ -21,4 +21,16 @@ public interface ArticleService extends IService<Article> {
 
     // 根据id获取文章
     ArticleDTO getArticle(Integer articleId);
+
+    // 根据标签id获取文章列表
+    PageResultDTO<ArticleCardDTO> listTagArticles(Integer tagId);
+
+    // 私密文章密码校验
+    void accessPrivateArticle(ArticlePasswordVO articlePasswordVO);
+
+    // 获取所有文章归档
+    PageResultDTO<ArchiveDTO> listArchives();
+
+    // 获取es分词器搜索文章列表
+    List<ArticleSearchDTO> listSearchedArticles(ArticleFilterVO articleFilterVO);
 }

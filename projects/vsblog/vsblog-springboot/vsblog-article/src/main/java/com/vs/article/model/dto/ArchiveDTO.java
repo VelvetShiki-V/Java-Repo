@@ -1,8 +1,6 @@
 package com.vs.article.model.dto;
 
 import lombok.*;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -11,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ArchiveDTO {
 
-    private LocalDateTime time;
+    private String time;        // 将时间作为map的键
 
-    private List<ArticleCardDTO> articles;
+    private List<ArticleCardDTO> articles;  // 一键多值
 }

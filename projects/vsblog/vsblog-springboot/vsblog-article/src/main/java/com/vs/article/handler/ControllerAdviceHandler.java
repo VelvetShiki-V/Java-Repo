@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerAdviceHandler {
     // 自定义错误
     @ExceptionHandler(CustomException.class)
-    public ResultVO customExceptionHandler(CustomException e) {
+    public ResultVO<?> customExceptionHandler(CustomException e) {
         return ResultVO.fail(e.getCode(), e.getMessage());
     }
 
     // 内部错误
     @ExceptionHandler(Exception.class)
-    public ResultVO globalHandler(Exception e) {
+    public ResultVO<?> globalHandler(Exception e) {
         e.printStackTrace();
         log.error("全局异常捕获: 服务器内部异常: {}", e.getMessage());
         return ResultVO.fail(StatusCodeEnum.SYSTEM_ERROR.getCode(), StatusCodeEnum.SYSTEM_ERROR.getDesc());

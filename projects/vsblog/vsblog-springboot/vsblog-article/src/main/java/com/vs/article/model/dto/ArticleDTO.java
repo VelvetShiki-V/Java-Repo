@@ -32,7 +32,7 @@ public class ArticleDTO {
 
     private Integer status;
 
-    private List<Tag> tags;
+    private List<Tag> tags;         // 标签展示
 
     private Integer viewCount;
 
