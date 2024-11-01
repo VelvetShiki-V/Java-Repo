@@ -22,7 +22,7 @@ public class ArticleAdminViewDTO {
 
     private String categoryName;
 
-    private List<String> tagNames;      // 借助tagService查询
+    private List<String> tagNames;
 
     private Integer isTop;
 

@@ -7,16 +7,18 @@ import com.vs.article.service.AdminArticleService;
 import com.vs.framework.model.dto.PageResultDTO;
 import com.vs.framework.model.vo.ResultVO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 @Tag(name = "文章后台管理API")
 @RequiredArgsConstructor
 public class AdminArticleController {
@@ -24,10 +26,26 @@ public class AdminArticleController {
     private final AdminArticleService adminArticleService;
 
 
-    @Operation(summary = "获取后台所有文章，接收条件筛选可选请求参数")
+    @Operation(summary = "获取后台过滤条件的文章")
     @GetMapping("/articles")
+    @Parameters({
+            @Parameter(name = "current", description = "页码"),
+            @Parameter(name = "size", description = "条数"),
+            @Parameter(name = "keywords", description = "文章关键字"),
+            @Parameter(name = "categoryId", description = "分类id"),
+            @Parameter(name = "tagId", description = "标签id"),
+            @Parameter(name = "albumId", description = "相簿id"),
+            @Parameter(name = "loginType", description = "登录类型"),
+            @Parameter(name = "type", description = "文章类型"),
+            @Parameter(name = "status", description = "文章状态"),
+            @Parameter(name = "startTime", description = "发布时间"),
+            @Parameter(name = "endTime", description = "截止时间"),
+            @Parameter(name = "isDelete", description = "是否删除", required = true),
+            @Parameter(name = "isReview", description = "是否审核"),
+            @Parameter(name = "isTop", description = "是否置顶"),
+            @Parameter(name = "isFeatured", description = "是否推荐"),
+    })
     public ResultVO<PageResultDTO<ArticleAdminDTO>> listAdminArticles(ArticleFilterVO articleFilterVO) {
-        // FIXME
         return ResultVO.ok(adminArticleService.listAdminArticles(articleFilterVO));
     }
 
@@ -39,8 +57,8 @@ public class AdminArticleController {
 
     @Operation(summary = "修改编辑文章")
     @PostMapping("/articles")
-    public ResultVO<?> editArticle(@RequestBody ArticleVO articleVO) {
-        // TODO
+    public ResultVO<?> editArticle(@Valid @RequestBody ArticleVO articleVO) {
+        adminArticleService.editArticle(articleVO);
         return ResultVO.ok();
     }
 

@@ -1,8 +1,15 @@
 package com.vs.article.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-import lombok.*;
-import java.time.LocalDateTime;
+import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
@@ -11,15 +18,13 @@ import java.time.LocalDateTime;
 @TableName("t_category")
 public class Category {
 
-    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-
+    //分类名
     private String categoryName;
-
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    @TableField(fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
+    //创建时间
+    private Date createTime;
+    //更新时间
+    private Date updateTime;
 
 }
+
