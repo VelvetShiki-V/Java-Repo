@@ -64,22 +64,22 @@ public class AdminArticleController {
 
     @Operation(summary = "逻辑删除或恢复文章")
     @PutMapping("/articles")
-    public ResultVO<?> logicallyDeleteArticle(@Valid @RequestBody ArticleDeleteVO articleDeleteVO) {
-        // TODO
+    public ResultVO<?> deleteStateChange(@Valid @RequestBody ArticleDeleteVO articleDeleteVO) {
+        adminArticleService.deleteStateChange(articleDeleteVO);
         return ResultVO.ok();
     }
 
     @Operation(summary = "物理删除文章")
     @DeleteMapping("/articles/delete")
     public ResultVO<?> deleteArticle(@RequestBody List<Integer> articleIds) {
-        // TODO
+        adminArticleService.deleteArticle(articleIds);
         return ResultVO.ok();
     }
 
     @Operation(summary = "修改置顶和推荐文章")
     @PutMapping("/articles/topFeatured")
     public ResultVO<?> updateTopFeaturedArticles(@Valid @RequestBody ArticleTopFeaturedVO articleTopFeaturedVO) {
-        // TODO
+        adminArticleService.updateTopFeaturedArticles(articleTopFeaturedVO);
         return ResultVO.ok();
     }
 
@@ -87,21 +87,21 @@ public class AdminArticleController {
     @Operation(summary = "文章上传图片，返回图片url")
     @PostMapping("/articles/images")
     public ResultVO<String> uploadArticleImages(@RequestParam MultipartFile file) {
-        // TODO
+        // TODO: uploadStrategy
         return ResultVO.ok();
     }
 
     @Operation(summary = "批量导入文章")
     @PostMapping("/articles/import")
     public ResultVO<?> importArticle(@RequestParam String type, MultipartFile file) {
-        // TODO
+        // TODO: 接收文章存入对象存储strategy
         return ResultVO.ok();
     }
 
     @Operation(summary = "批量导出文章")
     @PostMapping("/articles/export")
     public ResultVO<List<String>> exportArticle(@RequestBody List<Integer> articleIds) {
-        // TODO
+        // TODO: es strategy
         return ResultVO.ok();
     }
 }

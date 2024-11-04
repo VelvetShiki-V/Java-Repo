@@ -25,15 +25,15 @@ public class Article {
 
     private String articleContent;
 
-    private Integer isTop;              // 是否置顶 0否 1是
+    private Integer isTop = 0;              // 是否置顶 0否 1是
 
-    private Integer isFeatured;
+    private Integer isFeatured = 0;
 
-    private Integer isDelete;           // 是否删除  0否 1是
+    private Integer isDelete = 0;           // 是否删除  0否 1是
 
-    private Integer status;             // 状态值 1公开 2私密 3草稿
+    private Integer status = 1;             // 状态值 1公开 2私密 3草稿
 
-    private Integer type;               // 文章类型 1原创 2转载 3翻译
+    private Integer type = 1;               // 文章类型 1原创 2转载 3翻译
 
     private String password;
 

@@ -29,10 +29,10 @@ public class ArticleVO {
     @Schema(name = "articleCover", description = "文章缩略图", type = "String")
     private String articleCover;
 
-    @Schema(name = "category", description = "文章分类", type = "Integer")
+    @Schema(name = "categoryName", description = "文章分类", type = "String")
     private String categoryName;
 
-    @Schema(name = "tagNameList", description = "文章标签", type = "List<Integer>")
+    @Schema(name = "tagNames", description = "文章标签", type = "List<String>")
     private List<String> tagNames;
 
     @Schema(name = "isTop", description = "是否置顶", type = "Integer")
