@@ -1,9 +1,11 @@
 package com.vs.article.controller;
 
+import com.vs.article.enums.FilePathEnum;
 import com.vs.article.model.dto.ArticleAdminDTO;
 import com.vs.article.model.dto.ArticleAdminViewDTO;
 import com.vs.article.model.vo.*;
 import com.vs.article.service.AdminArticleService;
+import com.vs.article.strategy.context.FileUploadStrategyContext;
 import com.vs.framework.model.dto.PageResultDTO;
 import com.vs.framework.model.vo.ResultVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +26,8 @@ import java.util.List;
 public class AdminArticleController {
 
     private final AdminArticleService adminArticleService;
+
+    private final FileUploadStrategyContext fileUploadStrategyContext;
 
 
     @Operation(summary = "获取后台过滤条件的文章")
@@ -84,16 +88,18 @@ public class AdminArticleController {
     }
 
     // 文章编辑相关
-    @Operation(summary = "文章上传图片，返回图片url")
+    @Operation(summary = "文章上传图片，返回图片url，相同图片不会重复上传")
     @PostMapping("/articles/images")
-    public ResultVO<String> uploadArticleImages(@RequestParam MultipartFile file) {
-        // TODO: uploadStrategy
-        return ResultVO.ok();
+    public ResultVO<String> uploadArticleImages(@RequestParam("file") MultipartFile file, @RequestParam("dirPath") String dirPath) {
+        return ResultVO.ok(fileUploadStrategyContext
+                .executeUploadStrategy(file, FilePathEnum
+                        .ARTICLE_IMAGE.getPath() + dirPath + FilePathEnum.DIR_SUFFIX.getPath()));
     }
 
     @Operation(summary = "批量导入文章")
     @PostMapping("/articles/import")
-    public ResultVO<?> importArticle(@RequestParam String type, MultipartFile file) {
+    public ResultVO<?> importArticle(@RequestParam("file") MultipartFile file, String type,
+                                     @RequestParam("dirPath") String dirPath) {
         // TODO: 接收文章存入对象存储strategy
         return ResultVO.ok();
     }

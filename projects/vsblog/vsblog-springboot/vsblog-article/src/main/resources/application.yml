@@ -8,11 +8,18 @@ spring:
   profiles:
     active: dev
 
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${profile.mysql.host}:3306/${profile.mysql.database}?rewriteBatchedStatements=true&characterEncoding=UTF-8&useUnicode=true&characterSetResults=UTF-8
     username: ${profile.mysql.name}
     password: ${profile.mysql.password}
+
+  # 文件上传大小限制
+  servlet:
+    multipart:
+      max-file-size: ${profile.upload.maxFileSize}
+      max-request-size: ${profile.upload.maxRequestSize}
 
 mybatis-plus:
   configuration:
