@@ -61,8 +61,8 @@ public class AdminArticleController {
 
     @Operation(summary = "修改编辑文章")
     @PostMapping("/articles")
-    public ResultVO<?> editArticle(@Valid @RequestBody ArticleVO articleVO) {
-        adminArticleService.editArticle(articleVO);
+    public ResultVO<?> saveOrUpdateArticle(@Valid @RequestBody ArticleVO articleVO) {
+        adminArticleService.saveOrUpdateArticle(articleVO);
         return ResultVO.ok();
     }
 
@@ -96,18 +96,17 @@ public class AdminArticleController {
                         .ARTICLE_IMAGE.getPath() + dirPath + FilePathEnum.DIR_SUFFIX.getPath()));
     }
 
-    @Operation(summary = "批量导入文章")
+    @Operation(summary = "导入文章")
     @PostMapping("/articles/import")
-    public ResultVO<?> importArticle(@RequestParam("file") MultipartFile file, String type,
-                                     @RequestParam("dirPath") String dirPath) {
-        // TODO: 接收文章存入对象存储strategy
+    public ResultVO<?> importArticle(@RequestParam("file") MultipartFile file) {
+        // 前端图片上传完毕后，将替换好url的图片连同整个文章传入存储
+        adminArticleService.importArticle(file);
         return ResultVO.ok();
     }
 
     @Operation(summary = "批量导出文章")
     @PostMapping("/articles/export")
-    public ResultVO<List<String>> exportArticle(@RequestBody List<Integer> articleIds) {
-        // TODO: es strategy
-        return ResultVO.ok();
+    public ResultVO<List<String>> exportArticles(@RequestBody List<Integer> articleIds) {
+        return ResultVO.ok(adminArticleService.exportArticles(articleIds));
     }
 }

@@ -22,7 +22,7 @@ public interface AdminArticleService extends IService<Article> {
     ArticleAdminViewDTO getAdminArticle(Integer articleId);
 
     // 修改编辑文章
-    void editArticle(ArticleVO articleVO);
+    void saveOrUpdateArticle(ArticleVO articleVO);
 
     // 批量更改文章删除状态
     void deleteStateChange(ArticleDeleteVO articleDeleteVO);
@@ -33,4 +33,9 @@ public interface AdminArticleService extends IService<Article> {
     // 修改置顶或推荐文章状态
     void updateTopFeaturedArticles(ArticleTopFeaturedVO articleTopFeaturedVO);
 
+    // 导入文章
+    void importArticle(MultipartFile file);
+
+    // 导出文章
+    List<String> exportArticles(List<Integer> articleIds);
 }

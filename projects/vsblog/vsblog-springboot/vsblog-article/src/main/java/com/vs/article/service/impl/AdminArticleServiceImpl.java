@@ -6,7 +6,11 @@ import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.vs.article.constant.ArticleConstants;
 import com.vs.article.entity.*;
+import com.vs.article.enums.ArticleEnums;
+import com.vs.article.enums.FileExtEnum;
+import com.vs.article.enums.FilePathEnum;
 import com.vs.article.exception.CustomException;
 import com.vs.article.mapper.AdminArticleMapper;
 import com.vs.article.mapper.ArticleTagMapper;
@@ -21,6 +25,7 @@ import com.vs.article.service.AdminArticleService;
 import com.vs.article.service.ArticleTagService;
 import com.vs.article.service.CategoryService;
 import com.vs.article.service.TagService;
+import com.vs.article.strategy.context.FileUploadStrategyContext;
 import com.vs.framework.model.dto.PageResultDTO;
 import com.vs.framework.utils.PageUtil;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +36,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +63,8 @@ public class AdminArticleServiceImpl extends ServiceImpl<AdminArticleMapper, Art
     private final TagMapper tagMapper;
 
     private final ArticleTagMapper articleTagMapper;
+
+    private final FileUploadStrategyContext fileUploadStrategyContext;
 
     // 返回后台条件过滤筛选文章
     @SneakyThrows
@@ -91,28 +102,30 @@ public class AdminArticleServiceImpl extends ServiceImpl<AdminArticleMapper, Art
         return viewArticle;
     }
 
-    // 修改编辑文章
+    // 新增或更新文章
     @SneakyThrows
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void editArticle(ArticleVO articleVO) {
+    public void saveOrUpdateArticle(ArticleVO articleVO) {
         // 封装article对象准备更新
-        Article article = lambdaQuery().eq(Article::getId, articleVO.getId()).one();
-        if(Objects.isNull(article)) {
-            throw new CustomException("404", "文章不存在", HttpStatus.NOT_FOUND);
-        }
+        Article article = new Article();
         // 基本内容修改
         BeanUtil.copyProperties(articleVO, article, CopyOptions.create().setIgnoreNullValue(true));
+        // TODO: 用户信息设置(根据已登录用户id存储)
+        article.setUserId(1);
         // 分类修改（1个已存在的）
         article.setCategoryId(categoryService.lambdaQuery()
                 .eq(Category::getCategoryName, articleVO.getCategoryName())
                 .one()
                 .getId());
         // 自定义tag新增或删除（每篇文章标签最大为3个）
-        updateTag(articleVO);
-        // 存入新的article对象
-        article.setUpdateTime(LocalDateTime.now());
+        if(Objects.nonNull(article.getId())) updateTag(articleVO);
+        // 如果文章不存在，则新增文章
+        if(Objects.nonNull(article.getId())) article.setUpdateTime(LocalDateTime.now());
+        else article.setCreateTime(LocalDateTime.now());
         saveOrUpdate(article);
+        // 异步通知mq
+        // TODO...
     }
 
     // 批量更改文章删除状态
@@ -148,6 +161,53 @@ public class AdminArticleServiceImpl extends ServiceImpl<AdminArticleMapper, Art
                 .isFeatured(articleTopFeaturedVO.getIsFeatured())
                 .build();
         adminArticleMapper.updateById(article);
+    }
+
+    // 导入文章至数据库和minio图床
+    @SneakyThrows
+    @Override
+    public void importArticle(MultipartFile file) {
+        // 解析文章标题
+        String title = Objects.requireNonNull(file.getOriginalFilename()).substring(0, file.getOriginalFilename().lastIndexOf("."));
+        // 解析文章内容
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            while (reader.ready()) {
+                // ascii转字符
+                content.append((char) reader.read());
+            }
+        } catch (IOException e) {
+            log.error("导入文章失败, IO错误", e);
+            throw new RuntimeException("导入文章失败, IO错误: " + e);
+        }
+        // 存储数据库
+        saveOrUpdateArticle(ArticleVO.builder()
+                .articleTitle(title)
+                .categoryName("默认分类")
+                .articleContent(content.toString())
+                .status(ArticleConstants.Status.DRAFT)
+                .build());
+    }
+
+    // 批量导出文章
+    @SneakyThrows
+    @Override
+    public List<String> exportArticles(List<Integer> articleIds) {
+        // 借助minio上传文章后通过返回urls列表提供下载
+        List<Article> articles = lambdaQuery().in(Article::getId, articleIds).list();
+        List<String> urls = new ArrayList<>();
+        for(Article article: articles) {
+            // 转字节流上传
+            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(article.getArticleContent().getBytes())) {
+                String url = fileUploadStrategyContext.executeUploadStrategy(inputStream,
+                        FilePathEnum.ARTICLE.getPath(), article.getArticleTitle() + FileExtEnum.MD.getExtName());
+                urls.add(url);
+            } catch (Exception e) {
+                log.error("导出文章字节流上传minio失败", e);
+                throw new CustomException("500", "导出文章字节流上传minio失败" + e, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        return urls;
     }
 
     // 更新文章与标签
