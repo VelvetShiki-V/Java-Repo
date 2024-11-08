@@ -4,6 +4,7 @@ import com.vs.article.model.dto.*;
 import com.vs.article.model.vo.ArticleFilterVO;
 import com.vs.article.model.vo.ArticlePasswordVO;
 import com.vs.article.service.ArticleService;
+import com.vs.article.strategy.context.ArticleSearchStrategyContext;
 import com.vs.framework.model.dto.PageResultDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,6 +21,8 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
+
+    private final ArticleSearchStrategyContext searchStrategyContext;
 
     @Operation(summary = "获取id文章")
     @GetMapping("/{articleId}")
@@ -66,8 +69,8 @@ public class ArticleController {
 
     @Operation(summary = "搜索文章")
     @PostMapping("/search")
-    public ResultVO<List<ArticleSearchDTO>> listSearchedArticles(ArticleFilterVO articleFilterVO) {
-        return ResultVO.ok(articleService.listSearchedArticles(articleFilterVO));
+    public ResultVO<List<ArticleSearchDTO>> listSearchedArticles(@RequestParam("keywords") String keywords) {
+        return ResultVO.ok(searchStrategyContext.executeSearchStrategy(keywords));
     }
 
 }

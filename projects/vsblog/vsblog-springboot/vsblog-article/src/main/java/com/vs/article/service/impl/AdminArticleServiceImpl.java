@@ -6,7 +6,6 @@ import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.vs.article.constant.ArticleConstants;
 import com.vs.article.entity.*;
 import com.vs.article.enums.ArticleEnums;
 import com.vs.article.enums.FileExtEnum;
@@ -185,7 +184,7 @@ public class AdminArticleServiceImpl extends ServiceImpl<AdminArticleMapper, Art
                 .articleTitle(title)
                 .categoryName("默认分类")
                 .articleContent(content.toString())
-                .status(ArticleConstants.Status.DRAFT)
+                .status(ArticleEnums.Status.DRAFT.getValue())
                 .build());
     }
 

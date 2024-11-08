@@ -27,6 +27,14 @@ profile:
     maxFileSize: 10MB
     maxRequestSize: 100MB
 
+  # 文章搜索策略
+  search:
+    mode: elasticsearch
+    elasticsearch:
+      host: localhost
+      port: 9200
+      scheme: http
+
 #  redisson:
 #    address: 127.0.0.1
 #    port: 6379

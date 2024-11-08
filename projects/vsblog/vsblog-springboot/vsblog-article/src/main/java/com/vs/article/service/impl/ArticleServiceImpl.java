@@ -4,7 +4,6 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.vs.article.constant.ArticleConstants;
 import com.vs.article.entity.Article;
 import com.vs.article.entity.ArticleTag;
 import com.vs.article.enums.ArticleEnums;
@@ -12,7 +11,6 @@ import com.vs.article.exception.CustomException;
 import com.vs.article.mapper.ArticleMapper;
 import com.vs.article.mapper.ArticleTagMapper;
 import com.vs.article.model.dto.*;
-import com.vs.article.model.vo.ArticleFilterVO;
 import com.vs.article.model.vo.ArticlePasswordVO;
 import com.vs.article.service.ArticleService;
 import com.vs.framework.model.dto.PageResultDTO;
@@ -42,7 +40,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 查询条目数目
         LambdaQueryWrapper<Article> queryWrapper= new LambdaQueryWrapper<Article>()
                 .eq(Article::getIsDelete, ArticleEnums.Delete.IS_NOT_DELETED)
-                .in(Article::getStatus, ArticleConstants.Status.PUBLIC, ArticleConstants.Status.PRIVATE);
+                .in(Article::getStatus, ArticleEnums.Status.PUBLIC.getValue(), ArticleEnums.Status.PRIVATE.getValue());
         CompletableFuture<Long> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
         // 查询文章
         List<ArticleCardDTO> articles = articleMapper.listArticleCards(PageUtil.getPageOffset(), PageUtil.getPageSize());
@@ -88,8 +86,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 先查询文章是否为草稿或私密文章
         Article articleForCheck = lambdaQuery().eq(Article::getId, articleId).one();
         if(Objects.isNull(articleForCheck) || articleForCheck.getStatus()
-                .equals(ArticleConstants.Status.DRAFT)) return null;
-        if(articleForCheck.getStatus().equals(ArticleConstants.Status.PRIVATE)) {
+                .equals(ArticleEnums.Status.DRAFT.getValue())) return null;
+        if(articleForCheck.getStatus().equals(ArticleEnums.Status.PRIVATE.getValue())) {
             // 先redis校验登录身份，再另发请求校验密码
             // TODO: redis登录身份校验
         }
@@ -153,7 +151,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public PageResultDTO<ArchiveDTO> listArchives() {
         // 数据库查询自动过滤草稿和已删除文章，并按时间排序条目
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>()
-                .in(Article::getStatus, ArticleConstants.Status.PUBLIC, ArticleConstants.Status.PRIVATE)
+                .in(Article::getStatus, ArticleEnums.Status.PUBLIC.getValue(), ArticleEnums.Status.PRIVATE.getValue())
                 .eq(Article::getIsDelete, ArticleEnums.Delete.IS_NOT_DELETED);
         CompletableFuture<Long> asyncCount = CompletableFuture.supplyAsync(() -> articleMapper.selectCount(queryWrapper));
         List<ArticleCardDTO> articles = articleMapper.listArchives(PageUtil.getPageOffset(), PageUtil.getPageSize());
@@ -182,11 +180,5 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             return Math.toIntExact(LocalDateTimeUtil.between(preDay, nexDay).toDays());
         });
         return new PageResultDTO<>(archives, asyncCount.get());
-    }
-
-    @Override
-    public List<ArticleSearchDTO> listSearchedArticles(ArticleFilterVO articleFilterVO) {
-        // TODO: es搜索和ik分词器
-        return null;
     }
 }

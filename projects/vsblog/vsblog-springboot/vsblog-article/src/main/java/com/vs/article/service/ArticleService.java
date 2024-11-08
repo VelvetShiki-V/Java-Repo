@@ -30,7 +30,4 @@ public interface ArticleService extends IService<Article> {
 
     // 获取所有文章归档
     PageResultDTO<ArchiveDTO> listArchives();
-
-    // 获取es分词器搜索文章列表
-    List<ArticleSearchDTO> listSearchedArticles(ArticleFilterVO articleFilterVO);
 }
