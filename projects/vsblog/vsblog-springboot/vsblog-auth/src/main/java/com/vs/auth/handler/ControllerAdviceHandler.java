@@ -1,6 +1,7 @@
-package com.vs.article.handler;
+package com.vs.auth.handler;
 
-import com.vs.article.exception.CustomException;
+import cn.dev33.satoken.exception.NotLoginException;
+import com.vs.auth.exception.CustomException;
 import com.vs.framework.enums.StatusCodeEnum;
 import com.vs.framework.model.dto.ResultDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,12 @@ public class ControllerAdviceHandler {
     // 自定义错误
     @ExceptionHandler(CustomException.class)
     public ResultDTO<?> customExceptionHandler(CustomException e) {
+        return ResultDTO.fail(e.getCode(), e.getMessage());
+    }
+
+    // 登录异常
+    @ExceptionHandler(NotLoginException.class)
+    public ResultDTO<?> notLoginExceptionHandler(NotLoginException e) {
         return ResultDTO.fail(e.getCode(), e.getMessage());
     }
 

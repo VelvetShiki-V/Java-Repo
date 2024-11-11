@@ -23,9 +23,18 @@ import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import static com.vs.article.constant.ArticleConstant.INDEX_ARTICLE;
+import static com.vs.article.constant.ArticleConstant.INDEX_NAME;
+import static com.vs.article.constant.GlobalConstant.POST_TAG;
+import static com.vs.article.constant.GlobalConstant.PRE_TAG;
 
 @Slf4j
 @Service("esSearchStrategyImpl")
@@ -50,14 +59,14 @@ public class EsSearchStrategyImpl implements ArticleSearchStrategy {
     // 创建索引库
     @SneakyThrows
     public void indexCreate() {
-        CreateIndexRequest request = new CreateIndexRequest("articles");
+        CreateIndexRequest request = new CreateIndexRequest(INDEX_NAME);
         request.source(INDEX_ARTICLE, XContentType.JSON);
         esClient.indices().create(request, RequestOptions.DEFAULT);
     }
 
     // 查询索引库
     public boolean indexQuery() {
-        GetIndexRequest request = new GetIndexRequest("articles");
+        GetIndexRequest request = new GetIndexRequest(INDEX_NAME);
         try {
             esClient.indices().get(request, RequestOptions.DEFAULT);
         } catch (Exception e) {
@@ -84,7 +93,7 @@ public class EsSearchStrategyImpl implements ArticleSearchStrategy {
                 .copyProperties(article, ArticleSearchDTO.class)).toList();
         log.info("获取到文章searchDTO: {}", docs);
         BulkRequest request = new BulkRequest();
-        docs.forEach(doc -> request.add(new IndexRequest("articles")
+        docs.forEach(doc -> request.add(new IndexRequest(INDEX_NAME)
                 .id(doc.getId().toString())
                 .source(JSONUtil.toJsonStr(doc), XContentType.JSON)));
         esClient.bulk(request, RequestOptions.DEFAULT);
@@ -94,7 +103,7 @@ public class EsSearchStrategyImpl implements ArticleSearchStrategy {
     @SneakyThrows
     public List<ArticleSearchDTO> docQuery(String keywords) {
         log.info("keywords: {}", keywords);
-        SearchRequest request = new SearchRequest("articles");
+        SearchRequest request = new SearchRequest(INDEX_NAME);
         request.source().query(QueryBuilders.boolQuery()
                 .filter(QueryBuilders.termQuery("isDelete", ArticleEnums.Delete.IS_NOT_DELETED.getValue()))
                 .filter(QueryBuilders.termQuery("status", ArticleEnums.Status.PUBLIC.getValue()))
@@ -103,6 +112,13 @@ public class EsSearchStrategyImpl implements ArticleSearchStrategy {
                         .should(QueryBuilders.matchQuery("articleContent", keywords))
                         .minimumShouldMatch(1) // 至少满足 should 中的一个条件
         ));
+        // 高亮显示
+        request.source().highlighter(SearchSourceBuilder.highlight()
+                .field("articleTitle")
+                .field("articleContent")
+                .preTags(PRE_TAG)
+                .postTags(POST_TAG)
+        );
         SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
         return responseExtract(response);
     }
@@ -118,38 +134,24 @@ public class EsSearchStrategyImpl implements ArticleSearchStrategy {
         List<ArticleSearchDTO> response_list = new ArrayList<>();
         // 将每条数据存入集合中返回
         for(SearchHit hit: hits_arr) {
-            response_list.add(ArticleSearchDTO.builder()
-                    .articleTitle(hit.getSourceAsMap().get("articleTitle").toString())
-                    .articleContent(hit.getSourceAsMap().get("articleContent").toString())
-                    .id((Integer) hit.getSourceAsMap().get("id"))
-                    .status((Integer) hit.getSourceAsMap().get("status"))
-                    .build()
-            );
-        }
+                response_list.add(ArticleSearchDTO.builder()
+                        .articleTitle(replaceHighlight(hit, "articleTitle").toString())
+                        .articleContent(replaceHighlight(hit, "articleContent").toString())
+                        .id((Integer) hit.getSourceAsMap().get("id"))
+                        .status((Integer) hit.getSourceAsMap().get("status"))
+                        .isDelete((Integer) hit.getSourceAsMap().get("isDelete"))
+                        .build());
+            }
         return response_list;
     }
 
-    // TODO: 结果关键字高光
-
-    // 文章索引库和文档模型
-    private final String INDEX_ARTICLE = "{\n" +
-            "  \"mappings\": {\n" +
-            "    \"properties\": {\n" +
-            "      \"articleTitle\": {\n" +
-            "        \"type\": \"text\",\n" +
-            "        \"analyzer\": \"ik_smart\"\n" +
-            "      },\n" +
-            "      \"articleContent\": {\n" +
-            "        \"type\": \"text\",\n" +
-            "        \"analyzer\": \"ik_smart\"\n" +
-            "      },\n" +
-            "      \"isDelete\": {\n" +
-            "        \"type\": \"keyword\"\n" +
-            "      },\n" +
-            "      \"status\": {\n" +
-            "        \"type\": \"keyword\"\n" +
-            "      }\n" +
-            "    }\n" +
-            "  }\n" +
-            "}";
+    // 覆盖原文添加高亮前后缀
+    private Object replaceHighlight(SearchHit hit, String field) {
+        Map<String, HighlightField> hfs = hit.getHighlightFields();
+        if(Objects.nonNull(hfs) && !hfs.isEmpty()) {
+            HighlightField hf = hfs.get(field);
+            if(Objects.nonNull(hf)) return hf.getFragments()[0].string();
+        }
+        return hit.getSourceAsMap().get(field);
+    }
 }

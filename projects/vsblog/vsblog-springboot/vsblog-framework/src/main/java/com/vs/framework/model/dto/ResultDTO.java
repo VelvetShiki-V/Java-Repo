@@ -1,4 +1,4 @@
-package com.vs.framework.model.vo;
+package com.vs.framework.model.dto;
 
 import com.vs.framework.enums.StatusCodeEnum;
 import lombok.*;
@@ -9,7 +9,7 @@ import static com.vs.framework.enums.StatusCodeEnum.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResultVO<T> {
+public class ResultDTO<T> {
 
     private Boolean flag;
 
@@ -19,51 +19,51 @@ public class ResultVO<T> {
 
     private T data;
 
-    public static <T> ResultVO<T> ok() {
+    public static <T> ResultDTO<T> ok() {
         return resultVO(true, SUCCESS.getCode(), SUCCESS.getDesc(), null);
     }
 
-    public static <T> ResultVO<T> ok(T data) {
+    public static <T> ResultDTO<T> ok(T data) {
         return resultVO(true, SUCCESS.getCode(), SUCCESS.getDesc(), data);
     }
 
-    public static <T> ResultVO<T> ok(T data, String message) {
+    public static <T> ResultDTO<T> ok(T data, String message) {
         return resultVO(true, SUCCESS.getCode(), message, data);
     }
 
-    public static <T> ResultVO<T> fail() {
+    public static <T> ResultDTO<T> fail() {
         return resultVO(false, FAIL.getCode(), FAIL.getDesc(), null);
     }
 
-    public static <T> ResultVO<T> fail(StatusCodeEnum statusCodeEnum) {
+    public static <T> ResultDTO<T> fail(StatusCodeEnum statusCodeEnum) {
         return resultVO(false, statusCodeEnum.getCode(), statusCodeEnum.getDesc(), null);
     }
 
-    public static <T> ResultVO<T> fail(String message) {
+    public static <T> ResultDTO<T> fail(String message) {
         return resultVO(false, message);
     }
 
-    public static <T> ResultVO<T> fail(T data) {
+    public static <T> ResultDTO<T> fail(T data) {
         return resultVO(false, FAIL.getCode(), FAIL.getDesc(), data);
     }
 
-    public static <T> ResultVO<T> fail(T data, String message) {
+    public static <T> ResultDTO<T> fail(T data, String message) {
         return resultVO(false, FAIL.getCode(), message, data);
     }
 
-    public static <T> ResultVO<T> fail(Integer code, String message) {
+    public static <T> ResultDTO<T> fail(Integer code, String message) {
         return resultVO(false, code, message, null);
     }
 
-    private static <T> ResultVO<T> resultVO(Boolean flag, String message) {
-        return ResultVO.<T>builder()
+    private static <T> ResultDTO<T> resultVO(Boolean flag, String message) {
+        return ResultDTO.<T>builder()
                 .flag(flag)
                 .code(flag ? SUCCESS.getCode() : FAIL.getCode())
                 .message(message).build();
     }
 
-    private static <T> ResultVO<T> resultVO(Boolean flag, Integer code, String message, T data) {
-        return ResultVO.<T>builder()
+    private static <T> ResultDTO<T> resultVO(Boolean flag, Integer code, String message, T data) {
+        return ResultDTO.<T>builder()
                 .flag(flag)
                 .code(code)
                 .message(message)
