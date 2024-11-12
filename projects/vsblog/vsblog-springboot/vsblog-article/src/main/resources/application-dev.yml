@@ -22,6 +22,19 @@ profile:
       port: 9200
       scheme: http
 
+  upload:
+    mode: minio
+    minio:
+      url: http://localhost:9001/
+      endpoint: http://localhost:9000
+      accessKey: shiki
+      secretKey: zcx123456
+      bucketName: vsblog
+
+    # 最大上传文件大小
+    maxFileSize: 10MB
+    maxRequestSize: 100MB
+
 #  redisson:
 #    address: 127.0.0.1
 #    port: 6379

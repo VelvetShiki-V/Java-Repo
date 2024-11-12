@@ -1,22 +1,23 @@
-package com.vs.auth.service.impl;
+package com.vs.user.service.impl;
 
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.vs.auth.entity.UserAuth;
-import com.vs.auth.entity.UserInfo;
-import com.vs.auth.exception.CustomException;
-import com.vs.auth.mapper.UserAuthMapper;
-import com.vs.auth.model.dto.UserInfoDTO;
-import com.vs.auth.model.vo.UserAuthVO;
-import com.vs.auth.service.UserAuthService;
-import com.vs.auth.service.UserInfoService;
+import com.vs.user.entity.UserAuth;
+import com.vs.user.entity.UserInfo;
+import com.vs.user.exception.CustomException;
+import com.vs.user.mapper.UserAuthMapper;
+import com.vs.user.model.dto.UserInfoDTO;
+import com.vs.user.model.vo.UserAuthVO;
+import com.vs.user.service.UserAuthService;
+import com.vs.user.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
 import java.util.Objects;
 
 @Slf4j

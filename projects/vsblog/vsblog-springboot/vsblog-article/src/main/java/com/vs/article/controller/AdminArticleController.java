@@ -20,7 +20,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/admin")
 @Tag(name = "文章后台管理API")
 @RequiredArgsConstructor
 public class AdminArticleController {

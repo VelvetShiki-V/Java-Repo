@@ -1,8 +1,8 @@
-package com.vs.auth.handler;
+package com.vs.user.handler;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
-import com.vs.auth.exception.CustomException;
+import com.vs.user.exception.CustomException;
 import com.vs.framework.enums.StatusCodeEnum;
 import com.vs.framework.model.dto.ResultDTO;
 import lombok.extern.slf4j.Slf4j;
