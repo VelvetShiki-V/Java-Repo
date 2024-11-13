@@ -1,0 +1,45 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: vsblog-gateway
+
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: vsblog-user
+          uri: lb://vsblog-user
+          predicates:
+            - Path=/user/**
+
+        - id: vsblog-article
+          uri: lb://vsblog-article
+          predicates:
+            - Path=/articles/**, /adminArticles/**
+
+# knife4j网关文档聚合
+knife4j:
+  gateway:
+    enabled: true
+    # 指定服务发现的模式聚合微服务文档，并且是默认`default`分组
+    routes:
+      - name: user
+        service-name: vsblog-user
+        url: /user/v3/api-docs
+        # 路由前缀
+        context-path: /
+        # 排序
+        order: 1
+      - name: articles
+        service-name: vsblog-article
+        url: /articles/v3/api-docs
+        # 路由前缀
+        context-path: /
+        # 排序
+        order: 2

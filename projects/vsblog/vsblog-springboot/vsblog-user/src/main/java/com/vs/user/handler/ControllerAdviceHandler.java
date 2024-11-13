@@ -1,7 +1,5 @@
 package com.vs.user.handler;
 
-import cn.dev33.satoken.exception.NotLoginException;
-import cn.dev33.satoken.exception.NotPermissionException;
 import com.vs.user.exception.CustomException;
 import com.vs.framework.enums.StatusCodeEnum;
 import com.vs.framework.model.dto.ResultDTO;
@@ -15,18 +13,6 @@ public class ControllerAdviceHandler {
     // 自定义错误
     @ExceptionHandler(CustomException.class)
     public ResultDTO<?> customExceptionHandler(CustomException e) {
-        return ResultDTO.fail(e.getCode(), e.getMessage());
-    }
-
-    // 登录异常
-    @ExceptionHandler(NotLoginException.class)
-    public ResultDTO<?> notLoginExceptionHandler(NotLoginException e) {
-        return ResultDTO.fail(e.getCode(), e.getMessage());
-    }
-
-    // 权限异常
-    @ExceptionHandler(NotPermissionException.class)
-    public ResultDTO<?> notPermisionExceptionHandler(NotLoginException e) {
         return ResultDTO.fail(e.getCode(), e.getMessage());
     }
 

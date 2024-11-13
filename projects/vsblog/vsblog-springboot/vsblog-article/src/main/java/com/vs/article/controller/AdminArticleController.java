@@ -20,7 +20,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/adminArticles")
 @Tag(name = "文章后台管理API")
 @RequiredArgsConstructor
 public class AdminArticleController {
@@ -31,7 +31,7 @@ public class AdminArticleController {
 
 
     @Operation(summary = "获取后台过滤条件的文章")
-    @GetMapping("/articles")
+    @GetMapping
     @Parameters({
             @Parameter(name = "current", description = "页码"),
             @Parameter(name = "size", description = "条数"),
@@ -54,34 +54,34 @@ public class AdminArticleController {
     }
 
     @Operation(summary = "根据id获取文章")
-    @GetMapping("/articles/{articleId}")
+    @GetMapping("/{articleId}")
     public ResultDTO<ArticleAdminViewDTO> getAdminArticle(@PathVariable("articleId") Integer articleId) {
         return ResultDTO.ok(adminArticleService.getAdminArticle(articleId));
     }
 
     @Operation(summary = "修改编辑文章")
-    @PostMapping("/articles")
+    @PostMapping
     public ResultDTO<?> saveOrUpdateArticle(@Valid @RequestBody ArticleVO articleVO) {
         adminArticleService.saveOrUpdateArticle(articleVO);
         return ResultDTO.ok();
     }
 
     @Operation(summary = "逻辑删除或恢复文章")
-    @PutMapping("/articles")
+    @PutMapping
     public ResultDTO<?> deleteStateChange(@Valid @RequestBody ArticleDeleteVO articleDeleteVO) {
         adminArticleService.deleteStateChange(articleDeleteVO);
         return ResultDTO.ok();
     }
 
     @Operation(summary = "物理删除文章")
-    @DeleteMapping("/articles/delete")
+    @DeleteMapping
     public ResultDTO<?> deleteArticle(@RequestBody List<Integer> articleIds) {
         adminArticleService.deleteArticle(articleIds);
         return ResultDTO.ok();
     }
 
     @Operation(summary = "修改置顶和推荐文章")
-    @PutMapping("/articles/topFeatured")
+    @PutMapping("/topFeatured")
     public ResultDTO<?> updateTopFeaturedArticles(@Valid @RequestBody ArticleTopFeaturedVO articleTopFeaturedVO) {
         adminArticleService.updateTopFeaturedArticles(articleTopFeaturedVO);
         return ResultDTO.ok();
@@ -89,7 +89,7 @@ public class AdminArticleController {
 
     // 文章编辑相关
     @Operation(summary = "文章上传图片，返回图片url，相同图片不会重复上传")
-    @PostMapping("/articles/images")
+    @PostMapping("/images")
     public ResultDTO<String> uploadArticleImages(@RequestParam("file") MultipartFile file, @RequestParam("dirPath") String dirPath) {
         return ResultDTO.ok(fileUploadStrategyContext
                 .executeUploadStrategy(file, FilePathEnum
@@ -97,7 +97,7 @@ public class AdminArticleController {
     }
 
     @Operation(summary = "导入文章")
-    @PostMapping("/articles/import")
+    @PostMapping("/import")
     public ResultDTO<?> importArticle(@RequestParam("file") MultipartFile file) {
         // 前端图片上传完毕后，将替换好url的图片连同整个文章传入存储
         adminArticleService.importArticle(file);
@@ -105,7 +105,7 @@ public class AdminArticleController {
     }
 
     @Operation(summary = "批量导出文章")
-    @PostMapping("/articles/export")
+    @PostMapping("/export")
     public ResultDTO<List<String>> exportArticles(@RequestBody List<Integer> articleIds) {
         return ResultDTO.ok(adminArticleService.exportArticles(articleIds));
     }

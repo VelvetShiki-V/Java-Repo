@@ -9,6 +9,7 @@
     <version>1.0</version>
     <packaging>pom</packaging>
     <modules>
+        <module>vsblog-gateway</module>
         <module>vsblog-framework</module>
         <module>vsblog-article</module>
         <module>vsblog-auth</module>

@@ -18,8 +18,6 @@
     </properties>
 
     <dependencies>
-
-
 <!--        日志-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -42,13 +40,6 @@
         <dependency>
             <groupId>org.apache.directory.studio</groupId>
             <artifactId>org.apache.commons.codec</artifactId>
-        </dependency>
-
-        <!--        conf-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>

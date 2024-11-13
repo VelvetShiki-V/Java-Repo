@@ -14,7 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FileUploadStrategyContext {
 
-    @Value("${profile.upload.mode}")
+    @Value("${upload.mode}")
     private String mode;
 
     private final Map<String, FileUploadStrategy> fileUploadStrategyMap;

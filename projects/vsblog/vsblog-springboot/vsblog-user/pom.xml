@@ -10,7 +10,6 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.vs</groupId>
     <artifactId>vsblog-user</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>vsblog-user</name>
@@ -41,7 +40,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -60,25 +58,24 @@
             <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
         </dependency>
 
-        <!-- Sa-Token 权限认证，在线文档：https://sa-token.cc -->
+        <!--        minio-->
         <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot3-starter</artifactId>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
         </dependency>
-        <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
+
+        <!--            nacos-->
         <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-redis-jackson</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        <!-- 提供Redis连接池 -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        <!-- Sa-Token 插件：整合SSO -->
         <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-sso</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
     </dependencies>
 

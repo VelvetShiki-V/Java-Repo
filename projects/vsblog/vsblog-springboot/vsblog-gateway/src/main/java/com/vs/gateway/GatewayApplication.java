@@ -1,13 +1,13 @@
-package com.vs.auth;
+package com.vs.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VsblogAuthApplication {
+public class GatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(VsblogAuthApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 
 }

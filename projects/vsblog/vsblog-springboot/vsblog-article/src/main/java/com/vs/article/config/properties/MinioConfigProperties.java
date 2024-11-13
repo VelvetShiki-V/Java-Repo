@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "profile.upload.minio")
+@ConfigurationProperties(prefix = "upload.minio")
 public class MinioConfigProperties {
 
     private String url;

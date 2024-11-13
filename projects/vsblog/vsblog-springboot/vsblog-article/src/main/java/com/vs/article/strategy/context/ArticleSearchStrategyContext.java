@@ -15,7 +15,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ArticleSearchStrategyContext {
 
-    @Value("${profile.search.mode}")
+    @Value("${search.mode}")
     private String mode;
 
     private final Map<String, ArticleSearchStrategy> searchStrategyMap;
