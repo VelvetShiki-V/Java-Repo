@@ -1,5 +1,7 @@
 package com.vs.article.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import com.vs.article.enums.FilePathEnum;
 import com.vs.article.model.dto.ArticleAdminDTO;
 import com.vs.article.model.dto.ArticleAdminViewDTO;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
+@SaCheckLogin
+//@SaCheckRole("admin")
 @RestController
 @RequestMapping("/adminArticles")
 @Tag(name = "文章后台管理API")
@@ -28,7 +32,6 @@ public class AdminArticleController {
     private final AdminArticleService adminArticleService;
 
     private final FileUploadStrategyContext fileUploadStrategyContext;
-
 
     @Operation(summary = "获取后台过滤条件的文章")
     @GetMapping

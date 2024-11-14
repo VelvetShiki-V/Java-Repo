@@ -28,7 +28,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
 
     private final UserInfoService userInfoService;
 
-    // 邮箱登录C:\Windows\System32\drivers\etc
+    // 邮箱登录
     @Override
     public UserInfoDTO loginEmail(UserAuthVO auth) {
         UserInfo userInfo = userInfoService.lambdaQuery().eq(UserInfo::getEmail, auth.getUsername()).one();

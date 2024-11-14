@@ -1,0 +1,30 @@
+server:
+  port: 8003
+
+spring:
+  application:
+    name: vsblog-auth
+
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    nacos:
+      server-addr: localhost:8848
+      config:
+        file-extension: yml
+        shared-configs:
+          - dataId: shared-log.yml
+          - dataId: shared-redis.yml
+          - dataId: shared-jdbc.yml
+
+# springdoc-openapi项目配置
+#springdoc:
+#  swagger-ui:
+#    path: /swagger-ui.html
+#    tags-sorter: alpha
+#    operations-sorter: alpha
+#  api-docs:
+#    path: /auth/v3/api-docs
+#  group-configs:
+#    - group: 'default'
+#      paths-to-match: '/**'
