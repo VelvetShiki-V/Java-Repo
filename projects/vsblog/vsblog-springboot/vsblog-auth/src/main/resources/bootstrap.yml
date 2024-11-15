@@ -16,15 +16,16 @@ spring:
           - dataId: shared-log.yml
           - dataId: shared-redis.yml
           - dataId: shared-jdbc.yml
+          - dataId: shared-saToken.yml
 
 # springdoc-openapi项目配置
-#springdoc:
-#  swagger-ui:
-#    path: /swagger-ui.html
-#    tags-sorter: alpha
-#    operations-sorter: alpha
-#  api-docs:
-#    path: /auth/v3/api-docs
-#  group-configs:
-#    - group: 'default'
-#      paths-to-match: '/**'
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /auth/v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'

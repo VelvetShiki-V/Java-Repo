@@ -1,6 +1,5 @@
 package com.vs.auth.controller;
 
-import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.vs.auth.model.dto.UserInfoDTO;
@@ -33,16 +32,22 @@ public class SSOController {
         return SaResult.ok("是否登录：" + StpUtil.isLogin());
     }
 
+    @Operation(summary = "是否为管理员")
+    @GetMapping("/isAdmin")
+    public SaResult checkIsAdmin(@RequestParam("loginId") Integer loginId) {
+        return SaResult.data(userAuthService.checkIsAdmin(loginId));
+    }
+
     @Operation(summary = "获取token")
     @GetMapping("/tokenInfo")
     public SaResult tokenInfo() {
-        return SaResult.data(StpUtil.getTokenInfo());
+        return SaResult.data("satoken=" + StpUtil.getTokenInfo());
     }
 
     @Operation(summary = "登出")
     @GetMapping("/logout")
     public SaResult logout() {
         StpUtil.logout();
-        return SaResult.ok();
+        return SaResult.ok("登出成功");
     }
 }

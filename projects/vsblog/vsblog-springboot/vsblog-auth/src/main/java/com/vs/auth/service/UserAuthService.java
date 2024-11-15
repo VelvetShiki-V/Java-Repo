@@ -9,4 +9,6 @@ public interface UserAuthService extends IService<UserAuth> {
 
     // 邮箱登录
     UserInfoDTO loginEmail(UserAuthVO auth);
+
+    boolean checkIsAdmin(Integer loginId);
 }

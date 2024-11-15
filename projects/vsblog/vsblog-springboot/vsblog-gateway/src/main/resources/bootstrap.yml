@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    nacos:
+      server-addr: localhost:8848
+      config:
+        file-extension: yml
+        shared-configs:
+          - data-id: shared-redis.yml
+          - data-id: shared-saToken.yml
+          - data-id: gateway-knife4j.yml
+          - data-id: gateway-routes.yml
+          - data-id: gateway-basic.yml
+    openfeign:
+      okhttp:
+        enabled: true
