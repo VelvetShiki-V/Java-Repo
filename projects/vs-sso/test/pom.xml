@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.vs</groupId>
+        <artifactId>vs-sso</artifactId>
+        <version>1.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.example</groupId>
+    <artifactId>test</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>test</name>
+    <description>test</description>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- logback日志框架 -->
+<!--        <dependency>-->
+<!--            <groupId>ch.qos.logback</groupId>-->
+<!--            <artifactId>logback-classic</artifactId>-->
+<!--            <version>1.5.6</version>-->
+<!--        </dependency>-->
+
+
+        <!-- slf4j api日志门面 -->
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-api</artifactId>-->
+<!--            <version>2.0.13</version>-->
+<!--        </dependency>-->
+
+
+        <!-- Sa-Token 权限认证，在线文档：https://sa-token.cc -->
+<!--        <dependency>-->
+<!--            <groupId>cn.dev33</groupId>-->
+<!--            <artifactId>sa-token-spring-boot3-starter</artifactId>-->
+<!--            <version>1.39.0</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; Sa-Token 插件：整合SSO &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>cn.dev33</groupId>-->
+<!--            <artifactId>sa-token-sso</artifactId>-->
+<!--            <version>1.39.0</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; Sa-Token 整合 Redis (使用 jackson 序列化方式) &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>cn.dev33</groupId>-->
+<!--            <artifactId>sa-token-redis-jackson</artifactId>-->
+<!--            <version>1.39.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.commons</groupId>-->
+<!--            <artifactId>commons-pool2</artifactId>-->
+<!--            <version>2.11.1</version>-->
+<!--        </dependency>-->
+<!--&lt;!&ndash;         Sa-Token插件：权限缓存与业务缓存分离 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>cn.dev33</groupId>-->
+<!--            <artifactId>sa-token-alone-redis</artifactId>-->
+<!--            <version>1.39.0</version>-->
+<!--        </dependency>-->
+
+<!--                mysql-->
+<!--        <dependency>-->
+<!--            <groupId>mysql</groupId>-->
+<!--            <artifactId>mysql-connector-java</artifactId>-->
+<!--            <version>8.0.28</version>-->
+<!--        </dependency>-->
+<!--&lt;!&ndash;                mybatisX&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.baomidou</groupId>-->
+<!--            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>-->
+<!--            <version>3.5.7</version>-->
+<!--        </dependency>-->
+
+        <!--        lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
