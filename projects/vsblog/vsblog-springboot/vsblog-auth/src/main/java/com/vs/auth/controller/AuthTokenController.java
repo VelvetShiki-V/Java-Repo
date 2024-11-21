@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 @Tag(name = "鉴权API")
 @RequiredArgsConstructor
-public class SSOController {
+public class AuthTokenController {
 
     private final UserAuthService userAuthService;
 
+    // satoken鉴权
     @Operation(summary = "邮箱登录")
     @PostMapping("/login")
     public ResultDTO<UserInfoDTO> accountLogin(@RequestBody UserAuthVO auth) {

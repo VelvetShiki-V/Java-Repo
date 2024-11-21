@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
-//@CrossOrigin(origins = "*")
 @SaCheckLogin
-//@SaCheckRole("admin")
 @RestController
 @RequestMapping("/adminArticles")
 @Tag(name = "文章后台管理API")

@@ -1,8 +1,10 @@
 package com.vs.gateway.config;
 
+import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.util.SaFoxUtil;
 import cn.dev33.satoken.util.SaResult;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +15,12 @@ public class GatewayAuthFilterConfig {
     public SaReactorFilter getSaReactorFilter() {
         return new SaReactorFilter()
                 .addInclude("/**")
-                .addExclude("/auth/login", "/articles/**")
+                .addExclude("/auth/**", "/articles/**", "/sso/**")
                 .setAuth(obj -> {
                     // redis查询
                     SaRouter.match("/**")
                             .notMatch("*.html", "*.css", "*.js", "*.ico")
-                            .check( r -> StpUtil.checkLogin());
+                            .check( r -> StpUtil.checkLogin() );
                     // 用户权限拦截
                     SaRouter.match("/adminArticles/**", r -> {
                         // 权限验证

@@ -18,6 +18,32 @@ spring:
           - dataId: shared-jdbc.yml
           - dataId: shared-saToken.yml
 
+# sa-token配置
+sa-token:
+  # SSO-相关配置
+  sso-client:
+    # SSO-Server 端主机地址
+    server-url: http://localhost:8003
+    # server统一认证地址
+#    auth-url: http://localhost:
+  # 配置Sa-Token单独使用的Redis连接 （此处需要和SSO-Server端连接同一个Redis）
+  alone-redis:
+    # Redis数据库索引 (默认为0)
+    database: 1
+    # Redis服务器地址
+    host: localhost
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: 123456
+    # 连接超时时间
+    timeout: 10s
+  sso-server:
+    ticket-timeout: 300
+    # 配置所有允许的Client端授权地址（完成认证后跳转redirect的地址），不在此配置项中的URL将无法单点登录成功
+#    allow-url: "*"
+    allow-url: http://localhost:8003/sso/
+
 # springdoc-openapi项目配置
 springdoc:
   swagger-ui:
