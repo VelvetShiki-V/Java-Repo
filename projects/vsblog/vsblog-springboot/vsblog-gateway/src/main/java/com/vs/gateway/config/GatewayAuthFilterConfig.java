@@ -15,7 +15,7 @@ public class GatewayAuthFilterConfig {
     public SaReactorFilter getSaReactorFilter() {
         return new SaReactorFilter()
                 .addInclude("/**")
-                .addExclude("/auth/**", "/articles/**", "/sso/**")
+                .addExclude("/auth/**", "/articles/**", "/sso/**", "/oauth2/**")
                 .setAuth(obj -> {
                     // redis查询
                     SaRouter.match("/**")
