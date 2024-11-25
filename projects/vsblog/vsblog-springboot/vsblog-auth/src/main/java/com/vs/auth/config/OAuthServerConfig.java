@@ -3,6 +3,7 @@ package com.vs.auth.config;
 import cn.dev33.satoken.oauth2.config.SaOAuth2ServerConfig;
 import cn.dev33.satoken.oauth2.consts.GrantType;
 import cn.dev33.satoken.oauth2.data.model.loader.SaClientModel;
+import cn.dev33.satoken.oauth2.strategy.SaOAuth2Strategy;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaFoxUtil;
 import cn.dev33.satoken.util.SaResult;
@@ -27,7 +28,7 @@ public class OAuthServerConfig {
                 new SaClientModel()
                         .setClientId("666666")        // 信任的第三方应用请求id
                         .setClientSecret("velvetshiki")     // client 秘钥
-                        .addAllowRedirectUris("*")      // 允许授权url
+                        .addAllowRedirectUris("http://localhost:8003/oauth2/")      // 允许授权url
                         .addContractScopes("openid", "userid", "userinfo")      // 允许签约权限
                         .addAllowGrantTypes(
                                 // 允许授权模式
@@ -43,6 +44,10 @@ public class OAuthServerConfig {
         oAuth2Server.notLoginView = () -> "当前会话在OAuth-Server端尚未登录，请先访问"
                 + "<a href='/oauth2/doLogin?name=shiki@qq.com&pwd=123456' target='_blank'> doLogin登录 </a>"
                 + "进行登录之后，刷新页面开始授权";
+
+        // access-token与satoken互通（一个token访问所有接口，但损失了不同client不同权限的意义）
+        // 刷新token会失效
+        SaOAuth2Strategy.instance.createAccessToken = (clientId, LoginId, scopes) -> StpUtil.getOrCreateLoginSession(LoginId);
 
         // 登录处理函数
         oAuth2Server.doLoginHandle = (name, pwd) -> {

@@ -1,19 +1,12 @@
 package com.vs.auth.controller;
 
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.oauth2.SaOAuth2Manager;
 import cn.dev33.satoken.oauth2.processor.SaOAuth2ServerProcessor;
-import cn.dev33.satoken.oauth2.template.SaOAuth2Util;
 import cn.dev33.satoken.util.SaResult;
-import com.vs.auth.entity.UserInfo;
-import com.vs.auth.model.dto.UserInfoDTO;
 import com.vs.auth.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/oauth2")

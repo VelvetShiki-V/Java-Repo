@@ -18,47 +18,30 @@ spring:
           - dataId: shared-jdbc.yml
           - dataId: shared-saToken.yml
 
-# sa-token配置
 sa-token:
-  # SSO-相关配置
+  # sso单点登录
   sso-client:
-    # SSO-Server 端主机地址
-    server-url: http://localhost:8003
+    server-url: http://localhost:8003   # SSO-Server 端主机地址
     # server统一认证地址
 #    auth-url: http://localhost:
-  # 配置Sa-Token单独使用的Redis连接 （此处需要和SSO-Server端连接同一个Redis）
+  # 业务与权限内存分离
   alone-redis:
-    # Redis数据库索引 (默认为0)
     database: 1
-    # Redis服务器地址
     host: localhost
-    # Redis服务器连接端口
     port: 6379
-    # Redis服务器连接密码（默认为空）
     password: 123456
-    # 连接超时时间
     timeout: 10s
+
   sso-server:
     ticket-timeout: 300
-    # 配置所有允许的Client端授权地址（完成认证后跳转redirect的地址），不在此配置项中的URL将无法单点登录成功
-#    allow-url: "*"
+    # 配置所有允许的Client端授权地址（完成认证后跳转redirect的地址，不建议为*），不在此配置项中的URL将无法单点登录成功
     allow-url: http://localhost:8003/sso/
-  # jwt 秘钥
-  jwt-secret-key: saxsaxsaxsax
-  # OAuth2.0 配置
+    is-slo: true    # 开启注销
+
+  # OAuth2.0配置
   oauth2-server:
-    # 是否全局开启授权码模式
-    enable-authorization-code: true
-    # 是否全局开启 Implicit 模式
-#    enable-implicit: true
-    # 是否全局开启密码模式
-#    enable-password: true
-    # 是否全局开启客户端模式
-#    enable-client-credentials: true
-    # 定义哪些 scope 是高级权限，多个用逗号隔开
-    # higher-scope: openid,userid
-    # 定义哪些 scope 是低级权限，多个用逗号隔开
-    # lower-scope: userinfo
+    enable-authorization-code: true   # 授权码模式
+
 
 # springdoc-openapi项目配置
 springdoc:
