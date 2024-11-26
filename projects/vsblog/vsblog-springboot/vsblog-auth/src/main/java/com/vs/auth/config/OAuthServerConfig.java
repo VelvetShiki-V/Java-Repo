@@ -28,7 +28,8 @@ public class OAuthServerConfig {
                 new SaClientModel()
                         .setClientId("666666")        // 信任的第三方应用请求id
                         .setClientSecret("velvetshiki")     // client 秘钥
-                        .addAllowRedirectUris("http://localhost:8003/oauth2/")      // 允许授权url
+                        .addAllowRedirectUris("*")      // 允许授权url
+//                        .addAllowRedirectUris("http://localhost:8003/oauth2/")      // 允许授权url
                         .addContractScopes("openid", "userid", "userinfo")      // 允许签约权限
                         .addAllowGrantTypes(
                                 // 允许授权模式

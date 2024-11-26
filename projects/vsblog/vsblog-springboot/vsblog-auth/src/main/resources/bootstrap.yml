@@ -20,22 +20,23 @@ spring:
 
 sa-token:
   # sso单点登录
-  sso-client:
-    server-url: http://localhost:8003   # SSO-Server 端主机地址
+#  sso-client:
+#    server-url: http://localhost:8003   # SSO-Server 端主机地址
     # server统一认证地址
 #    auth-url: http://localhost:
   # 业务与权限内存分离
-  alone-redis:
-    database: 1
-    host: localhost
-    port: 6379
-    password: 123456
-    timeout: 10s
+#  alone-redis:
+#    database: 1
+#    host: localhost
+#    port: 6379
+#    password: 123456
+#    timeout: 10s
 
   sso-server:
     ticket-timeout: 300
     # 配置所有允许的Client端授权地址（完成认证后跳转redirect的地址，不建议为*），不在此配置项中的URL将无法单点登录成功
-    allow-url: http://localhost:8003/sso/
+    allow-url: "*"
+#    allow-url: http://localhost:8003/sso/
     is-slo: true    # 开启注销
 
   # OAuth2.0配置
