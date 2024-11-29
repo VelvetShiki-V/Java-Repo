@@ -15,14 +15,20 @@ public class GatewayAuthFilterConfig {
     public SaReactorFilter getSaReactorFilter() {
         return new SaReactorFilter()
                 .addInclude("/**")
-                .addExclude("/auth/**", "/articles/**", "/sso/**", "/oauth2/**")
+                .addExclude("/auth/**",
+                        "/articles/**",
+                        "/sso/**",
+                        "/oauth2/**",
+                        "/user/userInfo",
+                        "/categories/**",
+                        "/tags/**")
                 .setAuth(obj -> {
                     // redis查询
                     SaRouter.match("/**")
                             .notMatch("*.html", "*.css", "*.js", "*.ico")
                             .check( r -> StpUtil.checkLogin() );
                     // 用户权限拦截
-                    SaRouter.match("/adminArticles/**", r -> {
+                    SaRouter.match("/admin/**", r -> {
                         // 权限验证
                         System.out.println("拥有权限码: ");
                         StpUtil.getPermissionList(StpUtil.getLoginId()).stream().forEach(System.out::println);

@@ -12,9 +12,11 @@ import java.time.LocalDateTime;
 @Schema(name = "后台文章过滤VO", description = "后台文章筛选条件，接收过滤实体ArticleFilterVO", type = "ArticleFilterVO")
 public class ArticleFilterVO {
 
+    @NotNull(message = "不能为空")
     @Schema(description = "页码")
     private Long current;
 
+    @NotNull(message = "不能为空")
     @Schema(description = "条数")
     private Long size;
 

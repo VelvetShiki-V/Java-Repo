@@ -21,6 +21,6 @@ public class ControllerAdviceHandler {
     public ResultDTO<?> globalHandler(Exception e) {
         e.printStackTrace();
         log.error("全局异常捕获: 服务器内部异常: {}", e.getMessage());
-        return ResultDTO.fail(StatusCodeEnum.SYSTEM_ERROR.getCode(), StatusCodeEnum.SYSTEM_ERROR.getDesc());
+        return ResultDTO.fail(StatusCodeEnum.SYSTEM_ERROR.getCode(), StatusCodeEnum.SYSTEM_ERROR.getDesc() + e.getMessage());
     }
 }

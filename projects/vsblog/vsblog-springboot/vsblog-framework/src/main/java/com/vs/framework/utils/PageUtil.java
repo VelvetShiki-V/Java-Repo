@@ -8,11 +8,11 @@ public class PageUtil {
     private static final ThreadLocal<Page<?>> PAGE_HOLDER = new ThreadLocal<>();
 
     // 设置page线程对象
-    public static void setPageHolder(Page page) { PAGE_HOLDER.set(page); }
+    public static void setPageHolder(Page<?> page) { PAGE_HOLDER.set(page); }
 
     // 获取page线程对象
-    public static Page getPageHolder() {
-        Page page = PAGE_HOLDER.get();
+    public static Page<?> getPageHolder() {
+        Page<?> page = PAGE_HOLDER.get();
         if(Objects.isNull(page)) setPageHolder(new Page());
         return PAGE_HOLDER.get();
     }

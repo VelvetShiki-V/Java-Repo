@@ -231,7 +231,7 @@ public class AdminArticleServiceImpl extends ServiceImpl<AdminArticleMapper, Art
         if(CollectionUtils.isNotEmpty(newTagNames)) {
             List<Tag> newTags = newTagNames.stream().map(tag -> Tag.builder()
                     .tagName(tag)
-                    .createTime(DateTime.now())
+                    .createTime(LocalDateTime.now())
                     .build())
                     .collect(Collectors.toList());
             tagService.saveBatch(newTags);

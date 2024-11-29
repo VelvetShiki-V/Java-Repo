@@ -1,7 +1,5 @@
 package com.vs.article.controller;
 
-import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.annotation.SaCheckRole;
 import com.vs.article.enums.FilePathEnum;
 import com.vs.article.model.dto.ArticleAdminDTO;
 import com.vs.article.model.dto.ArticleAdminViewDTO;
@@ -20,9 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
-@SaCheckLogin
 @RestController
-@RequestMapping("/adminArticles")
+@RequestMapping("/admin/articles")
 @Tag(name = "文章后台管理API")
 @RequiredArgsConstructor
 public class AdminArticleController {
@@ -34,21 +31,14 @@ public class AdminArticleController {
     @Operation(summary = "获取后台过滤条件的文章")
     @GetMapping
     @Parameters({
-            @Parameter(name = "current", description = "页码"),
-            @Parameter(name = "size", description = "条数"),
+            @Parameter(name = "current", description = "页码", required = true),
+            @Parameter(name = "size", description = "条数", required = true),
             @Parameter(name = "keywords", description = "文章关键字"),
             @Parameter(name = "categoryId", description = "分类id"),
             @Parameter(name = "tagId", description = "标签id"),
-            @Parameter(name = "albumId", description = "相簿id"),
-            @Parameter(name = "loginType", description = "登录类型"),
             @Parameter(name = "type", description = "文章类型"),
             @Parameter(name = "status", description = "文章状态"),
-            @Parameter(name = "startTime", description = "发布时间"),
-            @Parameter(name = "endTime", description = "截止时间"),
             @Parameter(name = "isDelete", description = "是否删除", required = true),
-            @Parameter(name = "isReview", description = "是否审核"),
-            @Parameter(name = "isTop", description = "是否置顶"),
-            @Parameter(name = "isFeatured", description = "是否推荐"),
     })
     public ResultDTO<PageResultDTO<ArticleAdminDTO>> listAdminArticles(ArticleFilterVO articleFilterVO) {
         return ResultDTO.ok(adminArticleService.listAdminArticles(articleFilterVO));

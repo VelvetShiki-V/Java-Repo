@@ -1,26 +1,22 @@
-package com.vs.article.entity;
-
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableName;
+package com.vs.article.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.joda.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("t_category")
-public class Category {
+public class CategoryAdminDTO {
 
     private Integer id;
-    //分类名
+
     private String categoryName;
-    //创建时间
+
+    private Integer articleCount;
+
     private LocalDateTime createTime;
-    //更新时间
-    private LocalDateTime updateTime;
 
 }
-

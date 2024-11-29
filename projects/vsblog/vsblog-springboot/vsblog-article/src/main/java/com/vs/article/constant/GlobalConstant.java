@@ -13,4 +13,12 @@ public interface GlobalConstant {
     String PRE_TAG = "<em>";
 
     String POST_TAG = "</em>";
+
+    String CURRENT = "current";
+
+    String SIZE = "size";
+
+    String DEFAULT_SIZE = "10";
+
+    String DEFAULT_NICKNAME = "用户";
 }

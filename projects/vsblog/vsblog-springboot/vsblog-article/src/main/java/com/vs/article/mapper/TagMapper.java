@@ -25,6 +25,6 @@ public interface TagMapper extends BaseMapper<Tag> {
     // 分页查询tag列表（含文章引用次数）
     List<TagAdminDTO> listTagsAdmin(@Param("current") Long current,
                                     @Param("size") Long size,
-                                    @Param("ArticleFilterVO")ArticleFilterVO articleFilterVO);
+                                    @Param("keywords")String keywords);
 }
 
