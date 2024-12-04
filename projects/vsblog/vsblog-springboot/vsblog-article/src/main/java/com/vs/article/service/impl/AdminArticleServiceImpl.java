@@ -69,6 +69,7 @@ public class AdminArticleServiceImpl extends ServiceImpl<AdminArticleMapper, Art
     @SneakyThrows
     @Override
     public PageResultDTO<ArticleAdminDTO> listAdminArticles(ArticleFilterVO articleFilterVO) {
+        // 包含分页，排序（置顶，推荐，id降序功能）
         CompletableFuture<Integer> asyncCount = CompletableFuture
                 .supplyAsync(() -> adminArticleMapper.countAdminArticles(articleFilterVO));
         List<ArticleAdminDTO> filteredArticles = adminArticleMapper
@@ -154,12 +155,22 @@ public class AdminArticleServiceImpl extends ServiceImpl<AdminArticleMapper, Art
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateTopFeaturedArticles(ArticleTopFeaturedVO articleTopFeaturedVO) {
-        Article article = Article.builder()
-                .id(articleTopFeaturedVO.getId())
-                .isTop(articleTopFeaturedVO.getIsTop())
-                .isFeatured(articleTopFeaturedVO.getIsFeatured())
-                .build();
-        adminArticleMapper.updateById(article);
+        // 确保置顶仅有一篇文章生效
+        if(articleTopFeaturedVO.getIsTop() == 1) {
+            Article existTopArticle = lambdaQuery().eq(Article::getIsTop, 1).one();
+            if(Objects.nonNull(existTopArticle)) {
+                // 如果置顶文章已存在，将置顶取消，置换为当前文章置顶
+                existTopArticle.setIsTop(0);
+                adminArticleMapper.updateById(existTopArticle);
+            }
+        }
+        // 构建文章本体并更新状态
+        Article newArticle = Article.builder()
+            .id(articleTopFeaturedVO.getId())
+            .isTop(articleTopFeaturedVO.getIsTop())
+            .isFeatured(articleTopFeaturedVO.getIsFeatured())
+            .build();
+        adminArticleMapper.updateById(newArticle);
     }
 
     // 导入文章至数据库和minio图床

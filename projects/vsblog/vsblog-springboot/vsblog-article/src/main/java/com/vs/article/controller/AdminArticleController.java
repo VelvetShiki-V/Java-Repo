@@ -72,7 +72,7 @@ public class AdminArticleController {
     }
 
     @Operation(summary = "修改置顶和推荐文章")
-    @PutMapping("/topFeatured")
+    @PostMapping("/topFeatured")
     public ResultDTO<?> updateTopFeaturedArticles(@Valid @RequestBody ArticleTopFeaturedVO articleTopFeaturedVO) {
         adminArticleService.updateTopFeaturedArticles(articleTopFeaturedVO);
         return ResultDTO.ok();
