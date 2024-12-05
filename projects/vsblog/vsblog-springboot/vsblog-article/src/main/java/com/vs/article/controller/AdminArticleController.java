@@ -81,10 +81,9 @@ public class AdminArticleController {
     // 文章编辑相关
     @Operation(summary = "文章上传图片，返回图片url，相同图片不会重复上传")
     @PostMapping("/images")
-    public ResultDTO<String> uploadArticleImages(@RequestParam("file") MultipartFile file, @RequestParam("dirPath") String dirPath) {
+    public ResultDTO<String> uploadArticleImages(@RequestParam("file") MultipartFile file) {
         return ResultDTO.ok(fileUploadStrategyContext
-                .executeUploadStrategy(file, FilePathEnum
-                        .ARTICLE_IMAGE.getPath() + dirPath + FilePathEnum.DIR_SUFFIX.getPath()));
+                .executeUploadStrategy(file, FilePathEnum.ARTICLE_IMAGE.getPath()));
     }
 
     @Operation(summary = "导入文章")

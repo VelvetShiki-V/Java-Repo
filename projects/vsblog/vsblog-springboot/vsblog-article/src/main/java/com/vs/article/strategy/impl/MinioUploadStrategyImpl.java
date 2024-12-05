@@ -47,6 +47,6 @@ public class MinioUploadStrategyImpl extends AbstractUploadStrategyImpl{
     // 获取文件url
     @Override
     public String getFileUrl(String filePath) {
-        return minioProperties.getUrl() + filePath;
+        return minioProperties.getEndpoint() + '/' + minioProperties.getBucketName() + '/' + filePath;
     }
 }
