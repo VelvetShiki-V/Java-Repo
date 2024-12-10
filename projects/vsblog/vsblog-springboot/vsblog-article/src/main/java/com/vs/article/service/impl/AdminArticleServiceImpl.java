@@ -1,5 +1,6 @@
 package com.vs.article.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.date.DateTime;
@@ -111,19 +112,29 @@ public class AdminArticleServiceImpl extends ServiceImpl<AdminArticleMapper, Art
         Article article = new Article();
         // 基本内容修改
         BeanUtil.copyProperties(articleVO, article, CopyOptions.create().setIgnoreNullValue(true));
-        // TODO: 用户信息设置(根据已登录用户id存储)
-        article.setUserId(1);
+        // 根据用户id设置文章
+        article.setUserId(StpUtil.getLoginIdAsInt());
         // 分类修改（1个已存在的）
         article.setCategoryId(categoryService.lambdaQuery()
                 .eq(Category::getCategoryName, articleVO.getCategoryName())
                 .one()
                 .getId());
-        // 自定义tag新增或删除（每篇文章标签最大为3个）
-        if(Objects.nonNull(article.getId())) updateTag(articleVO);
+        // 置顶/推荐状态修改
+        if(articleVO.getIsTop() == 1) {
+            Article existTopArticle = lambdaQuery().eq(Article::getIsTop, 1).one();
+            if(Objects.nonNull(existTopArticle)) {
+                // 如果置顶文章已存在，将置顶取消，置换为当前文章置顶
+                existTopArticle.setIsTop(0);
+                adminArticleMapper.updateById(existTopArticle);
+            }
+        }
         // 如果文章不存在，则新增文章
         if(Objects.nonNull(article.getId())) article.setUpdateTime(LocalDateTime.now());
         else article.setCreateTime(LocalDateTime.now());
         saveOrUpdate(article);
+        // 根据文章id自定义tag新增或删除（每篇文章标签最大为3个）
+        articleVO.setId(article.getId());
+        updateTag(articleVO);
         // 异步通知mq
         // TODO...
     }
@@ -223,27 +234,29 @@ public class AdminArticleServiceImpl extends ServiceImpl<AdminArticleMapper, Art
     // 更新文章与标签
     @Transactional(rollbackFor = Exception.class)
     public void updateTag(ArticleVO articleVO) {
+        // 判断标签数量是否超过上限
+        if(articleVO.getTagNames().size() > 3) articleVO.setTagNames(articleVO.getTagNames()
+                .stream().limit(3).collect(Collectors.toList()));
         // 判断标签是否需要更新（添加或删除）
         if(Objects.equals(articleVO.getTagNames(), tagMapper.listTagNameByArticleId(articleVO.getId()))) {
             log.debug("标签无需更新");
             return;
         }
-        log.debug("标签需要更新");
         // 先统一将article-tag映射关系清理
-        articleTagMapper.delete(new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getArticleId, articleVO.getId()));
         // 1. 把已存在的tag剔除，防止冗余插入
+        articleTagMapper.delete(new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getArticleId, articleVO.getId()));
+        // 2. 把不存在的tag新增到tag表
         List<String> newTagNames = new ArrayList<>();
         for(String currentTag: articleVO.getTagNames()) {
             if(Objects.isNull(tagService.lambdaQuery().eq(Tag::getTagName, currentTag).one())) {
                 newTagNames.add(currentTag);
             }
         }
-        // 2. 把不存在的tag新增到tag表
         if(CollectionUtils.isNotEmpty(newTagNames)) {
             List<Tag> newTags = newTagNames.stream().map(tag -> Tag.builder()
-                    .tagName(tag)
-                    .createTime(LocalDateTime.now())
-                    .build())
+                            .tagName(tag)
+                            .createTime(LocalDateTime.now())
+                            .build())
                     .collect(Collectors.toList());
             tagService.saveBatch(newTags);
         }

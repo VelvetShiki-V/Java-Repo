@@ -15,6 +15,7 @@ spring:
         shared-configs:
           - dataId: shared-log.yml
           - dataId: shared-jdbc.yml
+          - dataId: shared-redis.yml
           - dataId: shared-minio.yml
           - dataId: shared-knife4j.yml
           - dataId: shared-elasticsearch.yml
