@@ -38,7 +38,7 @@ public class AdminArticleController {
             @Parameter(name = "tagId", description = "标签id"),
             @Parameter(name = "type", description = "文章类型"),
             @Parameter(name = "status", description = "文章状态"),
-            @Parameter(name = "isDelete", description = "是否删除", required = true),
+            @Parameter(name = "isDelete", description = "是否删除"),
     })
     public ResultDTO<PageResultDTO<ArticleAdminDTO>> listAdminArticles(ArticleFilterVO articleFilterVO) {
         return ResultDTO.ok(adminArticleService.listAdminArticles(articleFilterVO));
@@ -57,15 +57,15 @@ public class AdminArticleController {
         return ResultDTO.ok();
     }
 
-    @Operation(summary = "逻辑删除或恢复文章")
-    @PutMapping
+    @Operation(summary = "批量逻辑删除或恢复文章")
+    @PostMapping("/delete")
     public ResultDTO<?> deleteStateChange(@Valid @RequestBody ArticleDeleteVO articleDeleteVO) {
         adminArticleService.deleteStateChange(articleDeleteVO);
         return ResultDTO.ok();
     }
 
-    @Operation(summary = "物理删除文章")
-    @DeleteMapping
+    @Operation(summary = "批量物理删除文章")
+    @PostMapping("/deleteForce")
     public ResultDTO<?> deleteArticle(@RequestBody List<Integer> articleIds) {
         adminArticleService.deleteArticle(articleIds);
         return ResultDTO.ok();

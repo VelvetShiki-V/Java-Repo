@@ -47,7 +47,6 @@ public class ArticleFilterVO {
     @Schema(description = "截止时间")
     private LocalDateTime endTime;
 
-    @NotNull(message = "不能为空")
     @Schema(description = "是否删除")
     private Integer isDelete;
 

@@ -28,7 +28,9 @@
         t_article a
         LEFT JOIN t_article_tag at on a.id = at.article_id
         <where>
-            is_delete = #{articleFilterVO.isDelete}
+            <if test="articleFilterVO.isDelete != null">
+                is_delete = #{articleFilterVO.isDelete}
+            </if>
             <if test="articleFilterVO.keywords != null">
                 and article_title like concat('%',#{articleFilterVO.keywords},'%')
             </if>
@@ -76,7 +78,9 @@
                     category_id
                     FROM t_article
                         <where>
-                            is_delete = #{articleFilterVO.isDelete}
+                            <if test="articleFilterVO.isDelete != null">
+                                is_delete = #{articleFilterVO.isDelete}
+                            </if>
                             <if test="articleFilterVO.keywords != null">
                                 and article_title like concat('%',#{articleFilterVO.keywords},'%')
                             </if>
