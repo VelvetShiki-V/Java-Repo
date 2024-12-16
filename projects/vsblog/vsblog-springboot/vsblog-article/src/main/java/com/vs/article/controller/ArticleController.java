@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.vs.framework.model.dto.ResultDTO;
 import java.util.List;
 
+// 任何用户均可访问
 @Tag(name = "文章API")
 @RestController
 @RequestMapping("/articles")
